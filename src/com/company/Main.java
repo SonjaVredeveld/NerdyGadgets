@@ -12,6 +12,6 @@ public class Main {
         } catch (Exception e) {
             System.out.println("Look and Feel not set");
         }
-	AvailableRoutes AR = new AvailableRoutes();
+	DriverScreen AR = new DriverScreen();
     }
 }
