@@ -8,14 +8,14 @@ package kbs2;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JTable;
 
 /**
  *
  * @author Niek J Nijland
  */
-public class DriverRouteScreen extends JFrame implements ActionListener{
+public class DriverRouteScreen extends JDialog implements ActionListener{
     private JTable AvailableRouteLocations = new JTable();
     private Route route = new Route();
     private JButton JBCancel = new JButton();
