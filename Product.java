@@ -5,10 +5,14 @@
  */
 package kbs2;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Niek J Nijland
  */
 public class Product {
+    private int productStock;
+    private String productName;
     
 }
