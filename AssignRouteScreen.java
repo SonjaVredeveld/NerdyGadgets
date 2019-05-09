@@ -18,7 +18,7 @@ import javax.swing.JTable;
 public class AssignRouteScreen extends JDialog implements ActionListener {
     private JButton JBAssign = new JButton();
     private JTable JTDrivers = new JTable();
-    private Route route = new Route();
+    private Route route;
 
     @Override
     public void actionPerformed(ActionEvent e) {

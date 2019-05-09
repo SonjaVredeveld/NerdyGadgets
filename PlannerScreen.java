@@ -31,7 +31,7 @@ public class PlannerScreen extends JFrame implements ActionListener{
         
     }
     
-    public void addOrder(ID integer){
+    public void addOrder(int ID){
         
     }
 

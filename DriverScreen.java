@@ -30,7 +30,7 @@ public class DriverScreen extends JFrame implements ActionListener{
     }
     
     public ArrayList<Route> getRoutes() {
-        return routeList;
+        return new ArrayList<>();
     }
 
     @Override

@@ -19,7 +19,7 @@ public class RouteScreen extends JFrame implements ActionListener{
     private JTable JTRouteLocationList = new JTable();
     private JButton JBAssignRoute = new JButton();
     private JButton JBCancel = new JButton();
-    private Route route = new Route();
+    private Route route;
     
     public RouteScreen() {
         

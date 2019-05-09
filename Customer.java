@@ -11,24 +11,21 @@ import java.util.ArrayList;
  *
  * @author Niek J Nijland
  */
-class Order {
+public class Customer {
     private int ID;
-    private Customer customer;
+    private String deliveryAddressLine2;
+    private String deliveryPostalCode;
     
-    public Order(int ID) {
+    public Customer(int ID) {
         
     }
     
-    public ArrayList<Order> getOrders() {
+    public ArrayList<Customer> getCustomer() {
         return new ArrayList<>();
     }
     
     public int getID() {
-        return this.ID;
-    }
-    
-    public Customer getCustomer() {
-        return this.customer;
+        return 0;
     }
     
     
