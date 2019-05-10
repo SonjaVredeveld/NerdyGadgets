@@ -5,10 +5,9 @@ import java.awt.*;
 
 class ButtonEditor extends DefaultCellEditor {
     protected JButton button;
-
     private String label;
-
     private boolean isPushed;
+    private DriverScreen dc;
 
     public ButtonEditor(JCheckBox checkBox) {
         super(checkBox);
@@ -32,13 +31,22 @@ class ButtonEditor extends DefaultCellEditor {
         return button;
     }
 
+    public boolean isPushed() {
+        return isPushed;
+    }
+
+    public void setPushed(boolean pushed) {
+        isPushed = pushed;
+    }
+
     public Object getCellEditorValue() {
         if (isPushed) {
-            JOptionPane.showMessageDialog(button, label + ": Ouch!");
+            DriverRouteScreen dialoog = new DriverRouteScreen(dc);
+            dialoog.setVisible(true);
         }
         isPushed = false;
         return new String(label);
-    }
+    } // Afhandeling van de start route knoppen
 
     public boolean stopCellEditing() {
         isPushed = false;
