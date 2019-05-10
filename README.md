@@ -1,2 +1,2 @@
 # NerdyGadgets
-JAVA backend office
+JAVA backend office-applicatie
