@@ -1,14 +1,10 @@
 
 package kbs2;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static java.awt.GridBagConstraints.CENTER;
 import static java.lang.Boolean.FALSE;
-
-import javax.swing.*;
 
 
 public class LoginScreen extends JFrame implements ActionListener{
@@ -89,12 +85,12 @@ public class LoginScreen extends JFrame implements ActionListener{
     }
 
     public String getUsername() {
-        return "username";
+        return JTFUsername.getText();
     }
 
     public String getPassword() {
         //hier moet dan iets met hashing komen
-        return "encoded password";
+        return JTFPassword.getText();
     }
 
     @Override
@@ -102,6 +98,9 @@ public class LoginScreen extends JFrame implements ActionListener{
         String userName = JTFUsername.getText();
         String password = JTFPassword.getText();
         if (userName.trim().equals("admin") && password.trim().equals("admin")) {
+
+            // Hier moet nog bepaalt worden wie heeft ingelogd en welk scherm vervolgens wordt getoond.
+
             JLinfoText.setText(" Hello " + userName
                     + "");
         } else {

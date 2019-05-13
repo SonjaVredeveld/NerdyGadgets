@@ -12,6 +12,7 @@ public class Main {
         } catch (Exception e) {
             System.out.println("Look and Feel not set");
         }
-	DriverScreen AR = new DriverScreen();
+         kbs2.LoginScreen LS = new kbs2.LoginScreen();
+
     }
 }
