@@ -23,8 +23,8 @@ import java.util.ArrayList;
 public final class DBConnection {
 
     private static String host = "jdbc:mysql://localhost/wideworldimporters?useLegacyDatetimeCode=false&serverTimezone=UTC";
-    private static String username = "root";
-    private static String password = "";
+    private static String username = "nerdygadgets";
+    private static String password = "XREYut7q";
     protected static String statusMsg;
 
     //disables instantiation of this class
