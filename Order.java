@@ -15,12 +15,35 @@ class Order {
     private int ID;
     private Customer customer;
     
+    //parm: OrderID of the order you wish to create an object of
     public Order(int ID) {
-        
+        ArrayList<String> prepares = new ArrayList<>();
+        prepares.add(ID+"");
+        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT OrderID, CustomerID FROM orders WHERE OrderID = ?", prepares);
+        if(rows.size() == 1) {
+            //saving the values from the database
+            this.customer = new Customer(Integer.parseInt(rows.get(0).get(1)));
+            this.ID = Integer.parseInt(rows.get(0).get(1));
+        } else{
+            System.out.println(DBConnection.statusMsg);
+        }
     }
     
-    public ArrayList<Order> getOrders() {
-        return new ArrayList<>();
+    //return: ArrayList with all available Orders
+    public static ArrayList<Order> getOrders() {
+        //getting all available OrderID's
+        ArrayList<Order> orderList = new ArrayList<>();
+        ArrayList<String> prep2 = new ArrayList<>();
+        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT OrderID FROM orders WHERE isDelivered IS NULL", prep2);
+        if(rows.size() > 0) {
+            //creating an order for every OrderID
+            for (int i = 0; i < rows.size(); i++) {
+                orderList.add(new Order(Integer.parseInt(rows.get(i).get(0))));
+            }
+        }else{
+            System.out.println(DBConnection.statusMsg);
+        }
+        return orderList;
     }
     
     public int getID() {
