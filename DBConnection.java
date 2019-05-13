@@ -47,6 +47,13 @@ public final class DBConnection {
 
     //executes select sql statement
     //param1: query to run
+    //return: list of return rows with string values (empty list is no result)
+    protected static ArrayList<ArrayList<String>> selectQuery(String selectQuery) {
+        return DBConnection.selectQuery(selectQuery, new ArrayList<String>());
+    }
+
+    //executes select sql statement
+    //param1: query to run
     //param2: prepared values to add (NOTE: strings only)
     //return: list of return rows with string values (empty list is no result)
     protected static ArrayList<ArrayList<String>> selectQuery(String selectQuery, ArrayList<String> stringsToSet) {
@@ -115,6 +122,13 @@ public final class DBConnection {
 
     //executes insert sql statement
     //param1: query to run
+    //return: numer of rows it inserted (0 is none)
+    protected static int insertQuery(String insertQuery) {
+        return DBConnection.insertQuery(insertQuery, new ArrayList<String>());
+    }
+
+    //executes insert sql statement
+    //param1: query to run
     //param2: prepared values to add (NOTE: strings only)
     //return: numer of rows it inserted (0 is none)
     protected static int insertQuery(String insertQuery, ArrayList<String> stringsToSet) {
@@ -161,6 +175,13 @@ public final class DBConnection {
         }//end try
 
         return rs;
+    }
+
+    //param1: query to run
+    //param2: prepared values to add (NOTE: strings only)
+    //return: numer of rows it inserted (0 is none)
+    protected static int updateQuery(String updateQuery) {
+        return DBConnection.insertQuery(updateQuery, new ArrayList<String>());
     }
 
     //executes update sql statement
@@ -264,7 +285,7 @@ public final class DBConnection {
 //        }
 //
 //        //select example
-//        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT CustomerID, CustomerName FROM customers", new ArrayList<String>());
+//        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT CustomerID, CustomerName FROM customers");
 //        for (int i = 0; i < rows.size(); i++) {
 //            System.out.println(rows.get(i));
 //        }
