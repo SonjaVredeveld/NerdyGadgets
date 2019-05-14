@@ -57,7 +57,7 @@ public final class DBConnection {
     //param2: prepared values to add (NOTE: strings only)
     //return: list of return rows with string values (empty list is no result)
     protected static ArrayList<ArrayList<String>> selectQuery(String selectQuery, ArrayList<String> stringsToSet) {
-        //initializatie
+        //initialisation
         PreparedStatement statement = null; //for optional prepares
         Connection connection = null;
         ResultSet rs;
@@ -75,7 +75,7 @@ public final class DBConnection {
 
             rs = statement.executeQuery();
 
-            //get the amount of colums returned
+            //get the amount of columns returned
             ResultSetMetaData rsmd = rs.getMetaData();
 
             //get each column of each row and save it(all strings)
@@ -122,7 +122,7 @@ public final class DBConnection {
 
     //executes insert sql statement
     //param1: query to run
-    //return: numer of rows it inserted (0 is none)
+    //return: number of rows it inserted (0 is none)
     protected static int insertQuery(String insertQuery) {
         return DBConnection.insertQuery(insertQuery, new ArrayList<String>());
     }
@@ -130,9 +130,9 @@ public final class DBConnection {
     //executes insert sql statement
     //param1: query to run
     //param2: prepared values to add (NOTE: strings only)
-    //return: numer of rows it inserted (0 is none)
+    //return: number of rows it inserted (0 is none)
     protected static int insertQuery(String insertQuery, ArrayList<String> stringsToSet) {
-        //initializatie
+        //initialisation
         PreparedStatement statement = null;
         Connection connection = null;
         int rs = 0;
@@ -179,7 +179,7 @@ public final class DBConnection {
 
     //param1: query to run
     //param2: prepared values to add (NOTE: strings only)
-    //return: numer of rows it inserted (0 is none)
+    //return: number of rows it inserted (0 is none)
     protected static int updateQuery(String updateQuery) {
         return DBConnection.insertQuery(updateQuery, new ArrayList<String>());
     }
@@ -187,9 +187,9 @@ public final class DBConnection {
     //executes update sql statement
     //param1: query to run
     //param2: prepared values to add (NOTE: strings only)
-    //return: numer of rows it updated (0 is none)
+    //return: numebr of rows it updated (0 is none)
     protected static int updateQuery(String updateQuery, ArrayList<String> stringsToSet) {
-        //initializatie
+        //initialisation
         PreparedStatement statement = null;
         Connection connection = null;
         int rs = 0;
