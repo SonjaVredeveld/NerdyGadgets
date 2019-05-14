@@ -11,9 +11,9 @@ import java.util.ArrayList;
  *
  * @author Niek J Nijland
  */
-public static class DBConnection {
-    private Connection connection = new Connection();
-    private Host host  = new Host();
+public /*static*/ class DBConnection {
+    //private Connection connection = new Connection();
+    //private Host host  = new Host();
     private String Username;
     private String Password;
     private String statusMsg;

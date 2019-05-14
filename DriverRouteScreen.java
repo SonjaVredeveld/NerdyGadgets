@@ -27,9 +27,11 @@ public class DriverRouteScreen extends JDialog implements ActionListener {
         setSize(800, 600);
         setLayout(new FlowLayout());
 
+        //Test table data
         String[][] data = {
                 { "1", "Freek de Jonge", "Straat 2", "Zwolle" },
         };
+        //Test column names
         String[] columnNames = {
                 "Ordernummer", "klant", "adres", "woonplaats" };
 
@@ -39,20 +41,24 @@ public class DriverRouteScreen extends JDialog implements ActionListener {
         JScrollPane tableSP = new JScrollPane(jtDeliveryRouteTable);
         tableSP.setPreferredSize(new Dimension(800, 500));
         tableSP.setAlignmentX(LEFT_ALIGNMENT);
-        add(tableSP);
 
+        //Buttons + ButtonLayour
         jbSubmit = new JButton("Route afgerond");
         jbSubmit.setBackground(new Color(158, 188, 237));
         jbSubmit.setForeground(Color.BLACK);
         jbSubmit.setBounds(100,100,100,100);
         jbSubmit.addActionListener(this);
-        add(jbSubmit);
+
 
         jbCancel = new JButton("Annuleren");
         jbCancel.setBackground(new Color(158, 188, 237));
         jbCancel.setForeground(Color.BLACK);
         jbCancel.setBounds(100,100,100,100);
         jbCancel.addActionListener(this);
+
+        //Order for elements to appear
+        add(tableSP);
+        add(jbSubmit);
         add(jbCancel);
 
         setVisible(true);
