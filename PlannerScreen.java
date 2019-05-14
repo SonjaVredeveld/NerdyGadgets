@@ -23,6 +23,8 @@ import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableColumn;
 
 /**
@@ -31,54 +33,48 @@ import javax.swing.table.TableColumn;
  */
 public class PlannerScreen extends JFrame implements ActionListener{
     private JTable JTOrderList;
+    private User ActiveUser;
     private JButton JBStartRoute = new JButton();
     private JButton JBCancel = new JButton();
-    private JButton jbLogout = new JButton();
+    private JButton JBLogout;
     private ArrayList<Order> SelectedOrders = new ArrayList<>();
     private JLabel JLTitle;
-    private JButton jbUitloggen;
-    private JButton jbStartRouteBepaling;
-    private JTextArea output;
-    private JCheckBox rowCheck;
-    private JCheckBox columnCheck;
     private JCheckBox cellCheck;
     
-    public PlannerScreen(){
+    public PlannerScreen(User ActiveUser){
+        this.ActiveUser = ActiveUser;
         setLayout(new FlowLayout());
         setTitle("Routeplanner");
-        setPreferredSize(new Dimension(800, 800));
+        setPreferredSize(new Dimension(800, 600));
 
         JTOrderList = new JTable(new PlannerScreenTableContent());
         JTOrderList.getTableHeader().setReorderingAllowed(false);
-        //setting the size of the JTable
-        JTOrderList.setPreferredSize(new Dimension(780, 492));
+
+        //checking if table was changed
+        JTOrderList.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                //if there are any checkmarks checked, call the addOrder-function to them.
+                for(int i=0;i<JTOrderList.getModel().getRowCount();i++) {
+                    if ((boolean) JTOrderList.getModel().getValueAt(i,0)) {  
+                        addOrder((int) JTOrderList.getModel().getValueAt(i,1));
+                    }
+                }
+            }
+        });
+        //creating a ScrollPane from the JTable
         JScrollPane tableSP = new JScrollPane(JTOrderList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        //setting the size of the scrolling part, of which the JTable is content
+        
+        JTOrderList.setPreferredSize(new Dimension(780, 492));
         tableSP.setPreferredSize(new Dimension(780, 492));
         
         //setting the size for every column of JTOrderList
-        TableColumn column;
-        column = null;
+        TableColumn column = null;
         for (int i = 0; i < 4; i++) {
-            column = JTOrderList.getColumnModel().getColumn(i);
-            switch (i) {
-                case 0:
-                    column.setPreferredWidth(50);
-                    break;
-                case 1:
-                    column.setPreferredWidth(100);
-                    break;
-                case 2:
-                    column.setPreferredWidth(100);
-                    break;
-                case 3:
-                    column.setPreferredWidth(100);
-                    break;
-                case 4:
-                    column.setPreferredWidth(100);
-                    break;
-                default:
-                    break;
+            if(i == 0){
+                JTOrderList.getColumnModel().getColumn(i).setPreferredWidth(50);
+            }else{
+                JTOrderList.getColumnModel().getColumn(i).setPreferredWidth(100);        
             }
         } 
         add(tableSP);
@@ -86,75 +82,50 @@ public class PlannerScreen extends JFrame implements ActionListener{
         Panel p = new Panel();
         p.setLayout(new GridLayout(1,5));
         p.setPreferredSize(new Dimension(800, 50));
-        jbStartRouteBepaling = style.button("Start routebepaling");
-        jbUitloggen = style.button("Uitloggen");
+        JBStartRoute = style.button("Start routebepaling");
+        JBLogout = style.button("Uitloggen");
+        JBLogout.addActionListener(this);
         
+        //buttons in the lower part of the screen
         p.add(new JLabel(" "));
         p.add(new JLabel(" "));
-        p.add(jbStartRouteBepaling);
+        p.add(JBStartRoute);
         p.add(new JLabel(" "));
-        p.add(jbUitloggen);
+        p.add(JBLogout);
         
         add(p);
         
-       
         //disables window resizing by the user
         setResizable(false);
         setVisible(true);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      
     }
-
-    private JCheckBox addCheckBox(String text) {
-        JCheckBox checkBox = new JCheckBox(text);
-        checkBox.addActionListener(this);
-        add(checkBox);
-        return checkBox;
-    }
-
-    public void actionPerformed(ActionEvent event) {
-        String command = event.getActionCommand();
-        //Cell selection is disabled in Multiple Interval Selection
-        //mode. The enabled state of cellCheck is a convenient flag
-        //for this status.
-            JTOrderList.setCellSelectionEnabled(cellCheck.isSelected());
-
-        //Update checkboxes to reflect selection mode side effects.
-        rowCheck.setSelected(JTOrderList.getRowSelectionAllowed());
-        columnCheck.setSelected(JTOrderList.getColumnSelectionAllowed());
-        if (cellCheck.isEnabled()) {
-            cellCheck.setSelected(JTOrderList.getCellSelectionEnabled());
-        }
-    }
-
-    private void outputSelection() {
-        output.append(String.format("Lead: %d, %d. ",
-                    JTOrderList.getSelectionModel().getLeadSelectionIndex(),
-                    JTOrderList.getColumnModel().getSelectionModel().
-                        getLeadSelectionIndex()));
-        output.append("Rows:");
-        for (int c : JTOrderList.getSelectedRows()) {
-            output.append(String.format(" %d", c));
-        }
-        output.append(".\n");
-    }
-
-    private class RowListener implements ListSelectionListener {
-        public void valueChanged(ListSelectionEvent event) {
-            if (event.getValueIsAdjusting()) {
-                return;
-            }
-            output.append("ROW SELECTION EVENT. ");
-            outputSelection();
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == JBLogout) {
+            logout();
+        }else {
+             JTOrderList.setCellSelectionEnabled(cellCheck.isSelected());
         }
     }
     
+    //simple logout funtion
     public void logout(){
-        
+        ActiveUser = null;
     }
     
+    //parm = OrderID of order to be added to SelectedOrders ArrayList
     public void addOrder(int ID){
-        
+        //check of orderID already exists in ArrayList SelectedOrders, if not add it.
+        ArrayList<Integer> SelectedOrderIDs = new ArrayList<>();
+        SelectedOrders.forEach((SelectedOrder) -> {
+            SelectedOrderIDs.add(SelectedOrder.getID());
+        });
+
+        if (!SelectedOrderIDs.contains(ID)) {
+            SelectedOrders.add(new Order(ID));
+        }
     }
 }

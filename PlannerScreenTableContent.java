@@ -5,6 +5,7 @@
  */
 package kbs2;
 
+import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -12,16 +13,26 @@ import javax.swing.table.AbstractTableModel;
  * @author Niek J Nijland
  */
     class PlannerScreenTableContent extends AbstractTableModel {
-        private String[] columnNames = {" ",
-                                        "Ordernummer",
-                                        "Naam",
-                                        "Adres",
-                                        "Woonplaats"};
-        private Object[][] data = new Object[][]{{false, "00000001", "Bosman henk", "straatnaam 5", "Zwolle"}, 
-                                       {true, "00000010", "Ali B", "naamstraat 3", "Zwolle"},
-                                       {false, "00000011", "v. van oorbeelddata", "huisweg 2", "Zwolle"},
-                                       {false, "00000100", "korte naam", "slaaplaan 1", "Zwolle"},
-                                       {false, "00000101", "naam achternaam", "huisweg 6", "Zwolle"}};
+        
+        private String[] columnNames = {" ","Ordernummer","Naam","Adres","Woonplaats"};
+        private Object[][] data;
+        
+        public PlannerScreenTableContent() {
+            ArrayList<Order> OrderList = Order.getOrders();
+            data = new Object[OrderList.size()][5];
+            
+            //get all orders from the database and add them to the data portion of the JTable
+            for(int i = 0;i < OrderList.size();i++) {
+                Order order = OrderList.get(i);
+                Customer customer = order.getCustomer();
+                data[i][0] = false;
+                data[i][1] = order.getID();
+                data[i][2] = customer.getCustomerName();
+                data[i][3] = customer.getDeliveryAddressLine2();
+                data[i][4] = customer.getCustomerCity();
+            }
+      }
+
 
         public int getColumnCount() {
             return columnNames.length;
@@ -39,6 +50,7 @@ import javax.swing.table.AbstractTableModel;
             return data[row][col];
         }
 
+        
         /*
          * JTable uses this method to determine the default renderer/
          * editor for each cell.  If we didn't implement this method,
@@ -49,26 +61,15 @@ import javax.swing.table.AbstractTableModel;
             return getValueAt(0, c).getClass();
         }
 
-        /*
-         * Don't need to implement this method unless your table's
-         * editable.
-         */
+        //disables editing of the table on any other column then the first one
+        @Override
         public boolean isCellEditable(int row, int col) {
-            //Note that the data/cell address is constant,
-            //no matter where the cell appears onscreen.
-            if (col > 0) {
-                return false;
-            } else {
-                return true;
-            }
+            return col <= 0;
         }
 
-        /*
-         * Don't need to implement this method unless your table's
-         * data can change.
-         */
         public void setValueAt(Object value, int row, int col) {
             data[row][col] = value;
             fireTableCellUpdated(row, col);
         }
+        
     }

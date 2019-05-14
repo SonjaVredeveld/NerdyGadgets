@@ -26,7 +26,7 @@ public class DriverScreen extends JFrame implements ActionListener{
     }
     
     public Route getRoute() {
-        return new Route();
+        return new Route(0);
     }
     
     public ArrayList<Route> getRoutes() {
