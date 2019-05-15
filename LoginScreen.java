@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Driver;
+import java.util.ArrayList;
 
 import static java.lang.Boolean.FALSE;
 
@@ -23,21 +24,22 @@ public class LoginScreen extends JFrame implements ActionListener{
     private JLabel JLlostPassword;
     private JLabel JLuserName;
     private JLabel JLpassWord;
+    private JPanel Main;
     private JPanel panel1;
     private JPanel panel2;
     private JPanel panel3;
-    static String imageFileName = "/Users/pieter/Downloads/main@2x.png";
 
 
     public LoginScreen(){
         //Layout
-        setLayout(new GridBagLayout());
         setTitle("Inloggen");
         setSize(800, 600);
         GridBagConstraints gbc = new GridBagConstraints();
-        GridBagConstraints gba = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        JLabel background=new JLabel(new ImageIcon("/Users/pieter/Documents/kbs2/kbs2/squares-3d-digital-background-free-file.jpg"));
+        add(background);
+        background.setLayout(new GridBagLayout());
 
         // JFrame elements
         JLtitle = new JLabel();
@@ -63,16 +65,15 @@ public class LoginScreen extends JFrame implements ActionListener{
 
         panel1 = new JPanel(new GridLayout(3, 1));
         panel1.setPreferredSize(new Dimension(300, 100));
+        panel1.setBackground(new Color(0, 0, 0, 0));
 
         panel2 = new JPanel(new GridLayout(1, 1));
         panel2.setPreferredSize(new Dimension(300, 100));
+        panel2.setBackground(new Color(0, 0, 0, 0));
 
         panel3 = new JPanel(new GridLayout(1, 1));
         panel3.setPreferredSize(new Dimension(0, 100));
-
-
-
-
+        panel3.setBackground(new Color(0, 0, 0, 0));
 
         // Order for elements to appear
         panel2.add(JLtitle, gbc);
@@ -81,11 +82,11 @@ public class LoginScreen extends JFrame implements ActionListener{
         panel1.add(JLpassWord, gbc);
         panel1.add(JTFPassword, gbc);
         panel1.add(JBSubmit, gbc);
-        add(panel2, gbc);
-        add(JLinfoText, gbc);
-        add(panel1, gbc);
-        add(JLlostPassword, gbc);
-        add(panel3, gbc);
+        background.add(panel2, gbc);
+        background.add(JLinfoText, gbc);
+        background.add(panel1, gbc);
+        background.add(JLlostPassword, gbc);
+        background.add(panel3, gbc);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -93,8 +94,27 @@ public class LoginScreen extends JFrame implements ActionListener{
 
 
 
-    public boolean login(String username,String password) {
-        return FALSE;
+
+
+    public boolean login(String userName,String password) {
+        User user = new User(userName, password);
+        String level = user.getLevel();
+        System.out.println(level);
+        if (level.equals("Driver")) {
+            DriverScreen DS = new DriverScreen(user);
+            DS.setVisible(true);
+            return true;
+        } else if (level.equals("Planner")) {
+            PlannerScreen PS = new PlannerScreen(/*user*/);
+            PS.setVisible(true);
+            return true;
+        } else if (level.equals("Administrator")) {
+            AdministratorScreen PS = new AdministratorScreen(/*user*/);
+            PS.setVisible(true);
+            return true;
+        } else {
+            return FALSE;
+        }
     }
 
     public String getUsername() {
@@ -108,16 +128,10 @@ public class LoginScreen extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String userName = JTFUsername.getText();
-        String password = JTFPassword.getText();
-        if (userName.trim().equals("Driver") && password.trim().equals("McKroket")) {
+        if (login(getUsername(), getPassword())) {
+            dispose();
 
-            DriverScreen DS = new DriverScreen();
-            DS.setVisible(true);
             // Hier moet nog bepaalt worden wie heeft ingelogd en welk scherm vervolgens wordt getoond.
-
-            JLinfoText.setText(" Hello " + userName
-                    + "");
         } else {
             //Text for wrong input
             JLinfoText.setText("Uw gebruikersnaam of wachtwoord is verkeerd");
@@ -125,4 +139,23 @@ public class LoginScreen extends JFrame implements ActionListener{
             JLlostPassword.setText("<html>gebruikersnaam of wachtwoord vergeten? <br> neem contact op met uw systeembeheerder.</html>");
         }
     }
-}
+
+
+
+
+
+        public static void main(String[] args) {
+
+            try {
+
+                UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+            } catch (Exception e) {
+                System.out.println("Look and Feel not set");
+            }
+            LoginScreen LS = new LoginScreen();
+            LS.setVisible(true);
+
+
+        }
+    }
+

@@ -17,18 +17,23 @@ class Route {
     private int ID;
     private int driverID;
     
-    public Route(ArrayList<Order> orderArray) {
-        
+    public Route() {
     }
-    
-    public Route(int ID) {
-        
+
+
+
+    public String getRoute(){
+
+        return null;
     }
+
+
+
     
     public boolean addDriver(int driverID) {
         return FALSE;
     }
-    
+
     public ArrayList<RouteLocation> getLocations() {
         return this.routeLocations;
     }

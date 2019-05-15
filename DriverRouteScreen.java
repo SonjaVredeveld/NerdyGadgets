@@ -61,7 +61,6 @@ public class DriverRouteScreen extends JDialog implements ActionListener {
         add(jbSubmit);
         add(jbCancel);
 
-        setVisible(true);
 
     }
     @Override
@@ -71,6 +70,7 @@ public class DriverRouteScreen extends JDialog implements ActionListener {
             // MOET AANGEVEN DAT DE ROUTE IS GEREDEN
         } if(e.getSource() == jbCancel){
             dispose();
+
         }
     }
 }

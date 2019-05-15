@@ -2,6 +2,8 @@ package kbs2;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 class ButtonEditor extends DefaultCellEditor {
     protected JButton button;
@@ -16,8 +18,11 @@ class ButtonEditor extends DefaultCellEditor {
         button.addActionListener(e -> fireEditingStopped());
     }
 
+    // If button is selected following animation starts
+    // Source: http://alvinalexander.com/java/swing/tame/table/ButtonEditor.java.shtml
     public Component getTableCellEditorComponent(JTable jtRouteTable, Object value,
                                                  boolean isSelected, int row, int column) {
+        // Button Animation
         if (isSelected) {
             button.setForeground(jtRouteTable.getSelectionForeground());
             button.setBackground(jtRouteTable.getSelectionBackground());
@@ -25,7 +30,13 @@ class ButtonEditor extends DefaultCellEditor {
             button.setForeground(jtRouteTable.getForeground());
             button.setBackground(jtRouteTable.getBackground());
         }
-        label = (value == null) ? "" : value.toString();
+
+        if(value == null){
+            label = "";
+        } else {
+            label = value.toString();
+        }
+
         button.setText(label);
         isPushed = true;
         return button;
@@ -46,7 +57,7 @@ class ButtonEditor extends DefaultCellEditor {
         }
         isPushed = false;
         return new String(label);
-    } // Afhandeling van de start route knoppen
+    }
 
     public boolean stopCellEditing() {
         isPushed = false;
