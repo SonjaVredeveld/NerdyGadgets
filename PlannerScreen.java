@@ -12,17 +12,15 @@ import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import javax.swing.BoxLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.UIManager;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableColumn;
@@ -54,9 +52,10 @@ public class PlannerScreen extends JFrame implements ActionListener{
         JTOrderList.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
+                SelectedOrders.clear();
                 //if there are any checkmarks checked, call the addOrder-function to them.
                 for(int i=0;i<JTOrderList.getModel().getRowCount();i++) {
-                    if ((boolean) JTOrderList.getModel().getValueAt(i,0)) {  
+                    if ((boolean) JTOrderList.getModel().getValueAt(i,0)) { 
                         addOrder((int) JTOrderList.getModel().getValueAt(i,1));
                     }
                 }
@@ -83,6 +82,7 @@ public class PlannerScreen extends JFrame implements ActionListener{
         p.setLayout(new GridLayout(1,5));
         p.setPreferredSize(new Dimension(800, 50));
         JBStartRoute = style.button("Start routebepaling");
+        JBStartRoute.addActionListener(this);
         JBLogout = style.button("Uitloggen");
         JBLogout.addActionListener(this);
         
@@ -100,12 +100,15 @@ public class PlannerScreen extends JFrame implements ActionListener{
         setVisible(true);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        System.out.println("nu zou het scherm zichtbaar moeten zijn");
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == JBLogout) {
             logout();
+        }else if(e.getSource() == JBStartRoute){
+                routeTSP(SelectedOrders);
         }else {
              JTOrderList.setCellSelectionEnabled(cellCheck.isSelected());
         }
@@ -118,14 +121,16 @@ public class PlannerScreen extends JFrame implements ActionListener{
     
     //parm = OrderID of order to be added to SelectedOrders ArrayList
     public void addOrder(int ID){
-        //check of orderID already exists in ArrayList SelectedOrders, if not add it.
-        ArrayList<Integer> SelectedOrderIDs = new ArrayList<>();
-        SelectedOrders.forEach((SelectedOrder) -> {
-            SelectedOrderIDs.add(SelectedOrder.getID());
-        });
-
-        if (!SelectedOrderIDs.contains(ID)) {
-            SelectedOrders.add(new Order(ID));
+        SelectedOrders.add(new Order(ID));
+    }
+    
+    public void routeTSP(ArrayList<Order> ar1){
+        if(ar1.size() <= 20 && !ar1.isEmpty()){
+            new Route(ar1); 
+        }else if(ar1.isEmpty()){
+            JOptionPane.showMessageDialog(this,"Selecteer minimaal 1 order");
+        }else{
+            JOptionPane.showMessageDialog(this,"Meer dan 20 orders geselecteerd");            
         }
     }
 }

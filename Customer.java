@@ -72,5 +72,13 @@ public class Customer {
     
     public String getCustomerCity() {
         return customerCity;
-    } 
+    }
+    
+    public int getLatitude() {
+        return latitude;
+    }
+    
+    public int getLongitude() {
+        return longitude;
+    }
 }
