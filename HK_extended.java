@@ -30,7 +30,7 @@ public class HK_extended {
         int x2 = rl2.getOrder().getCustomer().getLatitude();
         int y1 = rl1.getOrder().getCustomer().getLongitude();
         int y2 = rl2.getOrder().getCustomer().getLongitude();
-        int vx = berekenVerschil(x1, x2);
+        int vx = calculateDifference(x1, x2);
         int vy = calculateDifference(y1, y2);
         if(vx == 0) {
             return vy;
