@@ -5,50 +5,38 @@
  */
 package kbs2;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Vector;
+import javax.swing.*;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
-public class DriverScreen extends JFrame implements ActionListener{
+public class DriverScreen extends JFrame implements ActionListener {
+
     private ArrayList<kbs2.Route> routeList = new ArrayList<>();
     private JTable jtRouteTable;
     private JLabel jtTitle;
     private JButton jbLogout;
     private JScrollPane tableSP;
     private ButtonEditor JBshowRoute;
-    
+
     public DriverScreen(User user) {
         //Layout
         setLayout(new FlowLayout());
         setTitle("Beschikbare Routes");
         setPreferredSize(new Dimension(800, 600));
 
-
-
         jtTitle = new JLabel("Te rijden routes");
         jtTitle.setPreferredSize(new Dimension(800, 25));
         jtTitle.setHorizontalAlignment(JLabel.CENTER);
 
         String[][] data = {
-                //Voorbeeld data
-                { "1", "22", "2402 km", "Start route" },
-        };
+            //Voorbeeld data
+            {"1", "22", "2402 km", "Start route"},};
         //Test Column names
-        String[] columnNames = { "Route nummer", "Aantal locaties", "Afstand", "Bekijk route" };
-
-
-
+        String[] columnNames = {"Route nummer", "Aantal locaties", "Afstand", "Bekijk route"};
 
 //        for(int i = 0;i < OrderList.size();i++) {
 //            Order order = OrderList.get(i);
@@ -59,7 +47,6 @@ public class DriverScreen extends JFrame implements ActionListener{
 //            data[i][3] = customer.getDeliveryAddressLine2();
 //            data[i][4] = customer.getCustomerCity();
 //        }
-
         //Table Layout
         jtRouteTable = new JTable(data, columnNames);
         TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(jtRouteTable.getModel());
@@ -79,7 +66,6 @@ public class DriverScreen extends JFrame implements ActionListener{
         jbLogout.setForeground(Color.BLACK);
         jbLogout.addActionListener(this);
 
-
         // Order for elements to appear
         add(jtTitle);
         add(tableSP);
@@ -90,12 +76,12 @@ public class DriverScreen extends JFrame implements ActionListener{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-
-    
     public Route getRoute() {
-        return null;//new Route();
+
+        return new Route(0);
+
     }
-    
+
     public ArrayList<Route> getRoutes() {
         return new ArrayList<>();
     }
@@ -103,12 +89,12 @@ public class DriverScreen extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         //Back to loginscreen
-        if(e.getSource() == jbLogout){
+        if (e.getSource() == jbLogout) {
             dispose();
             LoginScreen LS = new LoginScreen();
             LS.setVisible(true);
         }
         // "Start route" buttons are located in the class ButtonEditor
     }
-    
+
 }
