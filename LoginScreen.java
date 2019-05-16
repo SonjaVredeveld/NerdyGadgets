@@ -69,6 +69,7 @@ public class LoginScreen extends JFrame implements ActionListener {
         panel1.add(JLpassWord, gbc);
         panel1.add(JTFPassword, gbc);
         panel1.add(JBSubmit, gbc);
+        panel1.add(JBCancel, gbc);
         background.add(panel2, gbc);
         background.add(JLinfoText, gbc);
         background.add(panel1, gbc);
