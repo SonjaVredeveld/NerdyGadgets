@@ -37,6 +37,6 @@ public class RouteLocation {
     }
     
     public int getNumber() {
-        return this.Number;
+        return this.number;
     }
 }
