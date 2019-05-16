@@ -182,19 +182,25 @@ public final class DBConnection {
     //param2: name of column to get max number from
     //return: max number +1 (new number to use default 1)
     protected static int getNewId(String TName, String IDField) {
-        ArrayList<ArrayList<String>> rs = DBConnection.selectQuery("SELECT MAX(" + IDField + ") From " + TName, new ArrayList<String>());
+        ArrayList<ArrayList<String>> rs = DBConnection.selectQuery("SELECT MAX(" + IDField + ") From " + TName);
         try {
             String newID = rs.get(0).get(0);    //get number value(2 dimensional array to string)
             //when none present return 1
-            if (newID.equals("0") || newID.equals("null")) {
+            if (newID == null) {
                 return 1;
+            } else {
+
+                if (newID.equals("0")) {
+                    return 1;
+                }
+                //return the new number
+                try {
+                    return Integer.parseInt(newID) + 1;
+                } catch (NumberFormatException ex) {
+                    return 1;
+                }
             }
-            //return the new number
-            try {
-                return Integer.parseInt(newID) + 1;
-            } catch (NumberFormatException ex) {
-                return 1;
-            }
+
             //check for any errors in the query
         } catch (IndexOutOfBoundsException ex) {
             System.out.println("no id found: " + DBConnection.statusMsg);
@@ -204,7 +210,7 @@ public final class DBConnection {
 
 //    test cases
 //    public static void main(String[] args) {
-//        //update test
+//        update test
 //        ArrayList<String> prepares = new ArrayList<String>();
 //        prepares.add("10");
 //        int update = DBConnection.executeQuery("UPDATE customers SET latitude = ? WHERE CustomerID = 3", prepares);
@@ -213,11 +219,12 @@ public final class DBConnection {
 //        } else {
 //            System.out.println(DBConnection.statusMsg); //check status(also error info)
 //        }
-//
-//        //prepare for id example
+//        prepare for id example
 //        ArrayList<String> prepares2 = new ArrayList<String>();
-//        prepares2.add("" + DBConnection.getNewId("routes", "routeID")); //be careful there is a possibility for sql injection
+//        int id = DBConnection.getNewId("routes", "RouteID");
+//        prepares2.add("" + id); //be careful there is a possibility for sql injection
 //        prepares2.add("20");
+//        System.out.println(id);
 //        //insert example
 //        int insert = DBConnection.executeQuery("INSERT INTO routes (routeID, creationDate, distanceKM, driverID) VALUES(?, NOW(), ?, null)", prepares2);
 //
@@ -226,11 +233,10 @@ public final class DBConnection {
 //        } else {
 //            System.out.println(DBConnection.statusMsg); //check status(also error info)
 //        }
-//
 //        //select example
 //        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT CustomerID, CustomerName FROM customers");
 //        for (int i = 0; i < rows.size(); i++) {
 //            System.out.println(rows.get(i));
 //        }
-//    }
+//  }
 }
