@@ -41,7 +41,7 @@ public class HK_extended {
         }
     }
     
-    private static int berekenVerschil(int c1, int c2) {
+    private static int calculateDifference(int c1, int c2) {
         if(c1 > c2) {
             return c1 - c2;
         }else if(c1 < c2) {
