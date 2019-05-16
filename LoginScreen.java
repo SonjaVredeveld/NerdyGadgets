@@ -1,21 +1,13 @@
-
 package kbs2;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.sql.Driver;
-import java.util.ArrayList;
-
 import static java.lang.Boolean.FALSE;
+import javax.swing.*;
 
+public class LoginScreen extends JFrame implements ActionListener {
 
-public class LoginScreen extends JFrame implements ActionListener{
     private JTextField JTFUsername;
     private JTextField JTFPassword;
     private JButton JBSubmit;
@@ -29,15 +21,14 @@ public class LoginScreen extends JFrame implements ActionListener{
     private JPanel panel2;
     private JPanel panel3;
 
-
-    public LoginScreen(){
+    public LoginScreen() {
         //Layout
         setTitle("Inloggen");
         setSize(800, 600);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        JLabel background=new JLabel(new ImageIcon("/Users/pieter/Documents/kbs2/kbs2/squares-3d-digital-background-free-file.jpg"));
+        JLabel background = new JLabel(new ImageIcon(this.getClass().getResource("squares-3d-digital-background-free-file.jpg")));
         add(background);
         background.setLayout(new GridBagLayout());
 
@@ -92,11 +83,7 @@ public class LoginScreen extends JFrame implements ActionListener{
         setVisible(true);
     }
 
-
-
-
-
-    public boolean login(String userName,String password) {
+    public boolean login(String userName, String password) {
         User user = new User(userName, password);
         String level = user.getLevel();
         System.out.println(level);
@@ -140,22 +127,16 @@ public class LoginScreen extends JFrame implements ActionListener{
         }
     }
 
+    public static void main(String[] args) {
 
+        try {
 
-
-
-        public static void main(String[] args) {
-
-            try {
-
-                UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-            } catch (Exception e) {
-                System.out.println("Look and Feel not set");
-            }
-            LoginScreen LS = new LoginScreen();
-            LS.setVisible(true);
-
-
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (Exception e) {
+            System.out.println("Look and Feel not set");
         }
-    }
+        LoginScreen LS = new LoginScreen();
+        LS.setVisible(true);
 
+    }
+}
