@@ -1,14 +1,10 @@
 package kbs2;
 
 import javax.swing.*;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
-import javax.swing.table.TableColumn;
-import static javax.swing.text.html.HTML.Attribute.ID;
+import javax.swing.table.*;
 
 public class RouteCreatedPopup extends JDialog implements ActionListener {
     private JTable JTOrderList;
@@ -109,7 +105,6 @@ public class RouteCreatedPopup extends JDialog implements ActionListener {
     //return: if it succeeded at doing so or not
     public boolean deleteRoute() {
         ArrayList<String> prepares = new ArrayList<>();
-        prepares.add(ID+"");
         ArrayList<ArrayList<String>> rows1 = DBConnection.selectQuery("SELECT MAX(RouteID) FROM routes");
         if(!rows1.isEmpty()) {
             ArrayList<String> prepares1 = new ArrayList<>();
