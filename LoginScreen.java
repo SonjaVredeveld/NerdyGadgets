@@ -8,7 +8,7 @@ import javax.swing.*;
 public class LoginScreen extends JFrame implements ActionListener {
 
     private JTextField JTFUsername, JTFPassword;
-    private JButton JBSubmit;
+    private JButton JBSubmit, JBCancel;
     private JLabel JLinfoText, JLtitle, JLlostPassword, JLuserName, JLpassWord;
     private JPanel panel1, panel2, panel3;
 
@@ -30,17 +30,22 @@ public class LoginScreen extends JFrame implements ActionListener {
         JLtitle.setFont(rockwellFont);
 
         JLuserName = new JLabel();
-        JLuserName.setText("User Name :");
+        JLuserName.setText("Gebruikersnaam :");
         JTFUsername = new JTextField();
 
         JLpassWord = new JLabel();
-        JLpassWord.setText("Password :");
+        JLpassWord.setText("Wachtwoord :");
         JTFPassword = new JPasswordField();
 
         JBSubmit = new JButton("Inloggen");
         JBSubmit.setBackground(new Color(158, 188, 237));
         JBSubmit.setForeground(Color.BLACK);
         JBSubmit.addActionListener(this);
+
+        JBCancel = new JButton("Annuleren");
+        JBCancel.setBackground(new Color(158, 188, 237));
+        JBCancel.setForeground(Color.BLACK);
+        JBCancel.addActionListener(this);
 
         JLlostPassword = new JLabel();
         JLinfoText = new JLabel();
@@ -110,17 +115,20 @@ public class LoginScreen extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //valid user? yes -> we have been redirected so dispose
-        if (login(getUsername(), getPassword())) {
+        if (e.getSource() == this.JBSubmit) {
+            //valid user? yes -> we have been redirected so dispose
+            if (login(getUsername(), getPassword())) {
+                dispose();
+
+                //not valid user -> notify user
+            } else {
+                JLinfoText.setText("Uw gebruikersnaam en/of wachtwoord is verkeerd’");
+                JLinfoText.setForeground(Color.RED);
+                JLlostPassword.setText("<html>gebruikersnaam of wachtwoord vergeten? <br> neem contact op met uw systeembeheerder.</html>");
+            }
+        } else if (e.getSource() == this.JBCancel) {
             dispose();
 
-            //not valid user -> notify user
-        } else {
-
-            JLinfoText.setText("Uw gebruikersnaam of wachtwoord is verkeerd");
-            JLinfoText.setForeground(Color.RED);
-            JLlostPassword.setText("<html>gebruikersnaam of wachtwoord vergeten? <br> neem contact op met uw systeembeheerder.</html>");
         }
     }
-
 }
