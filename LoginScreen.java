@@ -3,7 +3,6 @@ package kbs2;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import static java.lang.Boolean.FALSE;
 import javax.swing.*;
 
 public class LoginScreen extends JFrame implements ActionListener {
@@ -83,10 +82,15 @@ public class LoginScreen extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    //try's to create a valid user. and redirects the user to his/her screen
+    //param1: username from input
+    //parram2: password from input
+    //return: true when succesful, false when user is not a valid user
     public boolean login(String userName, String password) {
         User user = new User(userName, password);
         String level = user.getLevel();
-        System.out.println(level);
+
+        //based on the lvl we wil redirect the user
         if (level.equals("Driver")) {
             DriverScreen DS = new DriverScreen(user);
             DS.setVisible(true);
@@ -100,7 +104,7 @@ public class LoginScreen extends JFrame implements ActionListener {
             PS.setVisible(true);
             return true;
         } else {
-            return FALSE;
+            return false;
         }
     }
 
@@ -109,34 +113,22 @@ public class LoginScreen extends JFrame implements ActionListener {
     }
 
     public String getPassword() {
-        //hier moet dan iets met hashing komen
         return JTFPassword.getText();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        //valid user? yes -> we have been redirected so dispose
         if (login(getUsername(), getPassword())) {
             dispose();
 
-            // Hier moet nog bepaalt worden wie heeft ingelogd en welk scherm vervolgens wordt getoond.
+            //not valid user -> notify user
         } else {
-            //Text for wrong input
+
             JLinfoText.setText("Uw gebruikersnaam of wachtwoord is verkeerd");
             JLinfoText.setForeground(Color.RED);
             JLlostPassword.setText("<html>gebruikersnaam of wachtwoord vergeten? <br> neem contact op met uw systeembeheerder.</html>");
         }
     }
 
-    public static void main(String[] args) {
-
-        try {
-
-            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-        } catch (Exception e) {
-            System.out.println("Look and Feel not set");
-        }
-        LoginScreen LS = new LoginScreen();
-        LS.setVisible(true);
-
-    }
 }
