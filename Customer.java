@@ -39,7 +39,7 @@ public class Customer {
     }
     
     public static ArrayList<Customer> getCustomers() {
-        //getting all available OrderID's
+        //getting all available CustomerID's
         ArrayList<Customer> customerList = new ArrayList<>();
         ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT CustomerID FROM customers", new ArrayList<>());
         if(rows.size() > 0) {
