@@ -96,28 +96,19 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         //if there are any checkmarks checked, call the addOrder-function to them.
         for(int i=0;i<JTOrderList.getModel().getRowCount();i++) {
             if ((boolean) JTOrderList.getModel().getValueAt(i,0)) {  
-                addOrder((int) JTOrderList.getModel().getValueAt(i,1));
+                SelectedOrders.add(new Order((int) JTOrderList.getModel().getValueAt(i,1)));
             }
         }
     }
-
-    
+  
     //simple logout funtion
-    public void logout(){
+    private void logout(){
         ActiveUser = null;
         this.dispose();
     }
     
-    //parm = OrderID of order to be added to SelectedOrders ArrayList
-    public void addOrder(int ID){
-        Order newOrder = new Order(ID);
-        SelectedOrders.add(newOrder);
-        
-    }
-    
-    
     //calculates the optimal route with the given Orders, saves the route with its locations in the database
-    public void routeTSP(ArrayList<Order> ar1){
+    private void routeTSP(ArrayList<Order> ar1){
         if(ar1.isEmpty()){
             JOptionPane.showMessageDialog(this,"Selecteer minimaal 1 order");
         }else if(ar1.size() <= 20){
