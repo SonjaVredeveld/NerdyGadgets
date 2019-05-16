@@ -25,7 +25,7 @@ public class HK_extended {
     private static int optimalDistanceToReturn = 0;
     private static String optimalPath = "";
     
-    private static int berekenAfstand(RouteLocation rl1, RouteLocation rl2) {
+    private static int calculateDistance(RouteLocation rl1, RouteLocation rl2) {
         int x1 = rl1.getOrder().getCustomer().getLatitude();
         int x2 = rl2.getOrder().getCustomer().getLatitude();
         int y1 = rl1.getOrder().getCustomer().getLongitude();
