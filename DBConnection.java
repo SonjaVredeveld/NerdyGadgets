@@ -208,9 +208,9 @@ public final class DBConnection {
         }
     }
 
-    //test cases
+//    test cases
 //    public static void main(String[] args) {
-    //update test
+//        update test
 //        ArrayList<String> prepares = new ArrayList<String>();
 //        prepares.add("10");
 //        int update = DBConnection.executeQuery("UPDATE customers SET latitude = ? WHERE CustomerID = 3", prepares);
@@ -219,7 +219,7 @@ public final class DBConnection {
 //        } else {
 //            System.out.println(DBConnection.statusMsg); //check status(also error info)
 //        }
-    //prepare for id example
+//        prepare for id example
 //        ArrayList<String> prepares2 = new ArrayList<String>();
 //        int id = DBConnection.getNewId("routes", "RouteID");
 //        prepares2.add("" + id); //be careful there is a possibility for sql injection
@@ -238,5 +238,5 @@ public final class DBConnection {
 //        for (int i = 0; i < rows.size(); i++) {
 //            System.out.println(rows.get(i));
 //        }
+//  }
 }
-//}
