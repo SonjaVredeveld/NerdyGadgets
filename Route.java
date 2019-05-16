@@ -29,7 +29,7 @@ class Route {
         for(int i = 0;i < orderArray.size();i++) {
             routeLocations.add(new RouteLocation(orderArray.get(i)));
         }
-        routeLocations = HK_extended.calculatePath(routeLocations);
+        routeLocations = HeuristicsExtended.calculatePath(routeLocations);
         
         ArrayList<String> routePrepares = new ArrayList<>();
         ArrayList<String> routeLocationPrepares = new ArrayList<>();
@@ -37,7 +37,7 @@ class Route {
         //getting the last ID + 1 from the databasetable
         int newRouteID = DBConnection.getNewId("routes", "RouteID");
         routePrepares.add(newRouteID+"");
-        routePrepares.add(HK_extended.getOptimalDistance()+"");
+        routePrepares.add(HeuristicsExtended.getOptimalDistance()+"");
         
         result1 = DBConnection.executeQuery("INSERT INTO routes VALUES (?,NOW(),?,NULL)", routePrepares);
         
