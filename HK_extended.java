@@ -51,7 +51,7 @@ public class HK_extended {
         }
     }
     
-    private static int[][] getAfstanden(ArrayList<RouteLocation> ar1) {
+    private static int[][] getDistance(ArrayList<RouteLocation> ar1) {
         int[][] afstandenArray = new int[ar1.size()][ar1.size()];
         for(int i = 0; i < ar1.size(); i++) {
             for(int j = 0; j < ar1.size(); j++) {
