@@ -58,7 +58,7 @@ public class HK_extended {
                 afstandenArray[i][j] = berekenAfstand(ar1.get(i),ar1.get(j));
             }
         }
-        return afstandenArray;
+        return distancesArray;
     }
     
     /**
