@@ -43,7 +43,7 @@ public class Customer {
         ArrayList<Customer> customerList = new ArrayList<>();
         ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT CustomerID FROM customers", new ArrayList<>());
         if(rows.size() > 0) {
-            //creating an order for every OrderID
+            //creating a customer for every CustomerID
             for (int i = 0; i < rows.size(); i++) {
                 customerList.add(new Customer(Integer.parseInt(rows.get(i).get(0))));
             }
