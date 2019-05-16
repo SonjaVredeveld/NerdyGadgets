@@ -22,13 +22,10 @@ public class RouteLocation {
     public RouteLocation(int ID) {
         ArrayList<String> prepares = new ArrayList<>();
         prepares.add(ID+"");
-        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT OrderID, CustomerID FROM orders WHERE OrderID = ?", prepares);
+        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT OrderID, RouteNumber FROM routelocation WHERE RouteLocationID = ?", prepares);
         if(rows.size() == 1) {
-            //saving the values from the database
-            this.customer = new Customer(Integer.parseInt(rows.get(0).get(1)));
-            this.ID = Integer.parseInt(rows.get(0).get(1));
-        } else{
-            System.out.println("test2");
+            this.order = new Order(Integer.parseInt(rows.get(0).get(0)));
+            this.Number = Integer.parseInt(rows.get(0).get(1));
         }
     }
     

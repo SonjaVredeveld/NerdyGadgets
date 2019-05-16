@@ -10,7 +10,7 @@ import javax.swing.table.AbstractTableModel;
 
 /**
  *
- * @author Niek J Nijland
+ * @author https://docs.oracle.com/javase/tutorial/uiswing/examples/components/TableSelectionDemoProject/src/components/TableSelectionDemo.java
  */
     class PlannerScreenTableContent extends AbstractTableModel {
         

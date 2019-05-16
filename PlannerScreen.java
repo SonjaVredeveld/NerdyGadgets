@@ -29,7 +29,7 @@ import javax.swing.table.TableColumn;
  *
  * @author Niek J Nijland
  */
-public class PlannerScreen extends JFrame implements ActionListener{
+public class PlannerScreen extends JFrame implements ActionListener, TableModelListener{
     private JTable JTOrderList;
     private User ActiveUser;
     private JButton JBStartRoute = new JButton();
@@ -49,18 +49,7 @@ public class PlannerScreen extends JFrame implements ActionListener{
         JTOrderList.getTableHeader().setReorderingAllowed(false);
 
         //checking if table was changed
-        JTOrderList.getModel().addTableModelListener(new TableModelListener() {
-            @Override
-            public void tableChanged(TableModelEvent e) {
-                SelectedOrders.clear();
-                //if there are any checkmarks checked, call the addOrder-function to them.
-                for(int i=0;i<JTOrderList.getModel().getRowCount();i++) {
-                    if ((boolean) JTOrderList.getModel().getValueAt(i,0)) { 
-                        addOrder((int) JTOrderList.getModel().getValueAt(i,1));
-                    }
-                }
-            }
-        });
+        JTOrderList.getModel().addTableModelListener(this);
         //creating a ScrollPane from the JTable
         JScrollPane tableSP = new JScrollPane(JTOrderList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         
@@ -100,7 +89,6 @@ public class PlannerScreen extends JFrame implements ActionListener{
         setVisible(true);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        System.out.println("nu zou het scherm zichtbaar moeten zijn");
     }
     
     @Override
@@ -109,8 +97,20 @@ public class PlannerScreen extends JFrame implements ActionListener{
             logout();
         }else if(e.getSource() == JBStartRoute){
                 routeTSP(SelectedOrders);
+                new RouteCreatedPopup(this);
         }else {
              JTOrderList.setCellSelectionEnabled(cellCheck.isSelected());
+        }
+    }
+    
+    @Override
+    public void tableChanged(TableModelEvent e) {
+        SelectedOrders.clear();
+        //if there are any checkmarks checked, call the addOrder-function to them.
+        for(int i=0;i<JTOrderList.getModel().getRowCount();i++) {
+            if ((boolean) JTOrderList.getModel().getValueAt(i,0)) { 
+                addOrder((int) JTOrderList.getModel().getValueAt(i,1));
+            }
         }
     }
     

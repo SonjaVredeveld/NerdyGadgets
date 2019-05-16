@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 class Route {
     private ArrayList<RouteLocation> routeLocations = new ArrayList<>();
     private int ID;
+    private int distance;
     private int driverID;
     
     public Route(ArrayList<Order> orderArray) {
@@ -24,7 +25,7 @@ class Route {
         for(int i = 0;i < orderArray.size();i++) {
             routeLocations.add(new RouteLocation(orderArray.get(i)));
         }
-        ArrayList<RouteLocation> optimalRoute = HK_extended.berekenPath(routeLocations);
+        routeLocations = HK_extended.berekenPath(routeLocations);
         
         ArrayList<String> routePrepares = new ArrayList<>();
         ArrayList<String> routeLocationPrepares = new ArrayList<>();
@@ -42,12 +43,12 @@ class Route {
             int newRouteLocationID = DBConnection.getNewId("routelocation", "RouteLocationID");   
             String insertQuery = "INSERT INTO routelocation VALUES (?,?,?,?)";
         
-            for(int i = 0;i< optimalRoute.size();i++) {
-                if(i < optimalRoute.size() - 1) {
+            for(int i = 0;i< routeLocations.size();i++) {
+                if(i < routeLocations.size() - 1) {
                     insertQuery = insertQuery + ", (?,?,?,?)";
                 }
                 routeLocationPrepares.add((newRouteLocationID + i)+"");
-                routeLocationPrepares.add(optimalRoute.get(i).getOrder().getID()+"");
+                routeLocationPrepares.add(routeLocations.get(i).getOrder().getID()+"");
                 routeLocationPrepares.add(newRouteID+"");
                 routeLocationPrepares.add((i+1)+"");
             }
@@ -66,11 +67,35 @@ class Route {
     }
     
     public Route(int ID) {
-        
+        ArrayList<String> prepares = new ArrayList<>();
+        prepares.add(ID+"");
+
+        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT RouteLocationID FROM routelocation WHERE RouteID = ? ORDER BY RouteNumber ASC", prepares);
+        if(rows.size() > 0) {
+            for (int i = 0; i < rows.size(); i++) {
+                routeLocations.add(new RouteLocation(Integer.parseInt(rows.get(i).get(0))));
+            }
+            //this.order = new Order(Integer.parseInt(rows.get(0).get(1)));
+            //this.Number = Integer.parseInt(rows.get(0).get(2));
+        }
+        ArrayList<String> prepares2 = new ArrayList<>();
+        prepares2.add(ID+"");
+        ArrayList<ArrayList<String>> rows2 = DBConnection.selectQuery("SELECT distanceKM, DriverID FROM routes WHERE RouteID = ? ORDER BY RouteNumber ASC", prepares2);
+        if(rows2.size() == 1) {
+            this.ID = ID;
+            this.distance = Integer.parseInt(rows.get(0).get(0));
+            this.driverID = Integer.parseInt(rows.get(0).get(2));
+        }
     }
     
+    //return: 0 = allready a driver assigned, 1 = succes
     public boolean addDriver(int driverID) {
-        return FALSE;
+        ArrayList<String> prepares = new ArrayList<>();
+        prepares.add(driverID+"");
+        prepares.add(this.ID+"");
+
+        int result = DBConnection.updateQuery("UPDATE routes SET DriverID = ?  WHERE RouteID = ?", prepares);
+        return result == 1;
     }
     
     public ArrayList<RouteLocation> getLocations() {

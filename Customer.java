@@ -33,8 +33,6 @@ public class Customer {
             this.customerCity = rows.get(0).get(4);
             this.longitude = Integer.parseInt(rows.get(0).get(5));
             this.latitude = Integer.parseInt(rows.get(0).get(6));
-        } else{
-            System.out.println("test3");
         }
     }
     
@@ -47,8 +45,6 @@ public class Customer {
             for (int i = 0; i < rows.size(); i++) {
                 customerList.add(new Customer(Integer.parseInt(rows.get(i).get(0))));
             }
-        }else{
-            System.out.println("test4");
         }
         return customerList;
     }
