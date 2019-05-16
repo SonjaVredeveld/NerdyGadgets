@@ -5,25 +5,14 @@
  */
 package kbs2;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.Panel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.TableColumn;
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.table.*;
 
 /**
  *
@@ -107,34 +96,25 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         //if there are any checkmarks checked, call the addOrder-function to them.
         for(int i=0;i<JTOrderList.getModel().getRowCount();i++) {
             if ((boolean) JTOrderList.getModel().getValueAt(i,0)) {  
-                addOrder((int) JTOrderList.getModel().getValueAt(i,1));
+                SelectedOrders.add(new Order((int) JTOrderList.getModel().getValueAt(i,1)));
             }
         }
     }
-
-    
+  
     //simple logout funtion
-    public void logout(){
+    private void logout(){
         ActiveUser = null;
         this.dispose();
     }
     
-    //parm = OrderID of order to be added to SelectedOrders ArrayList
-    public void addOrder(int ID){
-        Order newOrder = new Order(ID);
-        SelectedOrders.add(newOrder);
-        
-    }
-    
-    
     //calculates the optimal route with the given Orders, saves the route with its locations in the database
-    public void routeTSP(ArrayList<Order> ar1){
+    private void routeTSP(ArrayList<Order> ar1){
         if(ar1.isEmpty()){
             JOptionPane.showMessageDialog(this,"Selecteer minimaal 1 order");
         }else if(ar1.size() <= 20){
             Route r1 = new Route(ar1); 
             if(r1.getResult()){
-                new RouteCreatedPopup(this);
+                //link to planner popup
             }else{
                 JOptionPane.showMessageDialog(this,"Er ging iets fout bij het bereken van uw route");
             }

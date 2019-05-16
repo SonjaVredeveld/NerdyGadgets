@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * https://github.com/Sinclert/Heuristics-TSP extended by Niek Nijland
  */
-public class HK_extended {
+public class HeuristicsExtended {
 
     /**
      *
