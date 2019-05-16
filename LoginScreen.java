@@ -7,18 +7,10 @@ import javax.swing.*;
 
 public class LoginScreen extends JFrame implements ActionListener {
 
-    private JTextField JTFUsername;
-    private JTextField JTFPassword;
+    private JTextField JTFUsername, JTFPassword;
     private JButton JBSubmit;
-    private JLabel JLinfoText;
-    private JLabel JLtitle;
-    private JLabel JLlostPassword;
-    private JLabel JLuserName;
-    private JLabel JLpassWord;
-    private JPanel Main;
-    private JPanel panel1;
-    private JPanel panel2;
-    private JPanel panel3;
+    private JLabel JLinfoText, JLtitle, JLlostPassword, JLuserName, JLpassWord;
+    private JPanel panel1, panel2, panel3;
 
     public LoginScreen() {
         //Layout
@@ -34,8 +26,8 @@ public class LoginScreen extends JFrame implements ActionListener {
         // JFrame elements
         JLtitle = new JLabel();
         JLtitle.setText("NerdyGadgets Backoffice");
-        Font font1 = new Font("Rockwell", Font.BOLD, 14);
-        JLtitle.setFont(font1);
+        Font rockwellFont = new Font("Rockwell", Font.BOLD, 14);
+        JLtitle.setFont(rockwellFont);
 
         JLuserName = new JLabel();
         JLuserName.setText("User Name :");
@@ -82,9 +74,9 @@ public class LoginScreen extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-    //try's to create a valid user. and redirects the user to his/her screen
+    //tries to create a valid user. and redirects the user to his/her screen
     //param1: username from input
-    //parram2: password from input
+    //param2: password from input
     //return: true when succesful, false when user is not a valid user
     public boolean login(String userName, String password) {
         User user = new User(userName, password);
