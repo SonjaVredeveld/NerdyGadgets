@@ -7,6 +7,7 @@ package kbs2;
 
 import static java.lang.Boolean.FALSE;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,14 +19,17 @@ class Route {
     private int ID;
     private int distance;
     private int driverID;
+    public int result1;
     
+    
+    //creates a new route with the given Orders using the TSP algorithm, also saves the route with the routelocations to the database
     public Route(ArrayList<Order> orderArray) {
         
         RouteLocation rl1;
         for(int i = 0;i < orderArray.size();i++) {
             routeLocations.add(new RouteLocation(orderArray.get(i)));
         }
-        routeLocations = HK_extended.berekenPath(routeLocations);
+        routeLocations = HK_extended.calculatePath(routeLocations);
         
         ArrayList<String> routePrepares = new ArrayList<>();
         ArrayList<String> routeLocationPrepares = new ArrayList<>();
@@ -35,31 +39,33 @@ class Route {
         routePrepares.add(newRouteID+"");
         routePrepares.add(HK_extended.getOptimalDistance()+"");
         
-        int resultRoute = DBConnection.insertQuery("INSERT INTO routes VALUES (?,NOW(),?,NULL)", routePrepares);
+        result1 = DBConnection.executeQuery("INSERT INTO routes VALUES (?,NOW(),?,NULL)", routePrepares);
         
-        if(resultRoute == 0) {
-            //JOptionPane.showMessageDialog(,"Er ging iets fout bij het bereken van uw route");
-        }else {
-            int newRouteLocationID = DBConnection.getNewId("routelocation", "RouteLocationID");   
+        if(result1 != 0) {
+            //inserting all the routelocations
+            int newRouteLocationID = DBConnection.getNewId("routelocation", "RouteLocationID");
             String insertQuery = "INSERT INTO routelocation VALUES (?,?,?,?)";
         
             for(int i = 0;i< routeLocations.size();i++) {
-                if(i < routeLocations.size() - 1) {
-                    insertQuery = insertQuery + ", (?,?,?,?)";
+                if(i != 0 ) {
+                    if(i != 1) {
+                        insertQuery = insertQuery + ", (?,?,?,?)";
+                    }
+                    routeLocationPrepares.add((newRouteLocationID + i)+"");
+                    routeLocationPrepares.add(routeLocations.get(i).getOrder().getID()+"");
+                    routeLocationPrepares.add(newRouteID+"");
+                    routeLocationPrepares.add((i+1)+"");
                 }
-                routeLocationPrepares.add((newRouteLocationID + i)+"");
-                routeLocationPrepares.add(routeLocations.get(i).getOrder().getID()+"");
-                routeLocationPrepares.add(newRouteID+"");
-                routeLocationPrepares.add((i+1)+"");
             }
             
-            int resultRouteLocation = DBConnection.insertQuery(insertQuery, routeLocationPrepares);
+            result1 = DBConnection.executeQuery(insertQuery, routeLocationPrepares);
             
-            if(resultRouteLocation == 0) {
+            if(result1 == 0) {
+                //deleting the just inserted route incase anything goes wrong inserting its locations
                 //JOptionPane.showMessageDialog(this,"Er ging iets fout bij het bereken van uw route");
                 ArrayList<String> deleteRoutePrepares = new ArrayList<>();
                 deleteRoutePrepares.add(newRouteID+"");
-                DBConnection.insertQuery("DELETE FROM routes WHERE RouteID = ?", deleteRoutePrepares);
+                DBConnection.executeQuery("DELETE FROM routes WHERE RouteID = ?", deleteRoutePrepares);
             }
         }
         
@@ -75,8 +81,6 @@ class Route {
             for (int i = 0; i < rows.size(); i++) {
                 routeLocations.add(new RouteLocation(Integer.parseInt(rows.get(i).get(0))));
             }
-            //this.order = new Order(Integer.parseInt(rows.get(0).get(1)));
-            //this.Number = Integer.parseInt(rows.get(0).get(2));
         }
         ArrayList<String> prepares2 = new ArrayList<>();
         prepares2.add(ID+"");
@@ -94,7 +98,7 @@ class Route {
         prepares.add(driverID+"");
         prepares.add(this.ID+"");
 
-        int result = DBConnection.updateQuery("UPDATE routes SET DriverID = ?  WHERE RouteID = ?", prepares);
+        int result = DBConnection.executeQuery("UPDATE routes SET DriverID = ? WHERE RouteID = ?", prepares);
         return result == 1;
     }
     
@@ -104,6 +108,16 @@ class Route {
     
     public int getID() {
         return this.ID;
+    }
+    
+    
+    //used to check in PlannerScreen if insert was succesful
+    public boolean getResult() {
+        if(result1 > 0) {
+            return true;
+        }else{
+            return false;
+        }
     }
     
     public ArrayList<Route> getRoutes() {

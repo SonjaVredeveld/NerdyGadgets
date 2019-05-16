@@ -44,14 +44,6 @@ public class RouteCreatedPopup extends JDialog implements ActionListener {
         JTOrderList.setPreferredSize(new Dimension(320, 300));
         tableSP.setPreferredSize(new Dimension(320, 300));
         
-        /*setting the size for every column of JTOrderList
-        for (int i = 0; i < 3; i++) {
-            if(i == 0){
-                JTOrderList.getColumnModel().getColumn(i).setPreferredWidth(50);
-            }else{
-                JTOrderList.getColumnModel().getColumn(i).setPreferredWidth(100);        
-            }
-        }  */
         add(tableSP);
         
         
@@ -61,9 +53,11 @@ public class RouteCreatedPopup extends JDialog implements ActionListener {
         //buttons in the lower part of the screen
         p2.add(new JLabel(" "));
         JBAssign = style.button("Route toewijzen");
+        JBAssign.addActionListener(this);
         p2.add(JBAssign);
         p2.add(new JLabel(" "));
         JBCancel = style.button("Cancel");
+        JBCancel.addActionListener(this);
         p2.add(JBCancel);
         p2.add(new JLabel(" "));
         add(p2);
@@ -98,7 +92,40 @@ public class RouteCreatedPopup extends JDialog implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(e.getSource() == JBAssign) {
+            //link to assign route screen
+        }else if(e.getSource() == JBCancel) {
+            boolean result1 = deleteRoute();
+            if(result1) {
+                JOptionPane.showMessageDialog(this,"Route geannuleerd");
+            }else{
+                JOptionPane.showMessageDialog(this,"Er ging iets mis bij het annuleren");
+            }
+            this.dispose();
+        }
     }
     
+    //deleting the last inserted route and its locations
+    //return: if it succeeded at doing so or not
+    public boolean deleteRoute() {
+        ArrayList<String> prepares = new ArrayList<>();
+        prepares.add(ID+"");
+        ArrayList<ArrayList<String>> rows1 = DBConnection.selectQuery("SELECT MAX(RouteID) FROM routes");
+        if(!rows1.isEmpty()) {
+            ArrayList<String> prepares1 = new ArrayList<>();
+            prepares1.add(rows1.get(0).get(0));
+            int result1 = DBConnection.executeQuery("DELETE FROM routelocation WHERE RouteID = ?", prepares1);
+            int result2 = DBConnection.executeQuery("DELETE FROM routes WHERE RouteID = ?", prepares1);
+            if(result1 != 0 && result2 != 0) {
+                return true;
+            }else{
+                                System.out.println("test1");
+                return false;
+
+            }
+        }else{
+            System.out.println("test2");
+            return false;
+        }
+    }
 }

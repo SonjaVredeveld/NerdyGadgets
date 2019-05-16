@@ -23,7 +23,7 @@ class Order {
         if(rows.size() == 1) {
             //saving the values from the database
             this.customer = new Customer(Integer.parseInt(rows.get(0).get(1)));
-            this.ID = Integer.parseInt(rows.get(0).get(1));
+            this.ID = Integer.parseInt(rows.get(0).get(0));
         } else{
             System.out.println("test2");
         }
@@ -34,7 +34,7 @@ class Order {
         //getting all available OrderID's
         ArrayList<Order> orderList = new ArrayList<>();
         ArrayList<String> prep2 = new ArrayList<>();
-        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT OrderID FROM orders WHERE isDelivered IS NULL LIMIT 50", prep2);
+        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT OrderID FROM orders WHERE isDelivered IS NULL ORDER BY OrderDate ASC LIMIT 50", prep2);
         if(0 < rows.size()) {
             //creating an order for every OrderID
             for (int i = 0; i < rows.size(); i++) {

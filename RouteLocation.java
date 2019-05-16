@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author Niek J Nijland
  */
 public class RouteLocation {
-    private int number;
+    private int Number;
     private Order order;
     
     public RouteLocation(Order order) {
@@ -34,6 +34,6 @@ public class RouteLocation {
     }
     
     public int getNumber() {
-        return this.number;
+        return this.Number;
     }
 }

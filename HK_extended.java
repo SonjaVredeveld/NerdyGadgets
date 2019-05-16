@@ -52,10 +52,10 @@ public class HK_extended {
     }
     
     private static int[][] getDistance(ArrayList<RouteLocation> ar1) {
-        int[][] afstandenArray = new int[ar1.size()][ar1.size()];
+        int[][] distancesArray = new int[ar1.size()][ar1.size()];
         for(int i = 0; i < ar1.size(); i++) {
             for(int j = 0; j < ar1.size(); j++) {
-                afstandenArray[i][j] = berekenAfstand(ar1.get(i),ar1.get(j));
+                distancesArray[i][j] = calculateDistance(ar1.get(i),ar1.get(j));
             }
         }
         return distancesArray;
@@ -69,16 +69,8 @@ public class HK_extended {
     public static ArrayList<RouteLocation> calculatePath(ArrayList<RouteLocation> ar1){
 
         // Distance matrix is set by our extension
-        distances = getAfstanden(ar1);
+        distances = getDistance(ar1);
         
-        /*
-        for (int[] distance : distances) {
-            for (int distanc : distance) {
-                System.out.print(distanc+"" + " ");
-        }
-            System.out.println("");
-        } */
-
         // Initial variables to start the algorithm
         // because the function procedure is recursive we have to set these here
         String path = "";
@@ -106,8 +98,7 @@ public class HK_extended {
         optimalPath = null;
         optimalDistance = Integer.MAX_VALUE;
         System.gc();
-        
-        System.out.println("nu zou de boel berekend moeten zijn");
+ 
         return ar2;
     }
     

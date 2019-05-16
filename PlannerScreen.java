@@ -48,7 +48,6 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         JTOrderList = new JTable(new PlannerScreenTableContent());
         JTOrderList.getTableHeader().setReorderingAllowed(false);
 
-        //checking if table was changed
         JTOrderList.getModel().addTableModelListener(this);
         //creating a ScrollPane from the JTable
         JScrollPane tableSP = new JScrollPane(JTOrderList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -97,7 +96,6 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
             logout();
         }else if(e.getSource() == JBStartRoute){
                 routeTSP(SelectedOrders);
-                new RouteCreatedPopup(this);
         }else {
              JTOrderList.setCellSelectionEnabled(cellCheck.isSelected());
         }
@@ -108,29 +106,40 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         SelectedOrders.clear();
         //if there are any checkmarks checked, call the addOrder-function to them.
         for(int i=0;i<JTOrderList.getModel().getRowCount();i++) {
-            if ((boolean) JTOrderList.getModel().getValueAt(i,0)) { 
+            if ((boolean) JTOrderList.getModel().getValueAt(i,0)) {  
                 addOrder((int) JTOrderList.getModel().getValueAt(i,1));
             }
         }
     }
+
     
     //simple logout funtion
     public void logout(){
         ActiveUser = null;
+        this.dispose();
     }
     
     //parm = OrderID of order to be added to SelectedOrders ArrayList
     public void addOrder(int ID){
-        SelectedOrders.add(new Order(ID));
+        Order newOrder = new Order(ID);
+        SelectedOrders.add(newOrder);
+        
     }
     
+    
+    //calculates the optimal route with the given Orders, saves the route with its locations in the database
     public void routeTSP(ArrayList<Order> ar1){
-        if(ar1.size() <= 20 && !ar1.isEmpty()){
-            new Route(ar1); 
-        }else if(ar1.isEmpty()){
+        if(ar1.isEmpty()){
             JOptionPane.showMessageDialog(this,"Selecteer minimaal 1 order");
+        }else if(ar1.size() <= 20){
+            Route r1 = new Route(ar1); 
+            if(r1.getResult()){
+                new RouteCreatedPopup(this);
+            }else{
+                JOptionPane.showMessageDialog(this,"Er ging iets fout bij het bereken van uw route");
+            }
         }else{
-            JOptionPane.showMessageDialog(this,"Meer dan 20 orders geselecteerd");            
+            JOptionPane.showMessageDialog(this,"Meer dan 20 orders geselecteerd");      
         }
     }
 }
