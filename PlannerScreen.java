@@ -75,7 +75,7 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         JBLogout = style.button("Uitloggen");
         JBLogout.addActionListener(this);
         
-        //buttons in the lower part of the screen
+        //elements in the lower part of the screen
         p.add(new JLabel(" "));
         p.add(new JLabel(" "));
         p.add(JBStartRoute);

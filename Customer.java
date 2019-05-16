@@ -21,7 +21,7 @@ public class Customer {
     private int latitude;
     
     public Customer(int ID) {
-        //c.CustomerName, c.longitude, c.latitude, c.DeliveryAddressLine2, c.DeliveryPostalCode FROM c.customers
+        //initializing customer from database
         ArrayList<String> prepares = new ArrayList<>();
         prepares.add(ID+"");
         ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT c.CustomerID, c.DeliveryAddressLine2, c.DeliveryPostalCode, c.CustomerName, ci.CityName, c.longitude, c.latitude FROM customers c JOIN cities ci ON c.DeliveryCityID = ci.CityID WHERE CustomerID = ?", prepares);
@@ -37,11 +37,11 @@ public class Customer {
     }
     
     public static ArrayList<Customer> getCustomers() {
-        //getting all available OrderID's
+        //getting all available CustomerID's
         ArrayList<Customer> customerList = new ArrayList<>();
         ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT CustomerID FROM customers", new ArrayList<>());
         if(rows.size() > 0) {
-            //creating an order for every OrderID
+            //creating a customer for every CustomerID
             for (int i = 0; i < rows.size(); i++) {
                 customerList.add(new Customer(Integer.parseInt(rows.get(i).get(0))));
             }

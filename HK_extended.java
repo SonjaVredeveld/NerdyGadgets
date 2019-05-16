@@ -25,13 +25,13 @@ public class HK_extended {
     private static int optimalDistanceToReturn = 0;
     private static String optimalPath = "";
     
-    private static int berekenAfstand(RouteLocation rl1, RouteLocation rl2) {
+    private static int calculateDistance(RouteLocation rl1, RouteLocation rl2) {
         int x1 = rl1.getOrder().getCustomer().getLatitude();
         int x2 = rl2.getOrder().getCustomer().getLatitude();
         int y1 = rl1.getOrder().getCustomer().getLongitude();
         int y2 = rl2.getOrder().getCustomer().getLongitude();
-        int vx = berekenVerschil(x1, x2);
-        int vy = berekenVerschil(y1, y2);
+        int vx = calculateDifference(x1, x2);
+        int vy = calculateDifference(y1, y2);
         if(vx == 0) {
             return vy;
         }else if(vy == 0){
@@ -41,7 +41,7 @@ public class HK_extended {
         }
     }
     
-    private static int berekenVerschil(int c1, int c2) {
+    private static int calculateDifference(int c1, int c2) {
         if(c1 > c2) {
             return c1 - c2;
         }else if(c1 < c2) {
@@ -51,14 +51,14 @@ public class HK_extended {
         }
     }
     
-    private static int[][] getAfstanden(ArrayList<RouteLocation> ar1) {
+    private static int[][] getDistance(ArrayList<RouteLocation> ar1) {
         int[][] afstandenArray = new int[ar1.size()][ar1.size()];
         for(int i = 0; i < ar1.size(); i++) {
             for(int j = 0; j < ar1.size(); j++) {
                 afstandenArray[i][j] = berekenAfstand(ar1.get(i),ar1.get(j));
             }
         }
-        return afstandenArray;
+        return distancesArray;
     }
     
     /**
@@ -66,7 +66,7 @@ public class HK_extended {
      * @param ar1: ArrayList with locations that have to be visited in the route
      * @return ArrayList<RouteLocation>: ar2 sorted to the optimal route
      */
-    public static ArrayList<RouteLocation> berekenPath(ArrayList<RouteLocation> ar1){
+    public static ArrayList<RouteLocation> calculatePath(ArrayList<RouteLocation> ar1){
 
         // Distance matrix is set by our extension
         distances = getAfstanden(ar1);
