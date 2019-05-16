@@ -66,7 +66,7 @@ public class HK_extended {
      * @param ar1: ArrayList with locations that have to be visited in the route
      * @return ArrayList<RouteLocation>: ar2 sorted to the optimal route
      */
-    public static ArrayList<RouteLocation> berekenPath(ArrayList<RouteLocation> ar1){
+    public static ArrayList<RouteLocation> calculatePath(ArrayList<RouteLocation> ar1){
 
         // Distance matrix is set by our extension
         distances = getAfstanden(ar1);
