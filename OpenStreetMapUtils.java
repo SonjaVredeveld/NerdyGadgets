@@ -29,6 +29,7 @@ public class OpenStreetMapUtils {
     }
 
     public static OpenStreetMapUtils getInstance() {
+        // if there is no OpenStreetmapUtils, make a new instance of the class
         if (instance == null) {
             instance = new OpenStreetMapUtils();
         }
@@ -36,7 +37,7 @@ public class OpenStreetMapUtils {
     }
 
     private String getRequest(String url) throws Exception {
-
+        // Request connection and initiate URL creation
         final URL obj = new URL(url);
         final HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -46,10 +47,12 @@ public class OpenStreetMapUtils {
             return null;
         }
 
+        // Halp? wat is dit
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
         StringBuffer response = new StringBuffer();
 
+        // Halp? wat is dit
         while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
         }
@@ -59,6 +62,7 @@ public class OpenStreetMapUtils {
     }
 
     public Map<String, Double> getCoordinates(String address) {
+        // creating the url for the search
         Map<String, Double> res;
         StringBuffer query;
         String[] split = address.split(" ");
@@ -67,23 +71,27 @@ public class OpenStreetMapUtils {
         query = new StringBuffer();
         res = new HashMap<String, Double>();
 
+        // begin url
         query.append("https://nominatim.openstreetmap.org/search.php?q=");
 
+        //replace space with +
         if (split.length == 0) {
             return null;
         }
-
         for (int i = 0; i < split.length; i++) {
             query.append(split[i]);
             if (i < (split.length - 1)) {
                 query.append("+");
             }
         }
+
+        // end url
         query.append("&format=json&addressdetails=1");
 
         //log.debug("Query:" + query);
 
         try {
+            // Query results converted to a string
             queryResult = getRequest(query.toString());
             //System.out.println(queryResult);
         } catch (Exception e) {
@@ -99,6 +107,7 @@ public class OpenStreetMapUtils {
 
         if (obj instanceof JSONArray) {
             JSONArray array = (JSONArray) obj;
+            //Converts Json object to Strings
             if (array.size() > 0) {
                 JSONObject jsonObject = (JSONObject) array.get(0);
 

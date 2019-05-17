@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a6a9844c-bc92-4b2c-83e6-8f3dff5e29d7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/kbs2/.idea/libraries/apache_logging_log4j.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kbs2/.idea/libraries/json_simple_1_1_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kbs2/.idea/libraries/mysql_connector_java_8_0_16.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kbs2/.idea/NerdyGadgets.iml" beforeDir="false" afterPath="$PROJECT_DIR$/kbs2/.idea/NerdyGadgets.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kbs2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kbs2/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kbs2/OpenStreetMapUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/kbs2/OpenStreetMapUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kbs2/getCoordinates.java" beforeDir="false" afterPath="$PROJECT_DIR$/kbs2/getCoordinates.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kbs2/out/production/NerdyGadgets/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kbs2/out/production/NerdyGadgets/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kbs2/out/production/NerdyGadgets/kbs2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kbs2/out/production/NerdyGadgets/kbs2/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kbs2/out/production/NerdyGadgets/kbs2/OpenStreetMapUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/kbs2/out/production/NerdyGadgets/kbs2/OpenStreetMapUtils.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kbs2/out/production/NerdyGadgets/kbs2/getCoordinates.class" beforeDir="false" afterPath="$PROJECT_DIR$/kbs2/out/production/NerdyGadgets/kbs2/getCoordinates.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,8 +21,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/kbs2/DriverScreen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+            <state relative-caret-position="90">
+              <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -34,13 +36,6 @@
             <state relative-caret-position="45">
               <caret line="7" column="7" selection-start-line="7" selection-start-column="7" selection-end-line="7" selection-end-column="7" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#582#583#0" expanded="true" />
-                <element signature="e#610#611#0" expanded="true" />
-                <element signature="e#664#665#0" expanded="true" />
-                <element signature="e#706#707#0" expanded="true" />
-                <element signature="e#736#737#0" expanded="true" />
-                <element signature="e#766#767#0" expanded="true" />
                 <element signature="e#813#814#0" expanded="true" />
                 <element signature="e#853#854#0" expanded="true" />
               </folding>
@@ -86,6 +81,12 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="178">
               <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
+              <folding>
+                <element signature="e#3637#3638#0" expanded="true" />
+                <element signature="e#3681#3682#0" expanded="true" />
+                <element signature="e#3716#3717#0" expanded="true" />
+                <element signature="e#3760#3761#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -155,8 +156,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -173,6 +172,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -257,16 +258,19 @@
       <workItem from="1557999237549" duration="1253000" />
       <workItem from="1558001178345" duration="2087000" />
       <workItem from="1558009757511" duration="538000" />
+      <workItem from="1558074939858" duration="590000" />
+      <workItem from="1558088037015" duration="561000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19148000" />
+    <option name="totallyTimeSpent" value="20299000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="777" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28594506" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2956381" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -312,8 +316,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/kbs2/DriverScreen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+        <state relative-caret-position="90">
+          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -325,13 +329,6 @@
         <state relative-caret-position="45">
           <caret line="7" column="7" selection-start-line="7" selection-start-column="7" selection-end-line="7" selection-end-column="7" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#582#583#0" expanded="true" />
-            <element signature="e#610#611#0" expanded="true" />
-            <element signature="e#664#665#0" expanded="true" />
-            <element signature="e#706#707#0" expanded="true" />
-            <element signature="e#736#737#0" expanded="true" />
-            <element signature="e#766#767#0" expanded="true" />
             <element signature="e#813#814#0" expanded="true" />
             <element signature="e#853#854#0" expanded="true" />
           </folding>
@@ -396,6 +393,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="178">
           <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
+          <folding>
+            <element signature="e#3637#3638#0" expanded="true" />
+            <element signature="e#3681#3682#0" expanded="true" />
+            <element signature="e#3716#3717#0" expanded="true" />
+            <element signature="e#3760#3761#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
