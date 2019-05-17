@@ -14,7 +14,7 @@ public class RouteScreen extends JDialog implements ActionListener {
     private ArrayList<Order> SelectedOrders = new ArrayList<>();
     private JLabel JLTitle;
     
-    public RouteScreen(JFrame screen){
+    public RouteScreen(JFrame screen, Route r1){
         super(screen, true);
         this.ActiveUser = ActiveUser;
         setLayout(new FlowLayout());
@@ -31,7 +31,7 @@ public class RouteScreen extends JDialog implements ActionListener {
         add(panelTop);
 
         String[] columnNames = {"Woonplaats","Adres","Klant"};
-        JTRouteLocationList = new JTable(tableData(),columnNames);
+        JTRouteLocationList = new JTable(tableData(r1),columnNames);
         JTRouteLocationList.getTableHeader().setReorderingAllowed(false);
 
         //creating a ScrollPane from the JTable
@@ -65,17 +65,17 @@ public class RouteScreen extends JDialog implements ActionListener {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
     
-    private Object[][] tableData() {
+    private Object[][] tableData(Route r1) {
         Object[][] data;
         ArrayList<Order> OrderList = new ArrayList<>();
-        ArrayList<ArrayList<String>> rows1 = DBConnection.selectQuery("SELECT OrderID, RouteID FROM routelocation WHERE RouteID = (SELECT MAX(RouteID) FROM routelocation) ORDER BY RouteNumber ASC");
-        for (int i = 0; i < rows1.size(); i++) {
-            OrderList.add(new Order(Integer.parseInt(rows1.get(i).get(0))));
+        ArrayList<RouteLocation> ar1 = r1.getLocations();
+        for (int i = 0; i < ar1.size(); i++) {
+            OrderList.add(ar1.get(i).getOrder());
         }
-        data = new Object[OrderList.size()][5];
+        data = new Object[OrderList.size() - 1][3];
 
         //get all orders from the database and add them to the data portion of the JTable
-        for(int i = 0;i < OrderList.size();i++) {
+        for(int i = 0;i < OrderList.size() - 1;i++) {
             Order order = OrderList.get(i);
             Customer customer = order.getCustomer();
             data[i][0] = customer.getCustomerCity();
