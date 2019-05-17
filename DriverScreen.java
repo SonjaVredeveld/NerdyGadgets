@@ -10,14 +10,18 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import javax.swing.event.*;
+import static jdk.vm.ci.meta.JavaKind.Int;
 
-public class DriverScreen extends JFrame implements ActionListener{
+public class DriverScreen extends JFrame implements ActionListener, TableModelListener{
+    private String SelectedRoute;
     private ArrayList<kbs2.Route> routeList = new ArrayList<>();
     private JTable jtRouteTable;
     private JLabel jtTitle;
     private JButton jbLogout;
     private JScrollPane tableSP;
     private ButtonEditor JBshowRoute;
+    
     
     public DriverScreen(User user) {
         //Layout
@@ -51,8 +55,10 @@ public class DriverScreen extends JFrame implements ActionListener{
         TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(jtRouteTable.getModel());
         jtRouteTable.setRowSorter(sorter);
 
+        jtRouteTable.getModel().addTableModelListener(this);
+        
         tableSP = new JScrollPane(jtRouteTable);
-        tableSP.setPreferredSize(new Dimension(800, 500));
+        tableSP.setPreferredSize(new Dimension(770, 450));
         tableSP.setAlignmentX(LEFT_ALIGNMENT);
 
         jtRouteTable.getColumn("Bekijk route").setCellRenderer(new ButtonRenderer());
@@ -90,4 +96,17 @@ public class DriverScreen extends JFrame implements ActionListener{
         // "Start route" buttons are located in the class ButtonEditor
     }
     
+    //
+    public void tableChanged(TableModelEvent e) {
+        int row = jtRouteTable.getSelectedRow();
+        System.out.println(jtRouteTable.getModel().getValueAt(row,0));
+        SelectedRoute = (String) jtRouteTable.getModel().getValueAt(row,0);
+        //Route route = new Route(id);
+        DriverRouteScreen dialoog = new DriverRouteScreen(this);
+        dialoog.setVisible(true);
+    }
+
+    public String getSelectedRoute() {
+        return SelectedRoute;
+    }
 }

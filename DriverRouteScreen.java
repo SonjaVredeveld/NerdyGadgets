@@ -11,6 +11,7 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class DriverRouteScreen extends JDialog implements ActionListener {
     private JTable jtDeliveryRouteTable;
@@ -27,15 +28,25 @@ public class DriverRouteScreen extends JDialog implements ActionListener {
         setSize(800, 600);
         setLayout(new FlowLayout());
 
-        //Test table data
-        String[][] data = {
-                { "1", "Freek de Jonge", "Straat 2", "Zwolle" },
-        };
-        //Test column names
-        String[] columnNames = {
-                "Ordernummer", "klant", "adres", "woonplaats" };
+        //Test Column names
+        String[] columnNames = { "Ordernummer", "klant", "adres", "woonplaats" };
+        
+        //Get rows for the table from database
+        ArrayList<String> prepares = new ArrayList<>();
+        String id = new DriverScreen(null).getSelectedRoute();
+        prepares.add(id);
+        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("select o.OrderID, c.CustomerName, c.DeliveryAddressLine2, c.PostalAddressLine2 from orders as o, customers as c, routelocation as rl where c.CustomerID = o.CustomerID and rl.OrderID = o.orderID and rl.RouteID = ?", prepares);
+        String[][] columnData = new String[rows.size()][4];
+        for(int i = 0; i < rows.size(); i++)
+        {
+            for(int j = 0; j < 4; j++)
+            {
+                columnData[i][j] = rows.get(i).get(j);
+                
+            }
+        }
 
-        jtDeliveryRouteTable = new JTable(data, columnNames);
+        jtDeliveryRouteTable = new JTable(columnData, columnNames);
         TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(jtDeliveryRouteTable.getModel());
         jtDeliveryRouteTable.setRowSorter(sorter);
         JScrollPane tableSP = new JScrollPane(jtDeliveryRouteTable);
