@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Vector;
 
 public class DriverScreen extends JFrame implements ActionListener{
@@ -45,9 +46,18 @@ public class DriverScreen extends JFrame implements ActionListener{
                 { "1", "22", "2402 km", "Start route" },
         };
         //Test Column names
-        String[] columnNames = { "Route nummer", "Aantal locaties", "Afstand", "Bekijk route" };
-
-
+        String[] columnNames = { "Route nummer", "Aantal locaties", "Afstand", "Bekijk route", "Datum aangemaakt" };
+        
+        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT r.RouteID, count(rl.RouteID), r.distanceKM, \"Bekijk route\", r.CreationDate FROM routes as r, routelocation as rl where DriverID is null and r.RouteID = rl.RouteID group by rl.RouteID order by r.creationDate;");
+        String[][] columnData = new String[rows.size()][5];
+        for(int i = 0; i < rows.size(); i++)
+        {
+            for(int j = 0; j < 5; j++)
+            {
+                columnData[i][j] = rows.get(i).get(j);
+                
+            }
+        }
 
 
 //        for(int i = 0;i < OrderList.size();i++) {
@@ -61,7 +71,7 @@ public class DriverScreen extends JFrame implements ActionListener{
 //        }
 
         //Table Layout
-        jtRouteTable = new JTable(data, columnNames);
+        jtRouteTable = new JTable(columnData, columnNames);
         TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(jtRouteTable.getModel());
         jtRouteTable.setRowSorter(sorter);
 
