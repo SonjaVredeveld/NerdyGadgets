@@ -2,8 +2,8 @@ package kbs2;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import java.awt.event.*;
 
 class ButtonEditor extends DefaultCellEditor {
     protected JButton button;
@@ -36,7 +36,6 @@ class ButtonEditor extends DefaultCellEditor {
         } else {
             label = value.toString();
         }
-
         button.setText(label);
         isPushed = true;
         return button;
