@@ -2,11 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7ea556e8-fc21-402a-9b80-50bf39c63f19" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/apache_logging_log4j.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/json_simple_1_1_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_8_0_16.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/NerdyGadgets.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/NerdyGadgets.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AdministratorScreen.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AssignRouteScreen.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ButtonEditor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ButtonRenderer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DBConnection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DriverRouteScreen.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DriverScreen.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EditCustomer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EditStock.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LoginScreen.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Order.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PlannerScreen.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Product.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Route.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RouteLocation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User.java" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,54 +29,13 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CodeInsightWorkspaceSettings">
-    <option name="optimizeImportsOnTheFly" value="true" />
-  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/getCoordinates.java">
+        <entry file="file://$PROJECT_DIR$/src/main/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="23" column="136" selection-start-line="23" selection-start-column="136" selection-end-line="23" selection-end-column="136" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/OpenStreetMapUtils.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-72">
-              <caret line="71" column="32" selection-start-line="71" selection-start-column="31" selection-end-line="71" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/User.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="720">
-              <caret line="54" column="42" selection-start-line="54" selection-start-column="42" selection-end-line="55" selection-end-column="16" />
-              <folding>
-                <element signature="e#0#4727#0" expanded="true" />
-                <element signature="e#955#956#0" expanded="true" />
-                <element signature="e#983#984#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LoginScreen.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="75">
+              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
             </state>
           </provider>
         </entry>
@@ -72,10 +45,6 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>next</find>
-      <find>getlevel</find>
-      <find>debug</find>
-      <find>lon=</find>
-      <find>{</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -90,15 +59,11 @@
         <option value="$PROJECT_DIR$/LoginScreen.java" />
         <option value="$PROJECT_DIR$/src/kbs2/Main.java" />
         <option value="$PROJECT_DIR$/DBConnection.java" />
-        <option value="$PROJECT_DIR$/src/com/company/OpenStreetMapUtils.java" />
-        <option value="$PROJECT_DIR$/src/com/company/getCoordinates.java" />
-        <option value="$PROJECT_DIR$/OpenStreetMapUtils.java" />
-        <option value="$PROJECT_DIR$/getCoordinates.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="23" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="y" value="24" />
     <option name="width" value="1280" />
     <option name="height" value="777" />
   </component>
@@ -107,35 +72,50 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="kbs2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="kbs2" type="462c0819:PsiDirectoryNode" />
+              <item name="NerdyGadgets" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NerdyGadgets" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="kbs2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="kbs2" type="462c0819:PsiDirectoryNode" />
-              <item name="kbs2" type="462c0819:PsiDirectoryNode" />
+              <item name="NerdyGadgets" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NerdyGadgets" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NerdyGadgets" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NerdyGadgets" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NerdyGadgets" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NerdyGadgets" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NerdyGadgets" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1558024821234" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557754612560" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
@@ -157,8 +137,8 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="getCoordinates" type="Application" factoryName="Application" folderName="kbs2">
-      <option name="MAIN_CLASS_NAME" value="kbs2.getCoordinates" />
+    <configuration name="Main" type="Application" factoryName="Application" folderName="kbs2" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="main.Main" />
       <module name="NerdyGadgets" />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
@@ -166,6 +146,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -183,20 +168,16 @@
       <workItem from="1557736810576" duration="2548000" />
       <workItem from="1557752381581" duration="686000" />
       <workItem from="1557753457248" duration="1152000" />
-      <workItem from="1558008553167" duration="1149000" />
-      <workItem from="1558009759757" duration="9390000" />
-      <workItem from="1558074942625" duration="302000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30835000" />
+    <option name="totallyTimeSpent" value="19994000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="777" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="23" width="1280" height="777" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18012924" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.5169628" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -206,7 +187,7 @@
       <window_info id="Favorites" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.30948904" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.30948904" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -216,7 +197,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Terminal" order="10" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="12" weight="0.329927" />
+      <window_info anchor="bottom" id="Messages" order="12" visible="true" weight="0.329927" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -279,6 +260,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/DriverRouteScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="9" column="40" selection-start-line="9" selection-start-column="40" selection-end-line="9" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DriverScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="720">
+          <caret line="58" column="44" selection-start-line="58" selection-start-column="44" selection-end-line="58" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ButtonRenderer.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -294,102 +289,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Main.java" />
     <entry file="file://$PROJECT_DIR$/src/kbs2/DBConnection.java" />
     <entry file="file://$PROJECT_DIR$/src/kbs2/Main.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/Main.java" />
-    <entry file="file://$PROJECT_DIR$/PlannerScreen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#973#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RouteLocation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#581#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Customer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#598#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DriverRouteScreen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="9" column="40" selection-start-line="9" selection-start-column="40" selection-end-line="9" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DriverScreen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="564">
-          <caret line="58" column="44" selection-start-line="58" selection-start-column="44" selection-end-line="58" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/OpenStreetMapUtils.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/company/getCoordinates.java" />
-    <entry file="file://$PROJECT_DIR$/main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DBConnection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3292">
-          <caret line="237" selection-start-line="237" selection-end-line="240" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="54" column="42" selection-start-line="54" selection-start-column="42" selection-end-line="55" selection-end-column="16" />
+        <state relative-caret-position="69">
+          <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
           <folding>
-            <element signature="e#0#4727#0" expanded="true" />
-            <element signature="e#955#956#0" expanded="true" />
-            <element signature="e#983#984#0" expanded="true" />
+            <element signature="e#572#573#0" expanded="true" />
+            <element signature="e#612#613#0" expanded="true" />
+            <element signature="e#651#652#0" expanded="true" />
+            <element signature="e#686#687#0" expanded="true" />
+            <element signature="e#729#730#0" expanded="true" />
+            <element signature="e#764#765#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LoginScreen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        <state relative-caret-position="15">
+          <caret line="1" column="9" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OpenStreetMapUtils.java">
+    <entry file="file://$PROJECT_DIR$/src/main/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-72">
-          <caret line="71" column="32" selection-start-line="71" selection-start-column="31" selection-end-line="71" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/getCoordinates.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="23" column="136" selection-start-line="23" selection-start-column="136" selection-end-line="23" selection-end-column="136" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="75">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
         </state>
       </provider>
     </entry>
@@ -470,7 +401,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>mysql-connector-java-8.0.16</last-edited>
+          <last-edited>javafx-swt</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
