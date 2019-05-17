@@ -34,7 +34,7 @@ class Order {
         //getting all available OrderID's
         ArrayList<Order> orderList = new ArrayList<>();
         ArrayList<String> prep2 = new ArrayList<>();
-        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT OrderID FROM orders WHERE OrderID NOT IN (SELECT OrderID FROM routelocation) ORDER BY OrderDate ASC LIMIT 50", prep2);
+        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT o.OrderID FROM orders o JOIN Customers c ON o.CustomerID = c.CustomerID WHERE OrderID NOT IN (SELECT OrderID FROM routelocation) ORDER BY o.OrderDate, c.DeliveryPostalCode  ASC LIMIT 50", prep2);
         if(0 < rows.size()) {
             //creating an order for every OrderID
             for (int i = 0; i < rows.size(); i++) {
