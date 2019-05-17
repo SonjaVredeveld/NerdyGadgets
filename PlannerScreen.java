@@ -85,6 +85,8 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
             logout();
         }else if(e.getSource() == JBStartRoute){
                 routeTSP(SelectedOrders);
+                new PlannerScreen(this.ActiveUser);
+                this.dispose();
         }else {
              JTOrderList.setCellSelectionEnabled(cellCheck.isSelected());
         }
