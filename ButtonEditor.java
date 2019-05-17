@@ -1,30 +1,28 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package kbs2;
 
 import javax.swing.*;
 import java.awt.*;
 
+import java.awt.event.*;
+
 class ButtonEditor extends DefaultCellEditor {
     protected JButton button;
     private String label;
     private boolean isPushed;
-    private AdministratorScreen admin;
-    private String type;
+    private DriverScreen dc;
 
-    public ButtonEditor(JCheckBox checkBox, String type) {
+    public ButtonEditor(JCheckBox checkBox) {
         super(checkBox);
-        this.type = type;
         button = new JButton();
         button.setOpaque(true);
         button.addActionListener(e -> fireEditingStopped());
     }
 
+    // If button is selected following animation starts
+    // Source: http://alvinalexander.com/java/swing/tame/table/ButtonEditor.java.shtml
     public Component getTableCellEditorComponent(JTable jtRouteTable, Object value,
                                                  boolean isSelected, int row, int column) {
+        // Button Animation
         if (isSelected) {
             button.setForeground(jtRouteTable.getSelectionForeground());
             button.setBackground(jtRouteTable.getSelectionBackground());
@@ -32,7 +30,12 @@ class ButtonEditor extends DefaultCellEditor {
             button.setForeground(jtRouteTable.getForeground());
             button.setBackground(jtRouteTable.getBackground());
         }
-        label = (value == null) ? "" : value.toString();
+
+        if(value == null){
+            label = "";
+        } else {
+            label = value.toString();
+        }
         button.setText(label);
         isPushed = true;
         return button;
@@ -47,22 +50,13 @@ class ButtonEditor extends DefaultCellEditor {
     }
 
     public Object getCellEditorValue() {
-    if(type == "products") {
         if (isPushed) {
-            EditStock dialoog = new EditStock(admin);
+            DriverRouteScreen dialoog = new DriverRouteScreen(dc);
             dialoog.setVisible(true);
         }
-            isPushed = false;
-    } else if(type == "customers"){
-        if (isPushed) {
-            EditCustomer dialoog = new EditCustomer(admin);
-            dialoog.setVisible(true);
-        }
-            isPushed = false;
-    } 
-            return new String(label);
-        
-    } 
+        isPushed = false;
+        return new String(label);
+    }
 
     public boolean stopCellEditing() {
         isPushed = false;

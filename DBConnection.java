@@ -120,9 +120,9 @@ public final class DBConnection {
         return resultSet;
     }
 
-    //executes insert sql statement
+    //executes execute update/insert/delete sql statement
     //param1: query to run
-    //return: number of rows it inserted (0 is none)
+    //return: number of rows it altered (0 is none)
     protected static int executeQuery(String query) {
         return DBConnection.executeQuery(query, new ArrayList<String>());
     }
@@ -130,7 +130,7 @@ public final class DBConnection {
     //executes execute update/insert/delete sql statement
     //param1: query to run
     //param2: prepared values to add (NOTE: strings only)
-    //return: number of rows it aletered (0 is none)
+    //return: number of rows it altered (0 is none)
     protected static int executeQuery(String query, ArrayList<String> stringsToSet) {
         //initialisation
         PreparedStatement statement = null;
@@ -208,7 +208,8 @@ public final class DBConnection {
         }
     }
 
-//    test cases
+
+    //test cases
 //    public static void main(String[] args) {
 //        update test
 //        ArrayList<String> prepares = new ArrayList<String>();
@@ -240,3 +241,4 @@ public final class DBConnection {
 //        }
 //  }
 }
+

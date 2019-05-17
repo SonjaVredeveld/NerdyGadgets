@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package kbs2;
 
 import javax.swing.*;
@@ -15,17 +10,17 @@ class ButtonRenderer extends JButton implements TableCellRenderer {
         setOpaque(true);
     }
 
-  public Component getTableCellRendererComponent(JTable JTStock, Object value,
-                   boolean isSelected, boolean hasFocus, int row, int column) {
-    if (isSelected) {
-      setForeground(JTStock.getSelectionForeground());
-      setBackground(JTStock.getSelectionBackground());
-    } else{
-      setForeground(JTStock.getForeground());
-      setBackground(UIManager.getColor("Button.background"));
+    public Component getTableCellRendererComponent(JTable jtRouteTable, Object value,
+                                                   boolean isSelected, boolean hasFocus, int row, int column) {
+        if (isSelected) {
+            setForeground(jtRouteTable.getSelectionForeground());
+            setBackground(jtRouteTable.getSelectionBackground());
+        } else {
+            setForeground(jtRouteTable.getForeground());
+            setBackground(UIManager.getColor("Button.background"));
+        }
+        setText((value == null) ? "" : value.toString());
+        return this;
     }
-    setText( (value ==null) ? "" : value.toString() );
-    return this;
-  }
 }
 
