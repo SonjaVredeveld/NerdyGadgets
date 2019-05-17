@@ -14,7 +14,7 @@ public class RouteScreen extends JDialog implements ActionListener {
     private ArrayList<Order> SelectedOrders = new ArrayList<>();
     private JLabel JLTitle;
     
-    public RouteScreen(JFrame screen){
+    public RouteScreen(JFrame screen, Route r1){
         super(screen, true);
         this.ActiveUser = ActiveUser;
         setLayout(new FlowLayout());
@@ -23,25 +23,15 @@ public class RouteScreen extends JDialog implements ActionListener {
         
         Panel panelTop = new Panel();
         panelTop.setLayout(new GridLayout(1,3));
-        panelTop.setPreferredSize(new Dimension(500, 50));
+        panelTop.setPreferredSize(new Dimension(800, 50));
         //buttons in the top part of the screen
         panelTop.add(new JLabel(" "));
-        ArrayList<ArrayList<String>> rows1 = DBConnection.selectQuery("SELECT distanceKM, RouteID FROM routes WHERE RouteID = (SELECT MAX(RouteID) FROM routelocation)");
-        panelTop.add(new JLabel("Route " + rows1.get(0).get(0), SwingConstants.CENTER));
+        panelTop.add(new JLabel("Route", SwingConstants.CENTER));
         panelTop.add(new JLabel(" "));
         add(panelTop);
-        
-        Panel panelTop2 = new Panel();
-        panelTop2.setLayout(new GridLayout(1,3));
-        panelTop2.setPreferredSize(new Dimension(500, 50));
-        //buttons in the top part of the screen
-        panelTop2.add(new JLabel(" "));
-        panelTop2.add(new JLabel("Totale afstand " + rows1.get(0).get(1) + " km", SwingConstants.CENTER));
-        panelTop2.add(new JLabel(" "));
-        add(panelTop2);
 
         String[] columnNames = {"Woonplaats","Adres","Klant"};
-        JTRouteLocationList = new JTable(tableData(),columnNames);
+        JTRouteLocationList = new JTable(tableData(r1),columnNames);
         JTRouteLocationList.getTableHeader().setReorderingAllowed(false);
 
         //creating a ScrollPane from the JTable
@@ -75,17 +65,17 @@ public class RouteScreen extends JDialog implements ActionListener {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
     
-    private Object[][] tableData() {
+    private Object[][] tableData(Route r1) {
         Object[][] data;
         ArrayList<Order> OrderList = new ArrayList<>();
-        ArrayList<ArrayList<String>> rows1 = DBConnection.selectQuery("SELECT OrderID, RouteID FROM routelocation WHERE RouteID = (SELECT MAX(RouteID) FROM routelocation) ORDER BY RouteNumber ASC");
-        for (int i = 0; i < rows1.size(); i++) {
-            OrderList.add(new Order(Integer.parseInt(rows1.get(i).get(0))));
+        ArrayList<RouteLocation> ar1 = r1.getLocations();
+        for (int i = 0; i < ar1.size(); i++) {
+            OrderList.add(ar1.get(i).getOrder());
         }
-        data = new Object[OrderList.size()][5];
+        data = new Object[OrderList.size() - 1][3];
 
         //get all orders from the database and add them to the data portion of the JTable
-        for(int i = 0;i < OrderList.size();i++) {
+        for(int i = 0;i < OrderList.size() - 1;i++) {
             Order order = OrderList.get(i);
             Customer customer = order.getCustomer();
             data[i][0] = customer.getCustomerCity();
