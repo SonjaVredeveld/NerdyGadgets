@@ -5,27 +5,35 @@
  */
 package kbs2;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Niek J Nijland
  */
 public class RouteLocation {
-    private int number;
+    private int Number;
     private Order order;
     
     public RouteLocation(Order order) {
-        
+        this.order = order;
     }
     
     public RouteLocation(int ID) {
-        
+        ArrayList<String> prepares = new ArrayList<>();
+        prepares.add(ID+"");
+        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT OrderID, RouteNumber FROM routelocation WHERE RouteLocationID = ?", prepares);
+        if(rows.size() == 1) {
+            this.order = new Order(Integer.parseInt(rows.get(0).get(0)));
+            this.Number = Integer.parseInt(rows.get(0).get(1));
+        }
     }
     
     public Order getOrder() {
         return this.order;
     }
     
-    public void setNumber(int number) {
-        this.number = number;
+    public int getNumber() {
+        return this.Number;
     }
 }
