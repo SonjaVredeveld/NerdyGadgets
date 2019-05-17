@@ -33,10 +33,10 @@ class Route {
         ArrayList<String> routeLocationPrepares = new ArrayList<>();
 
         //getting the last ID + 1 from the databasetable
-        int newRouteID = DBConnection.getNewId("routes", "RouteID");
-        routePrepares.add(newRouteID+"");
-        routePrepares.add(HeuristicsExtended.getOptimalDistance()+"");
-        
+        ID = DBConnection.getNewId("routes", "RouteID");
+        routePrepares.add(ID+"");
+        this.distance = HeuristicsExtended.getOptimalDistance();
+        routePrepares.add(distance+"");
 
         result1 = DBConnection.executeQuery("INSERT INTO routes VALUES (?,NOW(),?,NULL)", routePrepares);
 
@@ -52,7 +52,7 @@ class Route {
                     }
                     routeLocationPrepares.add((newRouteLocationID + i) + "");
                     routeLocationPrepares.add(routeLocations.get(i).getOrder().getID() + "");
-                    routeLocationPrepares.add(newRouteID + "");
+                    routeLocationPrepares.add(ID + "");
                     routeLocationPrepares.add((i + 1) + "");
                 }
             }
@@ -63,7 +63,7 @@ class Route {
                 //deleting the just inserted route incase anything goes wrong inserting its locations
                 //JOptionPane.showMessageDialog(this,"Er ging iets fout bij het bereken van uw route");
                 ArrayList<String> deleteRoutePrepares = new ArrayList<>();
-                deleteRoutePrepares.add(newRouteID + "");
+                deleteRoutePrepares.add(ID + "");
                 DBConnection.executeQuery("DELETE FROM routes WHERE RouteID = ?", deleteRoutePrepares);
             }
         }

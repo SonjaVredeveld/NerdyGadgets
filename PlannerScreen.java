@@ -8,11 +8,12 @@ package kbs2;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  *
@@ -85,6 +86,8 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
             logout();
         }else if(e.getSource() == JBStartRoute){
                 routeTSP(SelectedOrders);
+                new PlannerScreen(this.ActiveUser);
+                this.dispose();
         }else {
              JTOrderList.setCellSelectionEnabled(cellCheck.isSelected());
         }
@@ -114,7 +117,7 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         }else if(ar1.size() <= 20){
             Route r1 = new Route(ar1); 
             if(r1.getResult()){
-                //link to planner popup
+                new RouteScreen(this,r1);
             }else{
                 JOptionPane.showMessageDialog(this,"Er ging iets fout bij het bereken van uw route");
             }
