@@ -120,25 +120,25 @@ public final class DBConnection {
         return resultSet;
     }
 
-    //executes insert sql statement
+    //executes execute update/insert/delete sql statement
     //param1: query to run
-    //return: number of rows it inserted (0 is none)
-    protected static int insertQuery(String insertQuery) {
-        return DBConnection.insertQuery(insertQuery, new ArrayList<String>());
+    //return: number of rows it altered (0 is none)
+    protected static int executeQuery(String query) {
+        return DBConnection.executeQuery(query, new ArrayList<String>());
     }
 
-    //executes insert sql statement
+    //executes execute update/insert/delete sql statement
     //param1: query to run
     //param2: prepared values to add (NOTE: strings only)
-    //return: number of rows it inserted (0 is none)
-    protected static int insertQuery(String insertQuery, ArrayList<String> stringsToSet) {
+    //return: number of rows it altered (0 is none)
+    protected static int executeQuery(String query, ArrayList<String> stringsToSet) {
         //initialisation
         PreparedStatement statement = null;
         Connection connection = null;
         int rs = 0;
         try {
             connection = DBConnection.getConnection();
-            statement = connection.prepareStatement(insertQuery);
+            statement = connection.prepareStatement(query);
 
             //add bind prepared values to indexes
             for (int i = 0; i < stringsToSet.size(); i++) {
@@ -149,63 +149,6 @@ public final class DBConnection {
 
             statement.close();
             connection.close();
-        } catch (SQLException se) {
-            //Handle errors for JDBC
-            DBConnection.statusMsg = se.getMessage();
-        } catch (Exception e) {
-            //Handle errors for Class.forName
-            DBConnection.statusMsg = e.getMessage();
-        } finally {
-            //try to close statement
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-            } catch (SQLException se2) {
-                // nothing todo
-            }
-            //try to close connection
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException se) {
-                DBConnection.statusMsg = se.getMessage();
-            }//end finally try
-        }//end try
-
-        return rs;
-    }
-
-    //param1: query to run
-    //param2: prepared values to add (NOTE: strings only)
-    //return: number of rows it inserted (0 is none)
-    protected static int updateQuery(String updateQuery) {
-        return DBConnection.insertQuery(updateQuery, new ArrayList<String>());
-    }
-
-    //executes update sql statement
-    //param1: query to run
-    //param2: prepared values to add (NOTE: strings only)
-    //return: numebr of rows it updated (0 is none)
-    protected static int updateQuery(String updateQuery, ArrayList<String> stringsToSet) {
-        //initialisation
-        PreparedStatement statement = null;
-        Connection connection = null;
-        int rs = 0;
-        try {
-            connection = DBConnection.getConnection();
-            statement = connection.prepareStatement(updateQuery);
-
-            //add bind prepared values to indexes
-            for (int i = 0; i < stringsToSet.size(); i++) {
-                statement.setString(i + 1, stringsToSet.get(i));
-            }
-
-            rs = statement.executeUpdate();
-            statement.close();
-            connection.close();
-
         } catch (SQLException se) {
             //Handle errors for JDBC
             DBConnection.statusMsg = se.getMessage();
@@ -239,19 +182,25 @@ public final class DBConnection {
     //param2: name of column to get max number from
     //return: max number +1 (new number to use default 1)
     protected static int getNewId(String TName, String IDField) {
-        ArrayList<ArrayList<String>> rs = DBConnection.selectQuery("SELECT MAX(" + IDField + ") From " + TName, new ArrayList<String>());
+        ArrayList<ArrayList<String>> rs = DBConnection.selectQuery("SELECT MAX(" + IDField + ") From " + TName);
         try {
             String newID = rs.get(0).get(0);    //get number value(2 dimensional array to string)
             //when none present return 1
-            if (newID.equals("0") || newID.equals("null")) {
+            if (newID == null) {
                 return 1;
+            } else {
+
+                if (newID.equals("0")) {
+                    return 1;
+                }
+                //return the new number
+                try {
+                    return Integer.parseInt(newID) + 1;
+                } catch (NumberFormatException ex) {
+                    return 1;
+                }
             }
-            //return the new number
-            try {
-                return Integer.parseInt(newID) + 1;
-            } catch (NumberFormatException ex) {
-                return 1;
-            }
+
             //check for any errors in the query
         } catch (IndexOutOfBoundsException ex) {
             System.out.println("no id found: " + DBConnection.statusMsg);
@@ -261,33 +210,33 @@ public final class DBConnection {
 
     //test cases
 //    public static void main(String[] args) {
-//        //update test
+//        update test
 //        ArrayList<String> prepares = new ArrayList<String>();
 //        prepares.add("10");
-//        int update = DBConnection.updateQuery("UPDATE customer SET latitude = ? WHERE CustomerID = 3", prepares);
+//        int update = DBConnection.executeQuery("UPDATE customers SET latitude = ? WHERE CustomerID = 3", prepares);
 //        if (update > 0) {
 //            System.out.println("we updated the item.");
 //        } else {
 //            System.out.println(DBConnection.statusMsg); //check status(also error info)
 //        }
-//
-//        //prepare for id example
+//        prepare for id example
 //        ArrayList<String> prepares2 = new ArrayList<String>();
-//        prepares2.add("" + DBConnection.getNewId("routes", "routeID")); //be careful there is a possibility for sql injection
+//        int id = DBConnection.getNewId("routes", "RouteID");
+//        prepares2.add("" + id); //be careful there is a possibility for sql injection
 //        prepares2.add("20");
+//        System.out.println(id);
 //        //insert example
-//        int insert = DBConnection.insertQuery("INSERT INTO routes (routeID, creationDate, distanceKM, driverID) VALUES(?, NOW(), ?, null)", prepares2);
+//        int insert = DBConnection.executeQuery("INSERT INTO routes (routeID, creationDate, distanceKM, driverID) VALUES(?, NOW(), ?, null)", prepares2);
 //
 //        if (insert > 0) {
 //            System.out.println("we inserted the item.");
 //        } else {
 //            System.out.println(DBConnection.statusMsg); //check status(also error info)
 //        }
-//
 //        //select example
 //        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT CustomerID, CustomerName FROM customers");
 //        for (int i = 0; i < rows.size(); i++) {
 //            System.out.println(rows.get(i));
 //        }
-//    }
+//  }
 }

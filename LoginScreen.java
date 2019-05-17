@@ -1,64 +1,51 @@
-
 package kbs2;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.sql.Driver;
-import java.util.ArrayList;
+import javax.swing.*;
 
-import static java.lang.Boolean.FALSE;
+public class LoginScreen extends JFrame implements ActionListener {
 
+    private JTextField JTFUsername, JTFPassword;
+    private JButton JBSubmit, JBCancel;
+    private JLabel JLinfoText, JLtitle, JLlostPassword, JLuserName, JLpassWord;
+    private JPanel panel1, panel2, panel3;
 
-public class LoginScreen extends JFrame implements ActionListener{
-    private JTextField JTFUsername;
-    private JTextField JTFPassword;
-    private JButton JBSubmit;
-    private JLabel JLinfoText;
-    private JLabel JLtitle;
-    private JLabel JLlostPassword;
-    private JLabel JLuserName;
-    private JLabel JLpassWord;
-    private JPanel Main;
-    private JPanel panel1;
-    private JPanel panel2;
-    private JPanel panel3;
-
-
-    public LoginScreen(){
+    public LoginScreen() {
         //Layout
         setTitle("Inloggen");
         setSize(800, 600);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        JLabel background=new JLabel(new ImageIcon(this.getClass().getResource("squares-3d-digital-background-free-file.jpg")));
+        JLabel background = new JLabel(new ImageIcon("src//kbs2//squares-3d-digital-background-free-file.jpg"));
         add(background);
         background.setLayout(new GridBagLayout());
 
         // JFrame elements
         JLtitle = new JLabel();
         JLtitle.setText("NerdyGadgets Backoffice");
-        Font font1 = new Font("Rockwell", Font.BOLD, 14);
-        JLtitle.setFont(font1);
+        Font rockwellFont = new Font("Rockwell", Font.BOLD, 14);
+        JLtitle.setFont(rockwellFont);
 
         JLuserName = new JLabel();
-        JLuserName.setText("User Name :");
+        JLuserName.setText("Gebruikersnaam :");
         JTFUsername = new JTextField();
 
         JLpassWord = new JLabel();
-        JLpassWord.setText("Password :");
+        JLpassWord.setText("Wachtwoord :");
         JTFPassword = new JPasswordField();
 
         JBSubmit = new JButton("Inloggen");
         JBSubmit.setBackground(new Color(158, 188, 237));
         JBSubmit.setForeground(Color.BLACK);
         JBSubmit.addActionListener(this);
+
+        JBCancel = new JButton("Annuleren");
+        JBCancel.setBackground(new Color(158, 188, 237));
+        JBCancel.setForeground(Color.BLACK);
+        JBCancel.addActionListener(this);
 
         JLlostPassword = new JLabel();
         JLinfoText = new JLabel();
@@ -82,6 +69,7 @@ public class LoginScreen extends JFrame implements ActionListener{
         panel1.add(JLpassWord, gbc);
         panel1.add(JTFPassword, gbc);
         panel1.add(JBSubmit, gbc);
+        panel1.add(JBCancel, gbc);
         background.add(panel2, gbc);
         background.add(JLinfoText, gbc);
         background.add(panel1, gbc);
@@ -92,20 +80,21 @@ public class LoginScreen extends JFrame implements ActionListener{
         setVisible(true);
     }
 
-
-
-
-
-    public boolean login(String userName,String password) {
+    //tries to create a valid user. and redirects the user to his/her screen
+    //param1: username from input
+    //param2: password from input
+    //return: true when succesful, false when user is not a valid user
+    public boolean login(String userName, String password) {
         User user = new User(userName, password);
         String level = user.getLevel();
-        System.out.println(level);
+
+        //based on the lvl we wil redirect the user
         if (level.equals("Driver")) {
             DriverScreen DS = new DriverScreen(user);
             DS.setVisible(true);
             return true;
         } else if (level.equals("Planner")) {
-            PlannerScreen PS = new PlannerScreen(/*user*/);
+            PlannerScreen PS = new PlannerScreen(user);
             PS.setVisible(true);
             return true;
         } else if (level.equals("Administrator")) {
@@ -113,7 +102,7 @@ public class LoginScreen extends JFrame implements ActionListener{
             PS.setVisible(true);
             return true;
         } else {
-            return FALSE;
+            return false;
         }
     }
 
@@ -122,40 +111,25 @@ public class LoginScreen extends JFrame implements ActionListener{
     }
 
     public String getPassword() {
-        //hier moet dan iets met hashing komen
         return JTFPassword.getText();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (login(getUsername(), getPassword())) {
+        if (e.getSource() == this.JBSubmit) {
+            //valid user? yes -> we have been redirected so dispose
+            if (login(getUsername(), getPassword())) {
+                dispose();
+
+                //not valid user -> notify user
+            } else {
+                JLinfoText.setText("Uw gebruikersnaam en/of wachtwoord is verkeerd’");
+                JLinfoText.setForeground(Color.RED);
+                JLlostPassword.setText("<html>gebruikersnaam of wachtwoord vergeten? <br> neem contact op met uw systeembeheerder.</html>");
+            }
+        } else if (e.getSource() == this.JBCancel) {
             dispose();
 
-            // Hier moet nog bepaalt worden wie heeft ingelogd en welk scherm vervolgens wordt getoond.
-        } else {
-            //Text for wrong input
-            JLinfoText.setText("Uw gebruikersnaam of wachtwoord is verkeerd");
-            JLinfoText.setForeground(Color.RED);
-            JLlostPassword.setText("<html>gebruikersnaam of wachtwoord vergeten? <br> neem contact op met uw systeembeheerder.</html>");
         }
     }
-
-
-
-
-
-        public static void main(String[] args) {
-
-            try {
-
-                UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-            } catch (Exception e) {
-                System.out.println("Look and Feel not set");
-            }
-            LoginScreen LS = new LoginScreen();
-            LS.setVisible(true);
-
-
-        }
-    }
-
+}

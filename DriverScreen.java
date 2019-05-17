@@ -21,15 +21,11 @@ public class DriverScreen extends JFrame implements ActionListener, TableModelLi
     private JButton jbLogout;
     private JScrollPane tableSP;
     private ButtonEditor JBshowRoute;
-    
-    
     public DriverScreen(User user) {
         //Layout
         setLayout(new FlowLayout());
         setTitle("Beschikbare Routes");
         setPreferredSize(new Dimension(800, 600));
-
-
 
         jtTitle = new JLabel("Te rijden routes");
         jtTitle.setPreferredSize(new Dimension(800, 25));
@@ -70,7 +66,6 @@ public class DriverScreen extends JFrame implements ActionListener, TableModelLi
         jbLogout.setForeground(Color.BLACK);
         jbLogout.addActionListener(this);
 
-
         // Order for elements to appear
         add(jtTitle);
         add(tableSP);
@@ -80,7 +75,7 @@ public class DriverScreen extends JFrame implements ActionListener, TableModelLi
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-    
+
     public ArrayList<Route> getRoutes() {
         return new ArrayList<>();
     }
@@ -88,7 +83,7 @@ public class DriverScreen extends JFrame implements ActionListener, TableModelLi
     @Override
     public void actionPerformed(ActionEvent e) {
         //Back to loginscreen
-        if(e.getSource() == jbLogout){
+        if (e.getSource() == jbLogout) {
             dispose();
             LoginScreen LS = new LoginScreen();
             LS.setVisible(true);
