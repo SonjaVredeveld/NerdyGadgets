@@ -32,7 +32,7 @@ class Order {
         //getting all available OrderID's
         ArrayList<Order> orderList = new ArrayList<>();
         ArrayList<String> prep2 = new ArrayList<>();
-//FROM 1 FOR 1 = 
+//Get Orders from database
         ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT o.OrderID FROM orders o JOIN Customers c ON o.CustomerID = c.CustomerID WHERE OrderID NOT IN (SELECT OrderID FROM routelocation) ORDER BY  o.OrderDate ASC , c.DeliveryPostalCode DESC LIMIT 50", prep2);
         if(0 < rows.size()) {
             //creating an order for every OrderID
