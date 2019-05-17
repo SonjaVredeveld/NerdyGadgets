@@ -24,8 +24,6 @@ class Order {
             //saving the values from the database
             this.customer = new Customer(Integer.parseInt(rows.get(0).get(1)));
             this.ID = Integer.parseInt(rows.get(0).get(0));
-        } else{
-            System.out.println("test2");
         }
     }
     
@@ -34,14 +32,12 @@ class Order {
         //getting all available OrderID's
         ArrayList<Order> orderList = new ArrayList<>();
         ArrayList<String> prep2 = new ArrayList<>();
-        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT o.OrderID FROM orders o JOIN Customers c ON o.CustomerID = c.CustomerID WHERE OrderID NOT IN (SELECT OrderID FROM routelocation) ORDER BY o.OrderDate, c.DeliveryPostalCode  ASC LIMIT 50", prep2);
+        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT o.OrderID FROM orders o JOIN Customers c ON o.CustomerID = c.CustomerID WHERE OrderID NOT IN (SELECT OrderID FROM routelocation) ORDER BY SUBSTRING( o.OrderDate FROM 1 FOR 1 ) ASC , c.DeliveryPostalCode DESC LIMIT 50", prep2);
         if(0 < rows.size()) {
             //creating an order for every OrderID
             for (int i = 0; i < rows.size(); i++) {
                 orderList.add(new Order(Integer.parseInt(rows.get(i).get(0))));
             }
-        }else{
-            System.out.println("test");
         }
         return orderList;
     }
