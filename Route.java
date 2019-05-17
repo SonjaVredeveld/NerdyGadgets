@@ -37,7 +37,6 @@ class Route {
         routePrepares.add(ID+"");
         this.distance = HeuristicsExtended.getOptimalDistance();
         routePrepares.add(distance+"");
-        
 
         result1 = DBConnection.executeQuery("INSERT INTO routes VALUES (?,NOW(),?,NULL)", routePrepares);
 
