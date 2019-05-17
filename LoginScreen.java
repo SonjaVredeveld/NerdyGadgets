@@ -94,7 +94,7 @@ public class LoginScreen extends JFrame implements ActionListener {
             DS.setVisible(true);
             return true;
         } else if (level.equals("Planner")) {
-            //PlannerScreen PS = new PlannerScreen(/*user*/);
+            PlannerScreen PS = new PlannerScreen(user);
             //PS.setVisible(true);
             return true;
         } else if (level.equals("Administrator")) {
