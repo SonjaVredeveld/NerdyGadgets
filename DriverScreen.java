@@ -6,20 +6,10 @@
 package kbs2;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
+import javax.swing.table.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Vector;
+import java.awt.event.*;
+import java.util.*;
 
 public class DriverScreen extends JFrame implements ActionListener{
     private ArrayList<kbs2.Route> routeList = new ArrayList<>();
@@ -41,13 +31,10 @@ public class DriverScreen extends JFrame implements ActionListener{
         jtTitle.setPreferredSize(new Dimension(800, 25));
         jtTitle.setHorizontalAlignment(JLabel.CENTER);
 
-        String[][] data = {
-                //Voorbeeld data
-                { "1", "22", "2402 km", "Start route" },
-        };
         //Test Column names
         String[] columnNames = { "Route nummer", "Aantal locaties", "Afstand", "Bekijk route", "Datum aangemaakt" };
         
+        //Get rows for the table from database
         ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT r.RouteID, count(rl.RouteID), r.distanceKM, \"Bekijk route\", r.CreationDate FROM routes as r, routelocation as rl where DriverID is null and r.RouteID = rl.RouteID group by rl.RouteID order by r.creationDate;");
         String[][] columnData = new String[rows.size()][5];
         for(int i = 0; i < rows.size(); i++)
@@ -59,17 +46,6 @@ public class DriverScreen extends JFrame implements ActionListener{
             }
         }
 
-
-//        for(int i = 0;i < OrderList.size();i++) {
-//            Order order = OrderList.get(i);
-//            Customer customer = order.getCustomer();
-//            data[i][0] = false;
-//            data[i][1] = order.getID();
-//            data[i][2] = customer.getCustomerName();
-//            data[i][3] = customer.getDeliveryAddressLine2();
-//            data[i][4] = customer.getCustomerCity();
-//        }
-
         //Table Layout
         jtRouteTable = new JTable(columnData, columnNames);
         TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(jtRouteTable.getModel());
@@ -80,8 +56,7 @@ public class DriverScreen extends JFrame implements ActionListener{
         tableSP.setAlignmentX(LEFT_ALIGNMENT);
 
         jtRouteTable.getColumn("Bekijk route").setCellRenderer(new ButtonRenderer());
-        jtRouteTable.getColumn("Bekijk route").setCellEditor(
-                new ButtonEditor(new JCheckBox()));
+        jtRouteTable.getColumn("Bekijk route").setCellEditor(new ButtonEditor(new JCheckBox()));
         // Turns columns ''Bekijk route" into buttons (more info found in ButtonRenderer and ButtonEditor)
 
         jbLogout = new JButton("Log uit");
@@ -98,12 +73,6 @@ public class DriverScreen extends JFrame implements ActionListener{
         setVisible(true);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
-
-    
-    public Route getRoute() {
-        return null;//new Route();
     }
     
     public ArrayList<Route> getRoutes() {
