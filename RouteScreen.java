@@ -18,7 +18,7 @@ public class RouteScreen extends JDialog implements ActionListener {
         super(screen, true);
         this.ActiveUser = ActiveUser;
         setLayout(new FlowLayout());
-        setTitle("Routeplanner");
+        setTitle("Planner");
         setSize(500, 500);
         
         Panel panelTop = new Panel();
