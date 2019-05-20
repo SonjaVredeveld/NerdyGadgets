@@ -137,10 +137,7 @@ class Route {
     public static ArrayList<Route> getRoutes() {
         //sql select for routes
         ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT RouteID FROM routes ORDER BY CreationDate");
-        //check for empty result set
         ArrayList<Route> newRows = new ArrayList<>();
-        //System.out.println(rows);
-        System.out.println(DBConnection.statusMsg);
         //go over all the results
         //create a route for each row.
         for(int i = 0; i < rows.size(); i++)

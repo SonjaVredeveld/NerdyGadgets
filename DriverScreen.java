@@ -11,7 +11,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.event.*;
-import static jdk.vm.ci.meta.JavaKind.Int;
 
 public class DriverScreen extends JFrame implements ActionListener, TableModelListener {
 
@@ -47,11 +46,6 @@ public class DriverScreen extends JFrame implements ActionListener, TableModelLi
         Object[][] columnData = new Object[routes.size()][5];
         for (int i = 0; i < routes.size(); i++) {
             Route route = routes.get(i);
-//            System.out.println(route.getID());
-//            System.out.println(route.getLocations().size());
-//            System.out.println(route.getDistance());
-//            System.out.println("Bekijk route");
-//            System.out.println(route.getCreationDate());
             Object[] row = {route.getID(), route.getLocations().size(), route.getDistance(), "Bekijk route", route.getCreationDate()};
             columnData[i] = row;
         }
@@ -98,23 +92,17 @@ public class DriverScreen extends JFrame implements ActionListener, TableModelLi
     }
 
     //
+    @Override
     public void tableChanged(TableModelEvent e) {
         int row = jtRouteTable.getSelectedRow();
-        //System.out.println(jtRouteTable.getModel().getValueAt(row, 0));
         int id = (int) jtRouteTable.getModel().getValueAt(row, 0);
-        ArrayList<Order> orders = new ArrayList<>();
         for (int i = 0; i < routes.size(); i++) {
             if(i == id){
                 Route route = routes.get(i);
                 this.route = route;
-                for (int j = 0; j < route.getLocations().size(); j++) {
-                    orders.add(route.getLocations().get(j).getOrder());
-                }
             }
         }
-//        SelectedRoute = (String) jtRouteTable.getModel().getValueAt(row, 0);
-        //Route route = new Route(id);
-        DriverRouteScreen dialoog = new DriverRouteScreen(this, orders, route);
+        DriverRouteScreen dialoog = new DriverRouteScreen(this, route);
         dialoog.setVisible(true);
         new DriverScreen(this.user);
         this.dispose();

@@ -11,43 +11,29 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class DriverRouteScreen extends JDialog implements ActionListener {
 
     private Route route;
-    private ArrayList<Order> orders;
     private JTable jtDeliveryRouteTable;
     private JButton jbSubmit;
     private JButton jbCancel;
     private JTable AvailableRouteLocations = new JTable();
 
-    public DriverRouteScreen(JFrame screen, ArrayList<Order> orders, Route route) {
+    public DriverRouteScreen(JFrame screen, Route route) {
         super(screen, true);
 
         setTitle("Route overzicht");
         setSize(800, 600);
         setLayout(new FlowLayout());
 
-        //Test Column names
         String[] columnNames = {"Ordernummer", "klant", "adres", "woonplaats"};
-        this.orders = new ArrayList<>();
-        this.orders = orders;
         this.route = route;
-        //Get rows for the table from database
-        //ArrayList<String> prepares = new ArrayList<>();
-        //String id = getSelectedRoute();
-        //prepares.add(id);        
-        //ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("select o.OrderID, c.CustomerName, c.DeliveryAddressLine2, c.PostalAddressLine2 from orders as o, customers as c, routelocation as rl where c.CustomerID = o.CustomerID and rl.OrderID = o.orderID and rl.RouteID = ?", prepares);
-        Object[][] columnData = new Object[orders.size()][4];
-        //System.out.println(orders.size());
-        for (int i = 0; i < orders.size(); i++) {
-            Order order = orders.get(i);
-//            System.out.println(order.getID());
+        Object[][] columnData = new Object[route.getLocations().size()][4];
+        for (int i = 0; i < route.getLocations().size(); i++) {
+            RouteLocation routlocation = route.getLocations().get(i);
+            Order order = routlocation.getOrder();
             Customer customer = order.getCustomer();
-//            System.out.println(customer.getCustomerName());
-//            System.out.println(customer.getDeliveryAddressLine2());
-//            System.out.println(customer.getDeliveryPostalCode());
             Object[] row = {order.getID(), customer.getCustomerName(), customer.getDeliveryAddressLine2(), customer.getCustomerCity()};
             columnData[i] = row;
         }
@@ -85,12 +71,10 @@ public class DriverRouteScreen extends JDialog implements ActionListener {
             dispose();
             // MOET AANGEVEN DAT DE ROUTE IS GEREDEN
             int id = route.getID();
-            for (int i = 0; i < orders.size(); i++) {
-            Order order = orders.get(i);
-            order.ordersDelivered(order.getID());
-            }
-            for (int j = 0; j < route.getLocations().size(); j++) {
-                RouteLocation routelocation = route.getLocations().get(j);
+            for (int i = 0; i < route.getLocations().size(); i++) {
+                RouteLocation routelocation = route.getLocations().get(i);
+                Order order = routelocation.getOrder();
+                order.ordersDelivered(order.getID());
                 routelocation.deleteRows(id);
             }
             route.deleteRow(id);
