@@ -37,14 +37,10 @@ public class LoginScreen extends JFrame implements ActionListener {
         JLpassWord.setText("Wachtwoord :");
         JTFPassword = new JPasswordField();
 
-        JBSubmit = new JButton("Inloggen");
-        JBSubmit.setBackground(new Color(158, 188, 237));
-        JBSubmit.setForeground(Color.BLACK);
+        JBSubmit = style.button("Inloggen");
         JBSubmit.addActionListener(this);
 
-        JBCancel = new JButton("Annuleren");
-        JBCancel.setBackground(new Color(158, 188, 237));
-        JBCancel.setForeground(Color.BLACK);
+        JBCancel = style.button("Annuleren");
         JBCancel.addActionListener(this);
 
         JLlostPassword = new JLabel();
@@ -52,15 +48,15 @@ public class LoginScreen extends JFrame implements ActionListener {
 
         panel1 = new JPanel(new GridLayout(3, 1));
         panel1.setPreferredSize(new Dimension(300, 100));
-        panel1.setBackground(new Color(0, 0, 0, 0));
+        panel1.setOpaque(false);
 
         panel2 = new JPanel(new GridLayout(1, 1));
         panel2.setPreferredSize(new Dimension(300, 100));
-        panel2.setBackground(new Color(0, 0, 0, 0));
+        panel2.setOpaque(false);
 
         panel3 = new JPanel(new GridLayout(1, 1));
         panel3.setPreferredSize(new Dimension(0, 100));
-        panel3.setBackground(new Color(0, 0, 0, 0));
+        panel3.setOpaque(false);
 
         // Order for elements to appear
         panel2.add(JLtitle, gbc);
@@ -94,6 +90,7 @@ public class LoginScreen extends JFrame implements ActionListener {
             DS.setVisible(true);
             return true;
         } else if (level.equals("Planner")) {
+
             PlannerScreen PS = new PlannerScreen(user);
             PS.setVisible(true);
             return true;
