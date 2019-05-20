@@ -31,7 +31,7 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
     public PlannerScreen(User ActiveUser){
         this.ActiveUser = ActiveUser;
         setLayout(new FlowLayout());
-        setTitle("Routeplanner");
+        setTitle("Planner");
         setPreferredSize(new Dimension(800, 600));
 
         JTOrderList = new JTable(new PlannerScreenTableContent());
