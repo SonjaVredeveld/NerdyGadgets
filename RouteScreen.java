@@ -27,7 +27,7 @@ public class RouteScreen extends JDialog implements ActionListener {
         //buttons in the top part of the screen
         panelTop.add(new JLabel(" "));
         ArrayList<ArrayList<String>> rows1 = DBConnection.selectQuery("SELECT distanceKM, RouteID FROM routes WHERE RouteID = (SELECT MAX(RouteID) FROM routelocation)");
-        panelTop.add(new JLabel("Route " + rows1.get(0).get(1), SwingConstants.CENTER));
+        panelTop.add(new JLabel("Route: " + rows1.get(0).get(1), SwingConstants.CENTER));
         panelTop.add(new JLabel(" "));
         add(panelTop);
         
