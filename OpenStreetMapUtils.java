@@ -18,11 +18,8 @@ import java.util.Map;
 public class OpenStreetMapUtils {
 
     public final static Logger log = Logger.getLogger("OpenStreetMapUtils");
-
     private static OpenStreetMapUtils instance = null;
     private JSONParser jsonParser;
-
-
 
     public OpenStreetMapUtils() {
         jsonParser = new JSONParser();
@@ -47,12 +44,12 @@ public class OpenStreetMapUtils {
             return null;
         }
 
-        // Halp? wat is dit
+        // Code for making a connection
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
         StringBuffer response = new StringBuffer();
 
-        // Halp? wat is dit
+        // Checks of the connection is made
         while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
         }
@@ -88,12 +85,9 @@ public class OpenStreetMapUtils {
         // end url
         query.append("&format=json&addressdetails=1");
 
-        //log.debug("Query:" + query);
-
         try {
             // Query results converted to a string
             queryResult = getRequest(query.toString());
-            //System.out.println(queryResult);
         } catch (Exception e) {
             log.error("Error when trying to get data with the following query " + query);
         }
@@ -103,7 +97,6 @@ public class OpenStreetMapUtils {
         }
 
         Object obj = JSONValue.parse(queryResult);
-        //log.debug("obj=" + obj);
 
         if (obj instanceof JSONArray) {
             JSONArray array = (JSONArray) obj;
@@ -113,8 +106,6 @@ public class OpenStreetMapUtils {
 
                 String lon = (String) jsonObject.get("lon");
                 String lat = (String) jsonObject.get("lat");
-                //log.debug("lon=" + lon);
-                //log.debug("lat=" + lat);
                 res.put("lon", Double.parseDouble(lon));
                 res.put("lat", Double.parseDouble(lat));
 

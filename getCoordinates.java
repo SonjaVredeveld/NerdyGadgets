@@ -1,6 +1,5 @@
 package kbs2;
 
-
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -31,10 +30,8 @@ public class getCoordinates {
         for(int i = 0; i < rows.size(); i++){
             result[i] = lonlat(rows.get(i));
         }
-
         return result;
     }
-
 
     public String lonlat(ArrayList<String> AddressList){
         Map<String, Double> coords;
@@ -51,7 +48,6 @@ public class getCoordinates {
         } else {
             System.out.println(DBConnection.statusMsg); //check status(also error info)
         }
-
         return("latitude :" + coords.get("lat"))+(" longitude:" + coords.get("lon")+ ", " + CustomerID);
     }
 
