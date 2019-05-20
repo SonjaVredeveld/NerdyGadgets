@@ -3,9 +3,8 @@ package kbs2;
 import javax.swing.*;
 import java.awt.*;
 
-import java.awt.event.*;
-
 class ButtonEditor extends DefaultCellEditor {
+
     protected JButton button;
     private String label;
     private boolean isPushed;
@@ -21,7 +20,7 @@ class ButtonEditor extends DefaultCellEditor {
     // If button is selected following animation starts
     // Source: http://alvinalexander.com/java/swing/tame/table/ButtonEditor.java.shtml
     public Component getTableCellEditorComponent(JTable jtRouteTable, Object value,
-                                                 boolean isSelected, int row, int column) {
+            boolean isSelected, int row, int column) {
         // Button Animation
         if (isSelected) {
             button.setForeground(jtRouteTable.getSelectionForeground());
@@ -31,7 +30,7 @@ class ButtonEditor extends DefaultCellEditor {
             button.setBackground(jtRouteTable.getBackground());
         }
 
-        if(value == null){
+        if (value == null) {
             label = "";
         } else {
             label = value.toString();
@@ -50,10 +49,7 @@ class ButtonEditor extends DefaultCellEditor {
     }
 
     public Object getCellEditorValue() {
-        if (isPushed) {
-            DriverRouteScreen dialoog = new DriverRouteScreen(dc);
-            dialoog.setVisible(true);
-        }
+
         isPushed = false;
         return new String(label);
     }

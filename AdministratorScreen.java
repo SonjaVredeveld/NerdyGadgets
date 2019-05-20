@@ -13,7 +13,7 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
     private JTable JTCustomers;
     private JTable JTOrders;
     private JFrame frame;
-    private JButton JBlogout;
+    private JButton JBLogout;
     private JButton JBedit;
     private ButtonEditor button;
     private String buttonType;
@@ -90,10 +90,11 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         JTPAdminTabs.add("Ordegegevens", panelOrders);
 
         // LOGOUT button
-        JBlogout = new JButton("Logout");
+        JBLogout = new JButton("Logout");
+        JBLogout.addActionListener(this);
 
         frame.add(JTPAdminTabs);
-        frame.add(JBlogout);
+        frame.add(JBLogout);
         frame.setSize(800, 600);
         frame.setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -137,7 +138,7 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == JBlogout) {
+        if (e.getSource() == JBLogout) {
             this.user = null;
             new LoginScreen();
             dispose();
@@ -164,8 +165,12 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
             System.out.println("products");
             System.out.println(this.JTStock.getEditingRow());
             System.out.println(this.products.get(this.JTStock.getEditingRow() - 1));
+            DriverRouteScreen dialoog = new DriverRouteScreen(this);
+            dialoog.setVisible(true);
 
         } else {
+            System.out.println(tme);
+            System.out.println(this.JTStock.get());
             System.out.println("something else is striggering");
         }
 
