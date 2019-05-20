@@ -104,9 +104,9 @@ public class RouteScreen extends JDialog implements ActionListener {
         }else if(e.getSource() == JBCancel) {
             boolean result1 = deleteRoute();
             if(result1) {
-                JOptionPane.showMessageDialog(this,"Route geannuleerd");
+                JOptionPane.showMessageDialog(this, "Route geannuleerd", "Melding", JOptionPane.INFORMATION_MESSAGE);
             }else{
-                JOptionPane.showMessageDialog(this,"Er ging iets mis bij het annuleren");
+                JOptionPane.showMessageDialog(this, "Er ging iets mis bij het annuleren", "foutmelding", JOptionPane.INFORMATION_MESSAGE);
             }
             this.dispose();
         }
