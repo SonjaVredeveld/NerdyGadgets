@@ -51,5 +51,10 @@ class Order {
         return this.customer;
     }
     
+    public void ordersDelivered(int ID) {
+        ArrayList<String> prepares = new ArrayList<>();
+        prepares.add(ID+"");
+        DBConnection.executeQuery("update orders set isDelivered = 1 where OrderID = ?", prepares);
+    }
     
 }

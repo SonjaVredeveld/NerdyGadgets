@@ -14,14 +14,15 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class DriverRouteScreen extends JDialog implements ActionListener {
+
+    private Route route;
+    private ArrayList<Order> orders;
     private JTable jtDeliveryRouteTable;
     private JButton jbSubmit;
     private JButton jbCancel;
     private JTable AvailableRouteLocations = new JTable();
-    private Route route;
 
-
-    public DriverRouteScreen(JFrame screen){
+    public DriverRouteScreen(JFrame screen, ArrayList<Order> orders, Route route) {
         super(screen, true);
 
         setTitle("Route overzicht");
@@ -29,21 +30,26 @@ public class DriverRouteScreen extends JDialog implements ActionListener {
         setLayout(new FlowLayout());
 
         //Test Column names
-        String[] columnNames = { "Ordernummer", "klant", "adres", "woonplaats" };
-        
+        String[] columnNames = {"Ordernummer", "klant", "adres", "woonplaats"};
+        this.orders = new ArrayList<>();
+        this.orders = orders;
+        this.route = route;
         //Get rows for the table from database
-        ArrayList<String> prepares = new ArrayList<>();
-        String id = new DriverScreen(null).getSelectedRoute();
-        prepares.add(id);
-        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("select o.OrderID, c.CustomerName, c.DeliveryAddressLine2, c.PostalAddressLine2 from orders as o, customers as c, routelocation as rl where c.CustomerID = o.CustomerID and rl.OrderID = o.orderID and rl.RouteID = ?", prepares);
-        String[][] columnData = new String[rows.size()][4];
-        for(int i = 0; i < rows.size(); i++)
-        {
-            for(int j = 0; j < 4; j++)
-            {
-                columnData[i][j] = rows.get(i).get(j);
-                
-            }
+        //ArrayList<String> prepares = new ArrayList<>();
+        //String id = getSelectedRoute();
+        //prepares.add(id);        
+        //ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("select o.OrderID, c.CustomerName, c.DeliveryAddressLine2, c.PostalAddressLine2 from orders as o, customers as c, routelocation as rl where c.CustomerID = o.CustomerID and rl.OrderID = o.orderID and rl.RouteID = ?", prepares);
+        Object[][] columnData = new Object[orders.size()][4];
+        //System.out.println(orders.size());
+        for (int i = 0; i < orders.size(); i++) {
+            Order order = orders.get(i);
+//            System.out.println(order.getID());
+            Customer customer = order.getCustomer();
+//            System.out.println(customer.getCustomerName());
+//            System.out.println(customer.getDeliveryAddressLine2());
+//            System.out.println(customer.getDeliveryPostalCode());
+            Object[] row = {order.getID(), customer.getCustomerName(), customer.getDeliveryAddressLine2(), customer.getCustomerCity()};
+            columnData[i] = row;
         }
 
         jtDeliveryRouteTable = new JTable(columnData, columnNames);
@@ -57,14 +63,13 @@ public class DriverRouteScreen extends JDialog implements ActionListener {
         jbSubmit = new JButton("Route afgerond");
         jbSubmit.setBackground(new Color(158, 188, 237));
         jbSubmit.setForeground(Color.BLACK);
-        jbSubmit.setBounds(100,100,100,100);
+        jbSubmit.setBounds(100, 100, 100, 100);
         jbSubmit.addActionListener(this);
-
 
         jbCancel = new JButton("Annuleren");
         jbCancel.setBackground(new Color(158, 188, 237));
         jbCancel.setForeground(Color.BLACK);
-        jbCancel.setBounds(100,100,100,100);
+        jbCancel.setBounds(100, 100, 100, 100);
         jbCancel.addActionListener(this);
 
         //Order for elements to appear
@@ -72,14 +77,25 @@ public class DriverRouteScreen extends JDialog implements ActionListener {
         add(jbSubmit);
         add(jbCancel);
 
-
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == jbSubmit){
+        if (e.getSource() == jbSubmit) {
             dispose();
             // MOET AANGEVEN DAT DE ROUTE IS GEREDEN
-        } if(e.getSource() == jbCancel){
+            int id = route.getID();
+            for (int i = 0; i < orders.size(); i++) {
+            Order order = orders.get(i);
+            order.ordersDelivered(order.getID());
+            }
+            for (int j = 0; j < route.getLocations().size(); j++) {
+                RouteLocation routelocation = route.getLocations().get(j);
+                routelocation.deleteRows(id);
+            }
+            route.deleteRow(id);
+        }
+        if (e.getSource() == jbCancel) {
             dispose();
 
         }
