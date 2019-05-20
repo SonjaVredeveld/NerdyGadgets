@@ -13,15 +13,15 @@ import java.util.*;
 
 public class DriverScreen extends JFrame implements ActionListener {
 
-    private ArrayList<kbs2.Route> routeList = new ArrayList<>();
     private JTable jtRouteTable;
     private JLabel jtTitle;
     private JButton jbLogout;
     private JScrollPane tableSP;
-    private ButtonEditor JBshowRoute;
+    private User ActiveUser;
 
-    public DriverScreen(User user) {
+    public DriverScreen(User ActiveUser) {
         //Layout
+        this.ActiveUser = ActiveUser;
         setLayout(new FlowLayout());
         setTitle("Beschikbare Routes");
         setPreferredSize(new Dimension(800, 600));
@@ -51,23 +51,31 @@ public class DriverScreen extends JFrame implements ActionListener {
         jtRouteTable.setRowSorter(sorter);
 
         tableSP = new JScrollPane(jtRouteTable);
-        tableSP.setPreferredSize(new Dimension(800, 500));
+        tableSP.setPreferredSize(new Dimension(800, 485));
         tableSP.setAlignmentX(LEFT_ALIGNMENT);
 
         jtRouteTable.getColumn("Bekijk route").setCellRenderer(new ButtonRenderer());
         jtRouteTable.getColumn("Bekijk route").setCellEditor(new ButtonEditor(new JCheckBox()));
         // Turns columns ''Bekijk route" into buttons (more info found in ButtonRenderer and ButtonEditor)
 
-        jbLogout = new JButton("Log uit");
-        jbLogout.setBackground(new Color(158, 188, 237));
-        jbLogout.setForeground(Color.BLACK);
+        jbLogout = style.button("Log uit");
         jbLogout.addActionListener(this);
+
+        Panel p = new Panel();
+        p.setLayout(new GridLayout(1,5));
+        p.setPreferredSize(new Dimension(800, 50));
 
         // Order for elements to appear
         add(jtTitle);
         add(tableSP);
-        add(jbLogout);
+        p.add(new JLabel(" "));
+        p.add(new JLabel(" "));
+        p.add(new JLabel(" "));
+        p.add(new JLabel(" "));
+        p.add(jbLogout);
+        add(p);
 
+        setResizable(false);
         setVisible(true);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -81,11 +89,15 @@ public class DriverScreen extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         //Back to loginscreen
         if (e.getSource() == jbLogout) {
-            dispose();
-            LoginScreen LS = new LoginScreen();
-            LS.setVisible(true);
+            logout();
         }
         // "Start route" buttons are located in the class ButtonEditor
+    }
+    private void logout(){
+        ActiveUser = null;
+        this.dispose();
+        LoginScreen LS = new LoginScreen();
+        LS.setVisible(true);
     }
 
 }

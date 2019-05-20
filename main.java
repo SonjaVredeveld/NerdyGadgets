@@ -23,6 +23,5 @@ public class main {
         }
         LoginScreen LS = new LoginScreen();
         LS.setVisible(true);
-
     }
 }

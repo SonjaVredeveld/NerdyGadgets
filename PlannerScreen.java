@@ -42,8 +42,8 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         //creating a ScrollPane from the JTable
         JScrollPane tableSP = new JScrollPane(JTOrderList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         
-        JTOrderList.setPreferredSize(new Dimension(780, 492));
-        tableSP.setPreferredSize(new Dimension(780, 492));
+        JTOrderList.setPreferredSize(new Dimension(800, 492));
+        tableSP.setPreferredSize(new Dimension(800, 492));
         
         //setting the size for every column of JTOrderList
         TableColumn column = null;
@@ -104,10 +104,12 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         }
     }
   
-    //simple logout funtion
+    //simple logout function
     private void logout(){
         ActiveUser = null;
         this.dispose();
+        LoginScreen LS = new LoginScreen();
+        LS.setVisible(true);
     }
     
     //calculates the optimal route with the given Orders, saves the route with its locations in the database
