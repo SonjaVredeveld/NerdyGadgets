@@ -19,7 +19,7 @@ public class LoginScreen extends JFrame implements ActionListener {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        JLabel background = new JLabel(new ImageIcon(this.getClass().getResource("squares-3d-digital-background-free-file.jpg")));
+        JLabel background = new JLabel(new ImageIcon("src//kbs2//squares-3d-digital-background-free-file.jpg"));
         add(background);
         background.setLayout(new GridBagLayout());
 
@@ -94,7 +94,7 @@ public class LoginScreen extends JFrame implements ActionListener {
             DS.setVisible(true);
             return true;
         } else if (level.equals("Planner")) {
-            PlannerScreen PS = new PlannerScreen(/*user*/);
+            PlannerScreen PS = new PlannerScreen(user);
             PS.setVisible(true);
             return true;
         } else if (level.equals("Administrator")) {
