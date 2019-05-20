@@ -41,7 +41,6 @@ public class DriverScreen extends JFrame implements ActionListener {
             for(int j = 0; j < 5; j++)
             {
                 columnData[i][j] = rows.get(i).get(j);
-                
             }
         }
 

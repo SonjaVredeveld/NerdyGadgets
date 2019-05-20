@@ -44,16 +44,10 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         
         JTOrderList.setPreferredSize(new Dimension(800, 492));
         tableSP.setPreferredSize(new Dimension(800, 492));
-        
+
         //setting the size for every column of JTOrderList
-        TableColumn column = null;
-        for (int i = 0; i < 4; i++) {
-            if(i == 0){
-                JTOrderList.getColumnModel().getColumn(i).setPreferredWidth(50);
-            }else{
-                JTOrderList.getColumnModel().getColumn(i).setPreferredWidth(100);        
-            }
-        } 
+        setJTableColumnsWidth(JTOrderList, 800, 2, 14, 28, 28, 28);
+
         add(tableSP);
         
         Panel p = new Panel();
@@ -78,6 +72,20 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         setVisible(true);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public static void setJTableColumnsWidth(JTable table, int tablePreferredWidth,
+                                             double... percentages) {
+        double total = 0;
+        for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
+            total += percentages[i];
+        }
+
+        for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
+            TableColumn column = table.getColumnModel().getColumn(i);
+            column.setPreferredWidth((int)
+                    (tablePreferredWidth * (percentages[i] / total)));
+        }
     }
     
     @Override
