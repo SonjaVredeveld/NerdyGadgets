@@ -10,9 +10,15 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import javax.swing.event.*;
 
-public class DriverScreen extends JFrame implements ActionListener {
 
+public class DriverScreen extends JFrame implements ActionListener, TableModelListener {
+
+    private String SelectedRoute;
+    private User user;
+    private ArrayList<Route> routes;
+    private Route route;
     private ArrayList<kbs2.Route> routeList = new ArrayList<>();
     private JTable jtRouteTable;
     private JLabel jtTitle;
@@ -30,19 +36,19 @@ public class DriverScreen extends JFrame implements ActionListener {
         jtTitle.setPreferredSize(new Dimension(800, 25));
         jtTitle.setHorizontalAlignment(JLabel.CENTER);
 
-        //Test Column names
-        String[] columnNames = { "Route nummer", "Aantal locaties", "Afstand", "Bekijk route", "Datum aangemaakt" };
+        this.user = user;
         
+        //Test Column names
+        String[] columnNames = {"Route nummer", "Aantal locaties", "Afstand", "Bekijk route", "Datum aangemaakt"};
+
         //Get rows for the table from database
-        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT r.RouteID, count(rl.RouteID), r.distanceKM, \"Bekijk route\", r.CreationDate FROM routes as r, routelocation as rl where DriverID is null and r.RouteID = rl.RouteID group by rl.RouteID order by r.creationDate;");
-        String[][] columnData = new String[rows.size()][5];
-        for(int i = 0; i < rows.size(); i++)
-        {
-            for(int j = 0; j < 5; j++)
-            {
-                columnData[i][j] = rows.get(i).get(j);
-                
-            }
+        ArrayList<Route> routes = Route.getRoutes();
+        this.routes = routes;
+        Object[][] columnData = new Object[routes.size()][5];
+        for (int i = 0; i < routes.size(); i++) {
+            Route route = routes.get(i);
+            Object[] row = {route.getID(), route.getLocations().size(), route.getDistance(), "Bekijk route", route.getCreationDate()};
+            columnData[i] = row;
         }
 
         //Table Layout
@@ -50,8 +56,10 @@ public class DriverScreen extends JFrame implements ActionListener {
         TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(jtRouteTable.getModel());
         jtRouteTable.setRowSorter(sorter);
 
+        jtRouteTable.getModel().addTableModelListener(this);
+
         tableSP = new JScrollPane(jtRouteTable);
-        tableSP.setPreferredSize(new Dimension(800, 500));
+        tableSP.setPreferredSize(new Dimension(770, 450));
         tableSP.setAlignmentX(LEFT_ALIGNMENT);
 
         jtRouteTable.getColumn("Bekijk route").setCellRenderer(new ButtonRenderer());
@@ -73,10 +81,6 @@ public class DriverScreen extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public ArrayList<Route> getRoutes() {
-        return new ArrayList<>();
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         //Back to loginscreen
@@ -88,4 +92,20 @@ public class DriverScreen extends JFrame implements ActionListener {
         // "Start route" buttons are located in the class ButtonEditor
     }
 
+    //
+    @Override
+    public void tableChanged(TableModelEvent e) {
+        int row = jtRouteTable.getSelectedRow();
+        int id = (int) jtRouteTable.getModel().getValueAt(row, 0);
+        for (int i = 0; i < routes.size(); i++) {
+            if(i == id){
+                Route route = routes.get(i);
+                this.route = route;
+            }
+        }
+        DriverRouteScreen dialoog = new DriverRouteScreen(this, route);
+        dialoog.setVisible(true);
+        new DriverScreen(this.user);
+        this.dispose();
+    }
 }
