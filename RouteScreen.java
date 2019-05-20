@@ -37,7 +37,7 @@ public class RouteScreen extends JDialog implements ActionListener {
         panelTop2.setPreferredSize(new Dimension(500, 50));
         //buttons in the top part of the screen
         panelTop2.add(new JLabel(" "));
-        panelTop2.add(new JLabel("Totale afstand " + rows1.get(0).get(1) + " km", SwingConstants.CENTER));
+        panelTop2.add(new JLabel("Totale afstand: " + rows1.get(0).get(1) + " km", SwingConstants.CENTER));
         panelTop2.add(new JLabel(" "));
         add(panelTop2);
 
