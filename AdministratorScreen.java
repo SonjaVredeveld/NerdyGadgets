@@ -35,10 +35,10 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         frame.setLayout(new FlowLayout());
         this.user = user;
 
-        // data in PRODUCTEN tab
+        // fill products tabel
         Object[][] dataProducts = this.getStockRows();
 
-        String[] columnProducts = {"Product_ID", "Productnaam", "Voorraad", "Prijs p/s", "edit"};
+        String[] columnProducts = {"Product_ID", "Productnaam", "Voorraad", "Prijs p/s", "aanvinken product"};
 
         JTStock = new JTable(dataProducts, columnProducts);
         JTStock.setFillsViewportHeight(true);
@@ -49,13 +49,15 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         panelProducts.setLayout(new BorderLayout());
         panelProducts.add(spProducts);
 
-        JTStock.getColumn("edit").setCellRenderer(new ButtonRenderer());
-        JTStock.getColumn("edit").setCellEditor(new ButtonEditor(new JCheckBox()));
+        //Button for edititng products
+        JTStock.getColumn("aanvinken product").setCellRenderer(new ButtonRenderer());
+        JTStock.getColumn("aanvinken product").setCellEditor(new ButtonEditor(new JCheckBox()));
         JTStock.getModel().addTableModelListener(this);
 
-        Object[][] dataCustomers = this.getStockRows();
+        //fill customers table
+        Object[][] dataCustomers = this.getCustomerRows();
 
-        String[] columnCustomers = {"Voornaam", "Achternaam", "Adres", "Woonplaats", "Afleveradres", "edit"};
+        String[] columnCustomers = {"Voornaam", "Achternaam", "Adres", "Woonplaats", "Afleveradres", "aanvinken klant"};
 
         JTCustomers = new JTable(dataCustomers, columnCustomers);
         JTCustomers.setFillsViewportHeight(true);
@@ -65,10 +67,9 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         panelCustomers.setLayout(new BorderLayout());
         panelCustomers.add(spCustomers);
 
-        // Button for EDIT
-        JBedit = new JButton("Edit");
-        JTCustomers.getColumn("edit").setCellRenderer(new ButtonRenderer());
-        JTCustomers.getColumn("edit").setCellEditor(new ButtonEditor(new JCheckBox()));
+        // Button for edititng customer
+        JTCustomers.getColumn("aanvinken klant").setCellRenderer(new ButtonRenderer());
+        JTCustomers.getColumn("aanvinken klant").setCellEditor(new ButtonEditor(new JCheckBox()));
         JTCustomers.getModel().addTableModelListener(this);
 
         // data in ORDERS tab
@@ -84,13 +85,14 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         panelOrders.setLayout(new BorderLayout());
         panelOrders.add(spOrders);
 
+        //labels at top
         JTPAdminTabs = new JTabbedPane();
         JTPAdminTabs.add("Producten", panelProducts);
         JTPAdminTabs.add("Klantgegevens", panelCustomers);
-        JTPAdminTabs.add("Ordegegevens", panelOrders);
+        JTPAdminTabs.add("Bestellingen", panelOrders);
 
         // LOGOUT button
-        JBLogout = new JButton("Logout");
+        JBLogout = new JButton("Uitloggen");
         JBLogout.addActionListener(this);
 
         frame.add(JTPAdminTabs);
@@ -100,40 +102,74 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public void editStock() {
-        System.out.println("Start dialog");
-        EditStock dialoog = new EditStock(this);
-        dialoog.setVisible(true);
-    }
-
+    //creates the content for the tables
+    //return: returns 2dimensional object array with products.
     private Object[][] getStockRows() {
         this.products = Product.getProducts();
         Object[][] rows = new Object[products.size()][6];
         for (int i = 0; i < products.size(); i++) {
-            rows[i] = new Object[]{"123", "dit", "12", "Prijs", "editProducts"};
+            Product p = products.get(i);
+            rows[i] = new Object[]{p.getID(), p.getName(), p.getStock(), p.getPricePerPiece(), "aanvinken product"};
         }
 
         return rows;
     }
 
+    //creates the content for the tables
+    //return: returns 2dimensional object array with customers.
     private Object[][] getCustomerRows() {
         this.customers = Customer.getCustomers();
         Object[][] rows = new Object[customers.size()][6];
         for (int i = 0; i < customers.size(); i++) {
-            rows[i] = new Object[]{"Voornaam", "Achternaam", "Adres", "Woonplaats", "Afleveradres", "editCustomers"};
+            Customer c = customers.get(i);
+            rows[i] = new Object[]{c.getCustomerName(), c.getCustomerName(), c.getDeliveryAddressLine2(), c.getDeliveryPostalCode(), c.getCustomerCity(), "aanvinken klant"};
         }
 
         return rows;
     }
 
+    //creates the content for the tables
+    //return: returns 2dimensional object array with orders.
+    //todo: alter the wuery maybe... now we only get 50..
     private Object[][] getOrderRows() {
         ArrayList<Order> orders = Order.getOrders();
         Object[][] rows = new Object[orders.size()][6];
         for (int i = 0; i < orders.size(); i++) {
-            rows[i] = new Object[]{};
+            Order o = orders.get(i);
+            rows[i] = new Object[]{o.getID(), o.getCustomer().getID(), o.getCustomer().getCustomerName()};
         }
 
         return rows;
+    }
+
+    @Override
+    public void tableChanged(TableModelEvent tme) {
+        //check if we have a click from a table
+        if (this.JTCustomers.getEditingRow() >= 0) {    //customers table
+            System.out.println("customers");
+            System.out.println(this.JTCustomers.getEditingRow());
+            System.out.println(this.customers.get(this.JTCustomers.getEditingRow()));
+            Customer customer = this.customers.get(this.JTCustomers.getEditingRow());
+            EditCustomer editCustomerDialog = new EditCustomer(this, customer);
+            editCustomerDialog.setVisible(true);
+            new AdministratorScreen(this.user);
+            dispose();  //not working
+        } else if (this.JTStock.getEditingRow() >= 0) { //products table
+            System.out.println("products");
+            System.out.println(this.JTStock.getEditingRow());
+            System.out.println(this.products.get(this.JTStock.getEditingRow()));
+            Product product = this.products.get(this.JTStock.getEditingRow());
+            EditStock editStockDialog = new EditStock(this, product);
+            editStockDialog.setVisible(true);
+            new AdministratorScreen(this.user);
+            dispose();  //not working
+        } else {    //anything else
+            System.out.println(tme);
+            System.out.println(this.JTCustomers.getEditingRow());
+            System.out.println(this.JTStock.getEditingRow());
+            System.out.println("something else is striggering");
+        }
+
     }
 
     @Override
@@ -145,35 +181,6 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         } else if (e.getSource() == products) {
             System.out.println("Products button clicked");
         }
-    }
-
-    @Override
-    public void tableChanged(TableModelEvent tme) {
-        int columnIndex = tme.getColumn();
-
-        /*TODO:
-        check if its the btn that is pressed
-        get the clicked row object
-        create the dialog and pass the object
-        after this refresh the table.
-         */
-        if (tme.getSource() == this.JTCustomers) {
-            System.out.println("customers");
-            System.out.println(this.JTCustomers.getEditingRow());
-            System.out.println(this.customers.get(this.JTCustomers.getEditingRow() - 1));
-        } else if (tme.getSource() == this.JTStock) {
-            System.out.println("products");
-            System.out.println(this.JTStock.getEditingRow());
-            System.out.println(this.products.get(this.JTStock.getEditingRow() - 1));
-            DriverRouteScreen dialoog = new DriverRouteScreen(this);
-            dialoog.setVisible(true);
-
-        } else {
-            System.out.println(tme);
-            System.out.println(this.JTStock.get());
-            System.out.println("something else is striggering");
-        }
-
     }
 
 }

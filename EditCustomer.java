@@ -23,9 +23,13 @@ public class EditCustomer extends JDialog implements ActionListener {
     private JLabel JLfirstName, JLlastName, JLaddressLine, JLcity, JLtitle;
     private JButton JBsave, JBcancel;
     private JPanel panelCustomer, panelButtons;
+    private Customer customer;
 
-    public EditCustomer(JFrame screen) {
+    public EditCustomer(JFrame screen, Customer customer) {
         super(screen, true);
+
+        this.customer = customer;
+
         setTitle("Verander Klantgegevens");
         setSize(300, 300);
         setLayout(new FlowLayout());

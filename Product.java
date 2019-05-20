@@ -23,7 +23,7 @@ public class Product {
         //get the needed product data.
         ArrayList<String> prepares = new ArrayList<>();
         prepares.add(ID + "");
-        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT StockItemName, StockItems.StockItemID, QuantityOnHand, UnitPrice FROM stockitems as si JOIN stockiemholdings as sih ON si.StockItemID = sihStockItemID", prepares);
+        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT StockItemName, si.StockItemID, QuantityOnHand, UnitPrice FROM stockitems as si JOIN stockitemholdings as sih ON si.StockItemID = sih.StockItemID WHERE si.StockItemID = ?", prepares);
 
         //save the needed data
         System.out.println(rows);
@@ -35,13 +35,13 @@ public class Product {
                     this.ID = Integer.parseInt(row.get(1));
                     this.stock = Integer.parseInt(row.get(2));
                     this.name = row.get(0);
-                    this.pricePerPiece = Integer.parseInt(row.get(3));
+                    this.pricePerPiece = Float.parseFloat(row.get(3));
 
                 } catch (NumberFormatException ex) {
-
                 }
             }
         }
+        System.out.println(DBConnection.statusMsg);
     }
 
     public boolean setStock(int newStock) {
@@ -65,7 +65,7 @@ public class Product {
         ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT StockItemID FROM stockitems");
         if (!rows.get(0).isEmpty()) {
             for (int i = 0; i < rows.size(); i++) {
-                Product product = new Product(Integer.parseInt(rows.get(0).get(0)));
+                Product product = new Product(Integer.parseInt(rows.get(i).get(0)));
                 products.add(product);
             }
         } else {
@@ -75,4 +75,19 @@ public class Product {
 
     }
 
+    public int getID() {
+        return ID;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public float getPricePerPiece() {
+        return pricePerPiece;
+    }
 }

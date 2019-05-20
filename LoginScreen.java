@@ -99,7 +99,7 @@ public class LoginScreen extends JFrame implements ActionListener {
             return true;
         } else if (level.equals("Administrator")) {
             AdministratorScreen AS = new AdministratorScreen(user);
-            AS.setVisible(true);
+
             return true;
         } else {
             return false;
