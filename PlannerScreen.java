@@ -8,11 +8,12 @@ package kbs2;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  *
@@ -31,7 +32,7 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
     public PlannerScreen(User ActiveUser){
         this.ActiveUser = ActiveUser;
         setLayout(new FlowLayout());
-        setTitle("Planner");
+        setTitle("Routeplanner");
         setPreferredSize(new Dimension(800, 600));
 
         JTOrderList = new JTable(new PlannerScreenTableContent());
@@ -112,16 +113,16 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
     //calculates the optimal route with the given Orders, saves the route with its locations in the database
     private void routeTSP(ArrayList<Order> ar1){
         if(ar1.isEmpty()){
-            JOptionPane.showMessageDialog(this,"Selecteer minimaal 1 order");
+            JOptionPane.showMessageDialog(this, "Selecteer minimaal 1 order", "foutmelding", JOptionPane.INFORMATION_MESSAGE);
         }else if(ar1.size() <= 20){
             Route r1 = new Route(ar1); 
             if(r1.getResult()){
-                //link to planner popup
+                //new RouteScreen(this,r1);
             }else{
                 JOptionPane.showMessageDialog(this,"Er ging iets fout bij het bereken van uw route");
             }
         }else{
-            JOptionPane.showMessageDialog(this,"Meer dan 20 orders geselecteerd");      
+            JOptionPane.showMessageDialog(this, "Er zijn meer dan 20 orders geselecteerd", "foutmelding", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }
