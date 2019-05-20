@@ -13,6 +13,7 @@ import java.io.IOException;
  */
 public class test2 {
     public static void main(String[] args) throws IOException {
-        //HK_extended.berekenPath(locaties1);
+        User u1 = new User("nieknijland","test1244");
+        new PlannerScreen(u1);
     }
 }

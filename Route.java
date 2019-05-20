@@ -33,7 +33,7 @@ class Route {
         ArrayList<String> routeLocationPrepares = new ArrayList<>();
 
         //getting the last ID + 1 from the databasetable
-        ID = DBConnection.getNewId("routes", "RouteID");
+        this.ID = DBConnection.getNewId("routes", "RouteID");
         routePrepares.add(ID+"");
         this.distance = HeuristicsExtended.getOptimalDistance();
         routePrepares.add(distance+"");
@@ -91,13 +91,17 @@ class Route {
     }
 
     //return: 0 = allready a driver assigned, 1 = succes
-    public boolean addDriver(int driverID) {
+    public boolean addDriver(Driver driver) {
         ArrayList<String> prepares = new ArrayList<>();
-        prepares.add(driverID + "");
+        prepares.add(driver.getID() + "");
         prepares.add(this.ID + "");
 
         int result = DBConnection.executeQuery("UPDATE routes SET DriverID = ? WHERE RouteID = ?", prepares);
-        return result == 1;
+        if(result == 1 ){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public ArrayList<RouteLocation> getLocations() {
