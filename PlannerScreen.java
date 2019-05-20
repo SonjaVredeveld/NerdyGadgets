@@ -119,7 +119,7 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
             if(r1.getResult()){
                 //new RouteScreen(this,r1);
             }else{
-                JOptionPane.showMessageDialog(this,"Er ging iets fout bij het bereken van uw route");
+                JOptionPane.showMessageDialog(this, "Er ging iets fout bij het bereken van uw route", "foutmelding", JOptionPane.INFORMATION_MESSAGE);
             }
         }else{
             JOptionPane.showMessageDialog(this, "Er zijn meer dan 20 orders geselecteerd", "foutmelding", JOptionPane.INFORMATION_MESSAGE);
