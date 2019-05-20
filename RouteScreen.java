@@ -63,7 +63,7 @@ public class RouteScreen extends JDialog implements ActionListener {
         JBAssignRoute.addActionListener(this);
         panelBottom.add(JBAssignRoute);
         panelBottom.add(new JLabel(" "));
-        JBCancel = style.button("Cancel");
+        JBCancel = style.button("Annuleren");
         JBCancel.addActionListener(this);
         panelBottom.add(JBCancel);
         panelBottom.add(new JLabel(" "));
