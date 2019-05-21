@@ -9,7 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class EditStock extends JDialog implements ActionListener {
 
@@ -23,6 +22,7 @@ public class EditStock extends JDialog implements ActionListener {
     private JPanel panelP;
     private JPanel panelS;
     private Product product;
+    private AdministratorScreen admin;
 
     public EditStock(JFrame screen, Product product) {
         super(screen, true);
@@ -70,23 +70,20 @@ public class EditStock extends JDialog implements ActionListener {
         add(panelS);
     }
 
-    public void setNewStock() {
-        ArrayList<String> prepares = new ArrayList<String>();
-        prepares.add(JTFnewStock.getText());
-        int update = DBConnection.executeQuery("UPDATE Stockitemholdings SET QuantityOnHand = ? WHERE StockItemID = "+ product.getID(), prepares);
-        if (update > 0) {
-            System.out.println("we updated the item.");
-        } else {
-            System.out.println(DBConnection.statusMsg); //check status(also error info)
-        }
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == JBcancel) {
             dispose();
         } else if (e.getSource() == JBok) {
-            setNewStock();
+            try {
+                int aantal = Integer.parseInt(JTFnewStock.getText());
+                product.setStock(String.valueOf(aantal));
+            } catch (NumberFormatException nfe) {
+                JOptionPane.showMessageDialog(this, "Voer een getal in");
+                EditStock editStockDialog = new EditStock(admin, product);
+                editStockDialog.setVisible(true);
+            }
+
             dispose();
         }
     }

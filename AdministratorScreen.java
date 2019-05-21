@@ -159,28 +159,19 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
     public void tableChanged(TableModelEvent tme) {
         //check if we have a click from a table
         if (this.JTCustomers.getEditingRow() >= 0) {    //customers table
-//            System.out.println("customers");
-//            System.out.println(this.JTCustomers.getEditingRow());
-//            System.out.println(this.customers.get(this.JTCustomers.getEditingRow()));
             Customer customer = this.customers.get(this.JTCustomers.getEditingRow());
             EditCustomer editCustomerDialog = new EditCustomer(this, customer);
             editCustomerDialog.setVisible(true);
             new AdministratorScreen(this.ActiveUser);
             dispose();  //not working
         } else if (this.JTStock.getEditingRow() >= 0) { //products table
-//            System.out.println("products");
-//            System.out.println(this.JTStock.getEditingRow());
-//            System.out.println(this.products.get(this.JTStock.getEditingRow()));
             Product product = this.products.get(this.JTStock.getEditingRow());
             EditStock editStockDialog = new EditStock(this, product);
             editStockDialog.setVisible(true);
             new AdministratorScreen(this.ActiveUser);
             dispose();  //not working
         } else {    //anything else
-//            System.out.println(tme);
-//            System.out.println(this.JTCustomers.getEditingRow());
-//            System.out.println(this.JTStock.getEditingRow());
-//            System.out.println("something else is striggering");
+            System.out.println("something else is triggering");
         }
 
     }
