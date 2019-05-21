@@ -45,7 +45,6 @@ public class User {
         prepares.add(userName);
 
         ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT HashedPassword, userRights, PersonID FROM people WHERE LogonName = ?", prepares);
-//        System.out.println(rows);
         //when no user is found this will return ""
         //after which: in loginscreen the user wil get the incorect login credentials msg
         for (int i = 0; i < rows.size(); i++) {
