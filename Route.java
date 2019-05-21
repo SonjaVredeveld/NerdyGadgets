@@ -32,13 +32,16 @@ class Route {
         ArrayList<String> routePrepares = new ArrayList<>();
         ArrayList<String> routeLocationPrepares = new ArrayList<>();
 
-        //getting the last ID + 1 from the databasetable
+        //getting the last ID + 1 from the databasetable & the first driver to add
         this.ID = DBConnection.getNewId("routes", "RouteID");
+        String firstDriver = DBConnection.selectQuery("SELECT PersonID FROM people WHERE userRights = 'Driver' ORDER BY PersonID LIMIT 1").get(0).get(0);
         routePrepares.add(ID+"");
         this.distance = HeuristicsExtended.getOptimalDistance();
         routePrepares.add(distance+"");
+        routePrepares.add(firstDriver);
+        
 
-        result1 = DBConnection.executeQuery("INSERT INTO routes VALUES (?,NOW(),?,NULL)", routePrepares);
+        result1 = DBConnection.executeQuery("INSERT INTO routes VALUES (?,NOW(),?,?)", routePrepares);
 
         if (result1 != 0) {
             //inserting all the routelocations
@@ -66,6 +69,8 @@ class Route {
                 deleteRoutePrepares.add(ID + "");
                 DBConnection.executeQuery("DELETE FROM routes WHERE RouteID = ?", deleteRoutePrepares);
             }
+        }else{
+            System.out.println(DBConnection.statusMsg);
         }
 
     }

@@ -72,9 +72,9 @@ public class AssignRouteScreen extends JDialog implements ActionListener, ListSe
     //return: double array with the data for the JTabel 
     private Object[][] tableData() {
         driverList = Driver.getDrivers();
-        Object[][] data = new Object[driverList.size() - 1][1];
+        Object[][] data = new Object[driverList.size()][1];
 
-        for(int i = 0;i < driverList.size() - 1;i++) {
+        for(int i = 0;i < driverList.size();i++) {
             data[i][0] = driverList.get(i).getFullName();
         }
         
@@ -110,6 +110,5 @@ public class AssignRouteScreen extends JDialog implements ActionListener, ListSe
     //return: if driver has been added or not
     public boolean getStatus() {
         return this.status;
-    }
-        
+    }   
 }

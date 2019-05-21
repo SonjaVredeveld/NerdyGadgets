@@ -60,7 +60,7 @@ public class RouteScreen extends JDialog implements ActionListener {
         JTRouteLocationList.setPreferredSize(new Dimension(320, 250));
         tableSP.setPreferredSize(new Dimension(320, 250));
         
-        add(tableSP);
+        this.add(tableSP);
         
         
         Panel panelBottom = new Panel();
@@ -76,13 +76,13 @@ public class RouteScreen extends JDialog implements ActionListener {
         JBCancel.addActionListener(this);
         panelBottom.add(JBCancel);
         panelBottom.add(new JLabel(" "));
-        add(panelBottom);
+        this.add(panelBottom);
         
         //disables window resizing by the user
-        setResizable(false);
-        setVisible(true);
-        pack();
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setResizable(false);
+        this.setVisible(true);
+        this.pack();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
     
     //return: double array with the data for the JTabel

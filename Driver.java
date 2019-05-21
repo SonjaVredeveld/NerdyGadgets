@@ -29,7 +29,7 @@ public class Driver {
     //return: ArrayList with all drivers
     public static ArrayList<Driver> getDrivers() {
         ArrayList driverList = new ArrayList<>();
-        ArrayList<ArrayList<String>> rows1 = DBConnection.selectQuery("SELECT PersonID FROM people LIMIT 10");
+        ArrayList<ArrayList<String>> rows1 = DBConnection.selectQuery("SELECT PersonID FROM people WHERE userRights = 'Driver'");
         for (int i = 0; i < rows1.size(); i++) {
             driverList.add(new Driver(Integer.parseInt(rows1.get(i).get(0))));
         }
