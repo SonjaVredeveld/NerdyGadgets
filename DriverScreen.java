@@ -27,6 +27,12 @@ public class DriverScreen extends JFrame implements ActionListener, TableModelLi
     private ButtonEditor JBshowRoute;
 
     public DriverScreen(User user) {
+        this.user = user;
+        if(!user.getLevel().equals("Driver")){
+            this.dispose();
+            new LoginScreen();
+        }
+        
         //Layout
         setLayout(new FlowLayout());
         setTitle("Beschikbare Routes");
@@ -35,8 +41,6 @@ public class DriverScreen extends JFrame implements ActionListener, TableModelLi
         jtTitle = new JLabel("Te rijden routes");
         jtTitle.setPreferredSize(new Dimension(800, 25));
         jtTitle.setHorizontalAlignment(JLabel.CENTER);
-
-        this.user = user;
         
         //Test Column names
         String[] columnNames = {"Route nummer", "Aantal locaties", "Afstand", "Bekijk route", "Datum aangemaakt"};
