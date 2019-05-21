@@ -86,8 +86,8 @@ public class AssignRouteScreen extends JDialog implements ActionListener, ListSe
         if(e.getSource() == JBAssign) {
             //add driver to route
             if(selectedDriver != null) {
-                route.addDriver(selectedDriver);
-                if(1 == 1) {
+                boolean addDriver = route.addDriver(selectedDriver);
+                if(addDriver) {
                     JOptionPane.showMessageDialog(this, "Route toegewezen aan: " + selectedDriver.getFullName(), "Melding", JOptionPane.INFORMATION_MESSAGE);
                     this.status = true;
                     this.dispose();

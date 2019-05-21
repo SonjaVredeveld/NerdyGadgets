@@ -69,8 +69,6 @@ class Route {
                 deleteRoutePrepares.add(ID + "");
                 DBConnection.executeQuery("DELETE FROM routes WHERE RouteID = ?", deleteRoutePrepares);
             }
-        }else{
-            System.out.println(DBConnection.statusMsg);
         }
 
     }
@@ -128,5 +126,14 @@ class Route {
 
     public ArrayList<Route> getRoutes() {
         return new ArrayList<>();
+    }
+    
+    //return: if it succeeded at doing so or not
+    public boolean deleteRoute() {
+        ArrayList<String> prepares1 = new ArrayList<>();
+        prepares1.add(this.ID+"");
+        int result1 = DBConnection.executeQuery("DELETE FROM routelocation WHERE RouteID = ?", prepares1);
+        int result2 = DBConnection.executeQuery("DELETE FROM routes WHERE RouteID = ?", prepares1);
+        return result1 != 0 && result2 != 0;
     }
 }

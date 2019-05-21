@@ -117,7 +117,7 @@ public class RouteScreen extends JDialog implements ActionListener {
             }
         }else if(e.getSource() == JBCancel) {
             //if cancel button was pressed, attempt to delete the newly created route and its routelocations, then prompt the corresponding popup
-            boolean result1 = deleteRoute();
+            boolean result1 = this.route.deleteRoute();
             if(result1) {
                 JOptionPane.showMessageDialog(this, "Route geannuleerd", "Melding", JOptionPane.INFORMATION_MESSAGE);
             }else{
@@ -125,15 +125,5 @@ public class RouteScreen extends JDialog implements ActionListener {
             }
             this.dispose();
         }
-    }
-    
-    //deleting the last inserted route and its routelocations
-    //return: if it succeeded at doing so or not
-    private boolean deleteRoute() {
-        ArrayList<String> prepares1 = new ArrayList<>();
-        prepares1.add(this.route.getID()+"");
-        int result1 = DBConnection.executeQuery("DELETE FROM routelocation WHERE RouteID = ?", prepares1);
-        int result2 = DBConnection.executeQuery("DELETE FROM routes WHERE RouteID = ?", prepares1);
-        return result1 != 0 && result2 != 0;
     }
 }
