@@ -5,17 +5,15 @@ import java.awt.*;
 
 import java.awt.event.*;
 
-class ButtonEditor extends DefaultCellEditor {
+class ButtonEditor extends DefaultCellEditor implements ActionListener {
     protected JButton button;
     private String label;
-    private boolean isPushed;
-    private DriverScreen dc;
 
     public ButtonEditor(JCheckBox checkBox) {
         super(checkBox);
         button = new JButton();
         button.setOpaque(true);
-        button.addActionListener(e -> fireEditingStopped());
+        button.addActionListener(this);
     }
 
     // If button is selected following animation starts
@@ -37,33 +35,19 @@ class ButtonEditor extends DefaultCellEditor {
             label = value.toString();
         }
         button.setText(label);
-        isPushed = true;
         return button;
     }
 
-    public boolean isPushed() {
-        return isPushed;
-    }
-
-    public void setPushed(boolean pushed) {
-        isPushed = pushed;
-    }
-
     public Object getCellEditorValue() {
-        if (isPushed) {
-            DriverRouteScreen dialoog = new DriverRouteScreen(dc);
-            dialoog.setVisible(true);
-        }
-        isPushed = false;
         return new String(label);
     }
 
     public boolean stopCellEditing() {
-        isPushed = false;
         return super.stopCellEditing();
     }
 
-    protected void fireEditingStopped() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
         super.fireEditingStopped();
     }
 }

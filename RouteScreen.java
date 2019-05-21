@@ -25,11 +25,14 @@ public class RouteScreen extends JDialog implements ActionListener {
     //parm 2: Route to view data of in this popup
     public RouteScreen(JFrame screen, Route r1){
         super(screen, true);
-        this.setLayout(new FlowLayout());
-        this.setTitle("Planner");
-        this.setSize(500, 500);
-        this.route = r1;
-        
+        this.ActiveUser = ActiveUser;
+        if(!ActiveUser.getLevel().equals("Planner")){
+            this.dispose();
+            new LoginScreen();
+        }
+        setLayout(new FlowLayout());
+        setTitle("Planner");
+        setSize(500, 500);
         Panel panelTop = new Panel();
         panelTop.setLayout(new GridLayout(1,3));
         panelTop.setPreferredSize(new Dimension(500, 50));

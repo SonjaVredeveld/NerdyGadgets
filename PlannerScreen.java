@@ -40,18 +40,14 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         //creating a ScrollPane from the JTable
         JScrollPane tableSP = new JScrollPane(JTOrderList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         
-        JTOrderList.setPreferredSize(new Dimension(780, 492));
-        tableSP.setPreferredSize(new Dimension(780, 492));
-        
+        JTOrderList.setPreferredSize(new Dimension(800, 492));
+        tableSP.setPreferredSize(new Dimension(800, 492));
+
         //setting the size for every column of JTOrderList
-        for (int i = 0; i < 4; i++) {
-            if(i == 0){
-                JTOrderList.getColumnModel().getColumn(i).setPreferredWidth(50);
-            }else{
-                JTOrderList.getColumnModel().getColumn(i).setPreferredWidth(100);        
-            }
-        } 
-        this.add(tableSP);
+
+        setJTableColumnsWidth(JTOrderList, 800, 2, 14, 28, 28, 28);
+
+        add(tableSP);
         
         Panel panelBottom = new Panel();
         panelBottom.setLayout(new GridLayout(1,5));
@@ -75,6 +71,20 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         this.setVisible(true);
         this.pack();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public static void setJTableColumnsWidth(JTable table, int tablePreferredWidth,
+                                             double... percentages) {
+        double total = 0;
+        for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
+            total += percentages[i];
+        }
+
+        for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
+            TableColumn column = table.getColumnModel().getColumn(i);
+            column.setPreferredWidth((int)
+                    (tablePreferredWidth * (percentages[i] / total)));
+        }
     }
     
     @Override
@@ -101,10 +111,12 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         }
     }
   
-    //simple logout funtion
+    //simple logout function
     private void logout(){
         ActiveUser = null;
         this.dispose();
+        LoginScreen LS = new LoginScreen();
+        LS.setVisible(true);
     }
     
     //calculates the optimal route with the given Orders, saves the route with its locations in the database

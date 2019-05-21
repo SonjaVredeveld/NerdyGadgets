@@ -10,19 +10,16 @@ public class getCoordinates {
     // https://dzone.com/articles/google-maps-java-swing
 
     private String[] address;
+    int x = 1;
 
     public getCoordinates(){
         this.address = getDbAddress();
-        // prints the long/lat
-        for (int i = 0;i < this.address.length; i++){
-            System.out.println(this.address[i]);
-        }
     }
 
     public String[] getDbAddress(){
 
 //        SELECT Query
-        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT DeliveryAddressLine2, CustomerID FROM customers WHERE CustomerID > 1055");
+        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT DeliveryPostalCode, CustomerID FROM customers WHERE longitude IS NULL");
 
         String[] result = new String[rows.size()];
 
@@ -44,7 +41,7 @@ public class getCoordinates {
         // updates database to add long/lat
         int update = DBConnection.executeQuery("UPDATE customers SET latitude = "+coords.get("lat")+", longitude = "+coords.get("lon")+" WHERE CustomerID =  "+CustomerID+"");
         if (update > 0) {
-            System.out.println("we updated the item.");
+            System.out.println("Added long and lat to Db. " + x++);
         } else {
             System.out.println(DBConnection.statusMsg); //check status(also error info)
         }
@@ -53,10 +50,5 @@ public class getCoordinates {
 
     public String[] getAddress() {
         return address;
-    }
-
-    public static void main(String[] args) {
-        //starts program
-        String[] instance = new getCoordinates().getAddress();
     }
 }
