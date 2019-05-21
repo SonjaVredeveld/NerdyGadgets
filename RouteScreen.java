@@ -17,6 +17,10 @@ public class RouteScreen extends JDialog implements ActionListener {
     public RouteScreen(JFrame screen, Route r1){
         super(screen, true);
         this.ActiveUser = ActiveUser;
+        if(!ActiveUser.getLevel().equals("Planner")){
+            this.dispose();
+            new LoginScreen();
+        }
         setLayout(new FlowLayout());
         setTitle("Planner");
         setSize(500, 500);
