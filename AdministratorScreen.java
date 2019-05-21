@@ -1,10 +1,14 @@
 package kbs2;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.event.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class AdministratorScreen extends JFrame implements ActionListener, TableModelListener {
 
@@ -19,7 +23,7 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
     private String buttonType;
     private ArrayList<Product> products;
     private ArrayList<Customer> customers;
-    private User user;
+    private User ActiveUser;
 
     public void setButton(String type) {
         this.buttonType = type;
@@ -29,11 +33,11 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         return buttonType;
     }
 
-    public AdministratorScreen(User user) {
+    public AdministratorScreen(User ActiveUser) {
         frame = new JFrame();
         frame.setTitle("Systeembeheer");
         frame.setLayout(new FlowLayout());
-        this.user = user;
+        this.ActiveUser = ActiveUser;
 
         // fill products tabel
         Object[][] dataProducts = this.getStockRows();
@@ -42,6 +46,9 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
 
         JTStock = new JTable(dataProducts, columnProducts);
         JTStock.setFillsViewportHeight(true);
+
+        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(JTStock.getModel());
+        JTStock.setRowSorter(sorter);
 
         JScrollPane spProducts = new JScrollPane(JTStock);
         spProducts.setPreferredSize(new Dimension(775, 450));
@@ -62,6 +69,9 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         JTCustomers = new JTable(dataCustomers, columnCustomers);
         JTCustomers.setFillsViewportHeight(true);
 
+        TableRowSorter<TableModel> sorter2 = new TableRowSorter<TableModel>(JTCustomers.getModel());
+        JTCustomers.setRowSorter(sorter2);
+
         JScrollPane spCustomers = new JScrollPane(JTCustomers);
         JPanel panelCustomers = new JPanel();
         panelCustomers.setLayout(new BorderLayout());
@@ -80,6 +90,9 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         JTOrders = new JTable(dataOrders, columnOrders);
         JTOrders.setFillsViewportHeight(true);
 
+        TableRowSorter<TableModel> sorter3 = new TableRowSorter<TableModel>(JTOrders.getModel());
+        JTOrders.setRowSorter(sorter3);
+
         JScrollPane spOrders = new JScrollPane(JTOrders);
         JPanel panelOrders = new JPanel();
         panelOrders.setLayout(new BorderLayout());
@@ -92,14 +105,14 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         JTPAdminTabs.add("Bestellingen", panelOrders);
 
         // LOGOUT button
-        JBLogout = new JButton("Uitloggen");
+        JBLogout = style.button("Uitloggen");
         JBLogout.addActionListener(this);
 
         frame.add(JTPAdminTabs);
         frame.add(JBLogout);
         frame.setSize(800, 600);
         frame.setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     //creates the content for the tables
@@ -146,36 +159,43 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
     public void tableChanged(TableModelEvent tme) {
         //check if we have a click from a table
         if (this.JTCustomers.getEditingRow() >= 0) {    //customers table
-            System.out.println("customers");
-            System.out.println(this.JTCustomers.getEditingRow());
-            System.out.println(this.customers.get(this.JTCustomers.getEditingRow()));
+//            System.out.println("customers");
+//            System.out.println(this.JTCustomers.getEditingRow());
+//            System.out.println(this.customers.get(this.JTCustomers.getEditingRow()));
             Customer customer = this.customers.get(this.JTCustomers.getEditingRow());
             EditCustomer editCustomerDialog = new EditCustomer(this, customer);
             editCustomerDialog.setVisible(true);
-            new AdministratorScreen(this.user);
+            new AdministratorScreen(this.ActiveUser);
             dispose();  //not working
         } else if (this.JTStock.getEditingRow() >= 0) { //products table
-            System.out.println("products");
-            System.out.println(this.JTStock.getEditingRow());
-            System.out.println(this.products.get(this.JTStock.getEditingRow()));
+//            System.out.println("products");
+//            System.out.println(this.JTStock.getEditingRow());
+//            System.out.println(this.products.get(this.JTStock.getEditingRow()));
             Product product = this.products.get(this.JTStock.getEditingRow());
             EditStock editStockDialog = new EditStock(this, product);
             editStockDialog.setVisible(true);
-            new AdministratorScreen(this.user);
+            new AdministratorScreen(this.ActiveUser);
             dispose();  //not working
         } else {    //anything else
-            System.out.println(tme);
-            System.out.println(this.JTCustomers.getEditingRow());
-            System.out.println(this.JTStock.getEditingRow());
-            System.out.println("something else is striggering");
+//            System.out.println(tme);
+//            System.out.println(this.JTCustomers.getEditingRow());
+//            System.out.println(this.JTStock.getEditingRow());
+//            System.out.println("something else is striggering");
         }
 
+    }
+
+    private void logout(){
+        ActiveUser = null;
+        this.dispose();
+        LoginScreen LS = new LoginScreen();
+        LS.setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == JBLogout) {
-            this.user = null;
+            this.ActiveUser = null;
             new LoginScreen();
             dispose();
         } else if (e.getSource() == products) {

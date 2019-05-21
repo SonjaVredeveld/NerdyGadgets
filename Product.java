@@ -26,7 +26,7 @@ public class Product {
         ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT StockItemName, si.StockItemID, QuantityOnHand, UnitPrice FROM stockitems as si JOIN stockitemholdings as sih ON si.StockItemID = sih.StockItemID WHERE si.StockItemID = ?", prepares);
 
         //save the needed data
-        System.out.println(rows);
+//        System.out.println(rows);
         if (!rows.isEmpty()) {
             if (rows.size() > 0) {
 
@@ -41,7 +41,7 @@ public class Product {
                 }
             }
         }
-        System.out.println(DBConnection.statusMsg);
+        //System.out.println(DBConnection.statusMsg);
     }
 
     public boolean setStock(int newStock) {

@@ -5,16 +5,11 @@
  */
 package kbs2;
 
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import java.util.ArrayList;
 
 public class EditStock extends JDialog implements ActionListener {
 
@@ -23,8 +18,8 @@ public class EditStock extends JDialog implements ActionListener {
     private JLabel JLProductName;
     private JLabel JLCurrentStock;
     private JLabel JLStock;
-    private JButton JBok = new JButton();
-    private JButton JBcancel = new JButton();
+    private JButton JBok;
+    private JButton JBcancel;
     private JPanel panelP;
     private JPanel panelS;
     private Product product;
@@ -35,14 +30,14 @@ public class EditStock extends JDialog implements ActionListener {
         this.product = product;
 
         setTitle("Verander voorraad");
-        setSize(300, 300);
+        setSize(300, 200);
         setLayout(new FlowLayout());
 
         // Panel for PRODUCTNAME
         panelP = new JPanel();
         panelP.setLayout(new GridLayout(1, 1, 20, 20));
 
-        JLProductName = new JLabel("{{productnaam}}");
+        JLProductName = new JLabel(product.getName());
         panelP.add(JLProductName);
 
         add(panelP);
@@ -55,7 +50,7 @@ public class EditStock extends JDialog implements ActionListener {
         panelS.add(JLCurrentStock);
 
         // TODO -- GET STOCK FROM DATABASE
-        JLStock = new JLabel("{{voorraad}}");
+        JLStock = new JLabel(String.valueOf(product.getStock()));
         panelS.add(JLStock);
 
         JLNewStock = new JLabel("Nieuwe voorraad: ");
@@ -65,18 +60,25 @@ public class EditStock extends JDialog implements ActionListener {
         panelS.add(JTFnewStock);
 
         // TODO-- USE JTFnewStock TO UPDATE DATABASE
-        JBok = new JButton("Ok");
+        JBok = style.button("Ok");
         panelS.add(JBok);
         JBok.addActionListener(this);
 
-        JBcancel = new JButton("cancel");
+        JBcancel = style.button("cancel");
         panelS.add(JBcancel);
         JBcancel.addActionListener(this);
         add(panelS);
     }
 
-    public void setNewStock(int newStock) {
-
+    public void setNewStock() {
+        ArrayList<String> prepares = new ArrayList<String>();
+        prepares.add(JTFnewStock.getText());
+        int update = DBConnection.executeQuery("UPDATE Stockitemholdings SET QuantityOnHand = ? WHERE StockItemID = "+ product.getID(), prepares);
+        if (update > 0) {
+            System.out.println("we updated the item.");
+        } else {
+            System.out.println(DBConnection.statusMsg); //check status(also error info)
+        }
     }
 
     @Override
@@ -84,7 +86,7 @@ public class EditStock extends JDialog implements ActionListener {
         if (e.getSource() == JBcancel) {
             dispose();
         } else if (e.getSource() == JBok) {
-            // TODO -- UPDATE DATABASE
+            setNewStock();
             dispose();
         }
     }
