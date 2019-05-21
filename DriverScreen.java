@@ -25,9 +25,13 @@ public class DriverScreen extends JFrame implements ActionListener, TableModelLi
     private JScrollPane tableSP;
     private User ActiveUser;
 
-    public DriverScreen(User ActiveUser) {
+    public DriverScreen(User user) {
+        this.user = user;
+        if(!user.getLevel().equals("Driver")){
+            this.dispose();
+            new LoginScreen();
+        }
         //Layout
-        this.ActiveUser = ActiveUser;
         setLayout(new FlowLayout());
         setTitle("Beschikbare Routes");
         setPreferredSize(new Dimension(800, 600));
