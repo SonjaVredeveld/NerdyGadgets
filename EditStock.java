@@ -7,7 +7,7 @@ package kbs2;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 public class EditStock extends JDialog implements ActionListener {
