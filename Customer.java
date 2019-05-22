@@ -25,7 +25,7 @@ public class Customer extends getCoordinates {
     public Customer(int ID) {
         //initializing customer from database
         ArrayList<String> prepares = new ArrayList<>();
-        prepares.add(ID+"");
+        prepares.add(ID + "");
         ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT c.CustomerID, c.DeliveryAddressLine2, c.DeliveryPostalCode, c.CustomerName, ci.CityName, c.longitude, c.latitude FROM customers c JOIN cities ci ON c.DeliveryCityID = ci.CityID WHERE CustomerID = ?", prepares);
 
         if(rows.size() > 0) {
@@ -39,20 +39,25 @@ public class Customer extends getCoordinates {
             this.latitude = Integer.parseInt(rows.get(0).get(6));
         }
     }
-    
+
     public static ArrayList<Customer> getCustomers() {
         //getting all available CustomerID's
         ArrayList<Customer> customerList = new ArrayList<>();
-        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT CustomerID FROM customers", new ArrayList<>());
-        if(rows.size() > 0) {
+        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT CustomerID FROM customers");
+        if (rows.size() > 0) {
             //creating a customer for every CustomerID
             for (int i = 0; i < rows.size(); i++) {
-                customerList.add(new Customer(Integer.parseInt(rows.get(i).get(0))));
+                try {
+                    customerList.add(new Customer(Integer.parseInt(rows.get(i).get(0))));
+
+                } catch (NumberFormatException ex) {
+                    System.out.println(DBConnection.statusMsg);
+                }
             }
         }
         return customerList;
     }
-    
+
     public int getID() {
         return this.ID;
     }
@@ -60,7 +65,7 @@ public class Customer extends getCoordinates {
     public String getCustomerName() {
         return customerName;
     }
-    
+
     public String getDeliveryAddressLine2() {
         return deliveryAddressLine2;
     }
@@ -69,16 +74,28 @@ public class Customer extends getCoordinates {
         return deliveryPostalCode;
     }
 
-    
     public String getCustomerCity() {
         return customerCity;
     }
-    
+
     public int getLatitude() {
         return latitude;
     }
-    
+
     public int getLongitude() {
         return longitude;
+    }
+
+    public boolean setStock(int newStock) {
+        ArrayList<String> prepares = new ArrayList<>();
+        prepares.add(ID + "");
+        int rs = DBConnection.executeQuery("ALTER TABLE stockitemholdings SET QuantityOnHand = ? WHERE StockItemID = ?", prepares);
+        if (rs > 0) {
+            System.out.println("updated!");
+            return true;
+        } else {
+            System.out.println(DBConnection.statusMsg);
+            return false;
+        }
     }
 }

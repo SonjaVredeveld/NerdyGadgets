@@ -15,6 +15,10 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+// Sources
+// http://julien.gunnm.org/geek/programming/2015/09/13/how-to-get-geocoding-information-in-java-without-google-maps-api/
+// https://dzone.com/articles/google-maps-java-swing
+
 public class OpenStreetMapUtils {
 
     public final static Logger log = Logger.getLogger("OpenStreetMapUtils");
