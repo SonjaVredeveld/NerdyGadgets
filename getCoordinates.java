@@ -9,7 +9,7 @@ import java.util.Map;
 // https://dzone.com/articles/google-maps-java-swing
 
 public class getCoordinates {
-    
+
     private String[] address;
 
     public getCoordinates(){
