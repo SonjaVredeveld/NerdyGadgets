@@ -1,10 +1,9 @@
 package kbs2;
-
 import javax.swing.UIManager;
 
 /**
  *
- * @author pieter, randy
+ * @author kbs groep 3
  */
 public class main {
 
@@ -18,6 +17,5 @@ public class main {
         LoginScreen LS = new LoginScreen();
         ConnectBizagi.updateStockItemHoldings();
         LS.setVisible(true);
-
     }
 }

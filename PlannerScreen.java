@@ -34,38 +34,46 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         setLayout(new FlowLayout());
         setTitle("Planner");
         setPreferredSize(new Dimension(800, 600));
+        
+        //notification at the top of the window
+        Panel panelTop = new Panel();
+        panelTop.setLayout(new FlowLayout());
+        panelTop.setPreferredSize(new Dimension(800, 50));
+        panelTop.add(new JLabel("<html>Bij routeberekeningen met meer dan 17 orders word de alternatieve berekenmethode gebruikt,<br/>deze werkt sneller maar geeft minder accurate routes.</html>", SwingConstants.CENTER));
+        add(panelTop);
 
+        //creating a JTable in a JScrollPane
         JTOrderList = new JTable(new PlannerScreenTableContent());
         JTOrderList.getTableHeader().setReorderingAllowed(false);
-
         JTOrderList.getModel().addTableModelListener(this);
-        //creating a ScrollPane from the JTable
-        JScrollPane tableSP = new JScrollPane(JTOrderList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        JScrollPane tableSP = new JScrollPane(JTOrderList);
+        JTOrderList.setFillsViewportHeight(true);
+        tableSP.setPreferredSize(new Dimension(780, 440));
         
-        JTOrderList.setPreferredSize(new Dimension(800, 492));
-        tableSP.setPreferredSize(new Dimension(800, 492));
-
         //setting the size for every column of JTOrderList
-        setJTableColumnsWidth(JTOrderList, 800, 2, 14, 28, 28, 28);
-
+        for (int i = 0; i < 4; i++) {
+            if(i == 0){
+                JTOrderList.getColumnModel().getColumn(i).setPreferredWidth(50);
+            }else{
+                JTOrderList.getColumnModel().getColumn(i).setPreferredWidth(100);        
+            }
+        } 
         add(tableSP);
         
-        Panel p = new Panel();
-        p.setLayout(new GridLayout(1,5));
-        p.setPreferredSize(new Dimension(800, 50));
+        //buttons at the bottom of the window
+        Panel PanelBottom = new Panel();
+        PanelBottom.setLayout(new GridLayout(1,5));
+        PanelBottom.setPreferredSize(new Dimension(800, 50));
         JBStartRoute = style.button("Start routebepaling");
         JBStartRoute.addActionListener(this);
         JBLogout = style.button("Uitloggen");
         JBLogout.addActionListener(this);
-        
-        //elements in the lower part of the screen
-        p.add(new JLabel(" "));
-        p.add(new JLabel(" "));
-        p.add(JBStartRoute);
-        p.add(new JLabel(" "));
-        p.add(JBLogout);
-        
-        add(p);
+        PanelBottom.add(new JLabel(" "));
+        PanelBottom.add(new JLabel(" "));
+        PanelBottom.add(JBStartRoute);
+        PanelBottom.add(new JLabel(" "));
+        PanelBottom.add(JBLogout);
+        add(PanelBottom);
         
         //disables window resizing by the user
         setResizable(false);
@@ -124,15 +132,13 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
     private void routeTSP(ArrayList<Order> ar1){
         if(ar1.isEmpty()){
             JOptionPane.showMessageDialog(this, "Selecteer minimaal 1 order", "foutmelding", JOptionPane.INFORMATION_MESSAGE);
-        }else if(ar1.size() <= 20){
+        }else{
             Route r1 = new Route(ar1); 
             if(r1.getResult()){
                 new RouteScreen(this,r1);
             }else{
                 JOptionPane.showMessageDialog(this, "Er ging iets fout bij het bereken van uw route", "foutmelding", JOptionPane.INFORMATION_MESSAGE);
             }
-        }else{
-            JOptionPane.showMessageDialog(this, "Er zijn meer dan 20 orders geselecteerd", "foutmelding", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }

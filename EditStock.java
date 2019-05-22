@@ -10,7 +10,6 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class EditStock extends JDialog implements ActionListener {
-
     private JTextField JTFnewStock;
     private JLabel JLNewStock;
     private JLabel JLProductName;
@@ -82,7 +81,6 @@ public class EditStock extends JDialog implements ActionListener {
                 EditStock editStockDialog = new EditStock(admin, product);
                 editStockDialog.setVisible(true);
             }
-
             dispose();
         }
     }
