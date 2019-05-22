@@ -20,7 +20,7 @@ public class DriverScreen extends JFrame implements ActionListener, TableModelLi
     private Route route;
     private ArrayList<kbs2.Route> routeList = new ArrayList<>();
     private JTable jtRouteTable;
-    private JLabel jtTitle;
+    private JLabel jtTitle, JLinfo;
     private JButton jbLogout;
     private JScrollPane tableSP;
     private User ActiveUser;
@@ -39,6 +39,10 @@ public class DriverScreen extends JFrame implements ActionListener, TableModelLi
         jtTitle = new JLabel("Te rijden routes");
         jtTitle.setPreferredSize(new Dimension(800, 25));
         jtTitle.setHorizontalAlignment(JLabel.CENTER);
+        
+        JLinfo = new JLabel("De moet van boven naar beneden worden afgewerkt.");
+        JLinfo.setPreferredSize(new Dimension(800, 25));
+        JLinfo.setHorizontalAlignment(JLabel.CENTER);
 
         //Test Column names
         String[] columnNames = {"Route nummer", "Aantal locaties", "Afstand", "Bekijk route", "Datum aangemaakt"};
@@ -77,6 +81,7 @@ public class DriverScreen extends JFrame implements ActionListener, TableModelLi
 
         // Order for elements to appear
         add(jtTitle);
+        add(JLinfo);
         add(tableSP);
         p.add(new JLabel(" "));
         p.add(new JLabel(" "));
