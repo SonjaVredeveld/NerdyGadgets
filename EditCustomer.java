@@ -13,17 +13,19 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 public class EditCustomer extends JDialog implements ActionListener {
 
-    private JTextField JTFfirstName, JTFlastName, JTFaddressLine, JTFcity;
-    private JLabel JLfirstName, JLlastName, JLaddressLine, JLcity, JLtitle;
+    private JTextField JTFName, JTFaddressLine, JTFcity;
+    private JLabel JLName, JLaddressLine, JLcity, JLtitle;
     private JButton JBsave, JBcancel;
     private JPanel panelCustomer, panelButtons;
     private Customer customer;
+    private AdministratorScreen admin;
 
     public EditCustomer(JFrame screen, Customer customer) {
         super(screen, true);
@@ -31,23 +33,17 @@ public class EditCustomer extends JDialog implements ActionListener {
         this.customer = customer;
 
         setTitle("Verander Klantgegevens");
-        setSize(300, 300);
+        setSize(700, 400);
         setLayout(new FlowLayout());
 
         panelCustomer = new JPanel();
-        panelCustomer.setLayout(new GridLayout(4, 1, 10, 40));
+        panelCustomer.setLayout(new GridLayout(5, 1, 10, 40));
 
-        JLfirstName = new JLabel("Voornaam: ");
-        panelCustomer.add(JLfirstName);
+        JLName = new JLabel("Klantnaam: ");
+        panelCustomer.add(JLName);
 
-        JTFfirstName = new JTextField(25);
-        panelCustomer.add(JTFfirstName);
-
-        JLlastName = new JLabel("Achternaam:");
-        panelCustomer.add(JLlastName);
-
-        JTFlastName = new JTextField(25);
-        panelCustomer.add(JTFlastName);
+        JTFName = new JTextField(25);
+        panelCustomer.add(JTFName);
 
         JLaddressLine = new JLabel("Adres: ");
         panelCustomer.add(JLaddressLine);
@@ -61,11 +57,6 @@ public class EditCustomer extends JDialog implements ActionListener {
         JTFcity = new JTextField(25);
         panelCustomer.add(JTFcity);
 
-//        add(panelCustomer);
-        // CONFIRM OR CANCEL BUTTONS
-        // TODO -- USE TO UPDATE DATABASE
-//        panelButtons = new JPanel();
-//        panelButtons.setLayout(new GridLayout(1,1,10,10));
         JBsave = new JButton("Opslaan");
         panelCustomer.add(JBsave);
         JBsave.addActionListener(this);
@@ -82,8 +73,22 @@ public class EditCustomer extends JDialog implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        dispose();
+        if (e.getSource() == JBcancel) {
+            dispose();
+        } else if (e.getSource() == JBsave) {
+            try {
+                String fullname = JTFName.getText();
+                String adress = JTFaddressLine.getText();
+                String city = JTFcity.getText();
+                customer.setCustomer(fullname, adress, city);
+                dispose();
+            } catch (Exception nfe) {
+                JOptionPane.showMessageDialog(this, "Voer de juiste gegevens in");
+                EditCustomer editCustomerDialog = new EditCustomer(admin, customer);
+                editCustomerDialog.setVisible(true);
+            }
+
+        }
 
     }
-
 }
