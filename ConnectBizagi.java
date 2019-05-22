@@ -21,7 +21,7 @@ public class ConnectBizagi {
         }
     
     protected static Connection updateStockItemHoldings() {
-        ArrayList items = new ArrayList<>();
+        ArrayList<String> items = new ArrayList<>();
         String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=NerdyGadgets;user=sa;password=Password123";
         
     // start connection
