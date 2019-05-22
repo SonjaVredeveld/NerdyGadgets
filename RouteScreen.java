@@ -2,13 +2,12 @@ package kbs2;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import javax.swing.table.*;
 
 public class RouteScreen extends JDialog implements ActionListener {
     private JTable JTRouteLocationList;
-    private User ActiveUser;
     private JButton JBAssignRoute;
     private JButton JBCancel;
     private ArrayList<Order> SelectedOrders = new ArrayList<>();
@@ -16,11 +15,6 @@ public class RouteScreen extends JDialog implements ActionListener {
     
     public RouteScreen(JFrame screen, Route r1){
         super(screen, true);
-        this.ActiveUser = ActiveUser;
-        if(!ActiveUser.getLevel().equals("Planner")){
-            this.dispose();
-            new LoginScreen();
-        }
         setLayout(new FlowLayout());
         setTitle("Planner");
         setSize(500, 500);
