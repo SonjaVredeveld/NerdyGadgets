@@ -95,6 +95,10 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         panelOrders.setLayout(new BorderLayout());
         panelOrders.add(spOrders);
 
+        Panel p = new Panel();
+        p.setLayout(new GridLayout(1, 5));
+        p.setPreferredSize(new Dimension(800, 50));
+
         //labels at top
         JTPAdminTabs = new JTabbedPane();
         JTPAdminTabs.add("Producten", panelProducts);
@@ -105,8 +109,14 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         JBLogout = style.button("Uitloggen");
         JBLogout.addActionListener(this);
 
-        frame.add(JTPAdminTabs);
-        frame.add(JBLogout);
+        p.add(new JLabel(""));
+        p.add(new JLabel(""));
+        p.add(new JLabel(""));
+        p.add(new JLabel(""));
+        p.add(JBLogout);
+
+        frame.add(JTPAdminTabs, p);
+
         frame.setSize(800, 600);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
