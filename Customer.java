@@ -39,6 +39,22 @@ public class Customer extends getCoordinates {
             this.latitude = Integer.parseInt(rows.get(0).get(6));
         }
     }
+    
+    public boolean setCustomer(String fullname, String adress, String city){
+        ArrayList<String> prepares = new ArrayList<>();
+        prepares.add(fullname);
+        prepares.add(adress);
+        prepares.add(city);
+        prepares.add(ID+"");
+        int rs = DBConnection.executeQuery("UPDATE Customers SET CustomerName = ?, DeliveryAddressLine2 = ?, PostalAddressLine2 = ? WHERE CustomerID = ?;", prepares);
+        if (rs > 0) {
+            System.out.println("updated!");
+            return true;
+        } else {
+            System.out.println(DBConnection.statusMsg);
+            return false;
+        }
+    }
 
     public static ArrayList<Customer> getCustomers() {
         //getting all available CustomerID's
