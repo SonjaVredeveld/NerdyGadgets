@@ -17,6 +17,7 @@ class Route {
     private int ID;
     private int distance;
     private int driverID;
+    private String creationDate;
     public int result1 = 1;
 
     //creates a new route with the given Orders using the 2 TSP algoritms, also saves the route with the routelocations to the database
