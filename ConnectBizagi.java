@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+// install .jar file (FILES - mssql-jdbc-7.2.2.jre11.jar) in classpath
+
 public class ConnectBizagi {
     private static String host = "jdbc:sqlserver://localhost:1433;databseName=NerdyGadgets";
     private static String username = "sa";
