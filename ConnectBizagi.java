@@ -17,11 +17,10 @@ public class ConnectBizagi {
     private static String password = "Password123";
     private static String sql = "SELECT Productnummer FROM NerdyGadgets.dbo.Retourproces;";
     
-    public ConnectBizagi() {
-        getConnection();
+    private ConnectBizagi() {
         }
     
-    public static Connection getConnection() {
+    protected static Connection getConnection() {
         ArrayList items = new ArrayList<>();
         String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=NerdyGadgets;user=sa;password=Password123";
         
