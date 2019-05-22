@@ -19,23 +19,28 @@ class Route {
     private int driverID;
     public int result1;
 
-    //creates a new route with the given Orders using the TSP algorithm, also saves the route with the routelocations to the database
+    //creates a new route with the given Orders using the 2 TSP algoritms, also saves the route with the routelocations to the database
     public Route(ArrayList<Order> orderArray) {
 
-        RouteLocation rl1;
         for (int i = 0; i < orderArray.size(); i++) {
             routeLocations.add(new RouteLocation(orderArray.get(i)));
         }
-        routeLocations = HeuristicsExtended.calculatePath(routeLocations);
         
+        //if 17 or less locations selected, use primary algoritm, if more then 17 use the secundary alogoritm
+        if(this.routeLocations.size() < 18) {
+            this.routeLocations = HeuristicsExtended.calculatePath(this.routeLocations);
+            this.distance = HeuristicsExtended.getOptimalDistance();
+        }else{
+            this.routeLocations = TSP_GA.calculatePath(routeLocations);
+            this.distance = TSP_GA.getOptimalDistance();
+        }
 
         ArrayList<String> routePrepares = new ArrayList<>();
-        ArrayList<String> routeLocationPrepares = new ArrayList<>();
+
 
         //getting the last ID + 1 from the databasetable
         ID = DBConnection.getNewId("routes", "RouteID");
         routePrepares.add(ID+"");
-        this.distance = HeuristicsExtended.getOptimalDistance();
         routePrepares.add(distance+"");
 
         result1 = DBConnection.executeQuery("INSERT INTO routes VALUES (?,NOW(),?,NULL)", routePrepares);
@@ -50,15 +55,15 @@ class Route {
                     if (i != 1) {
                         insertQuery = insertQuery + ", (?,?,?,?)";
                     }
+                    ArrayList<String> routeLocationPrepares = new ArrayList<>();
                     routeLocationPrepares.add((newRouteLocationID + i) + "");
                     routeLocationPrepares.add(routeLocations.get(i).getOrder().getID() + "");
                     routeLocationPrepares.add(ID + "");
                     routeLocationPrepares.add((i + 1) + "");
+                    result1 = DBConnection.executeQuery(insertQuery, routeLocationPrepares);
                 }
             }
-
-            result1 = DBConnection.executeQuery(insertQuery, routeLocationPrepares);
-
+            
             if (result1 == 0) {
                 //deleting the just inserted route incase anything goes wrong inserting its locations
                 //JOptionPane.showMessageDialog(this,"Er ging iets fout bij het bereken van uw route");
@@ -69,7 +74,8 @@ class Route {
         }
 
     }
-
+    
+    //parm1: routeID to retrieve from the database
     public Route(int ID) {
         ArrayList<String> prepares = new ArrayList<>();
         prepares.add(ID + "");
@@ -80,6 +86,7 @@ class Route {
                 routeLocations.add(new RouteLocation(Integer.parseInt(rows.get(i).get(0))));
             }
         }
+        
         ArrayList<String> prepares2 = new ArrayList<>();
         prepares2.add(ID + "");
         ArrayList<ArrayList<String>> rows2 = DBConnection.selectQuery("SELECT distanceKM, DriverID FROM routes WHERE RouteID = ? ORDER BY RouteNumber ASC", prepares2);
@@ -90,7 +97,7 @@ class Route {
         }
     }
 
-    //return: 0 = allready a driver assigned, 1 = succes
+    //return:  1 = successfull, 0 = unsuccesfull
     public boolean addDriver(int driverID) {
         ArrayList<String> prepares = new ArrayList<>();
         prepares.add(driverID + "");

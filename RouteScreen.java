@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import javax.swing.table.*;
 
 public class RouteScreen extends JDialog implements ActionListener {
     private JTable JTRouteLocationList;
@@ -22,14 +21,12 @@ public class RouteScreen extends JDialog implements ActionListener {
         setSize(500, 500);
         
         Panel panelTop = new Panel();
-        panelTop.setLayout(new GridLayout(1,3));
+        panelTop.setLayout(new FlowLayout());
         panelTop.setPreferredSize(new Dimension(500, 50));
         //buttons in the top part of the screen
-        panelTop.add(new JLabel(" "));
         ArrayList<ArrayList<String>> rows1 = DBConnection.selectQuery("SELECT distanceKM, RouteID FROM routes WHERE RouteID = (SELECT MAX(RouteID) FROM routelocation)");
         panelTop.add(new JLabel("Route: " + rows1.get(0).get(1), SwingConstants.CENTER));
-        panelTop.add(new JLabel(" "));
-        add(panelTop);
+        this.add(panelTop);
         
         
         Panel panelTop2 = new Panel();
@@ -48,7 +45,7 @@ public class RouteScreen extends JDialog implements ActionListener {
         //creating a ScrollPane from the JTable
         JScrollPane tableSP = new JScrollPane(JTRouteLocationList);
         
-        JTRouteLocationList.setPreferredSize(new Dimension(320, 250));
+        JTRouteLocationList.setFillsViewportHeight(true);
         tableSP.setPreferredSize(new Dimension(320, 250));
         
         add(tableSP);
@@ -83,10 +80,10 @@ public class RouteScreen extends JDialog implements ActionListener {
         for (int i = 0; i < ar1.size(); i++) {
             OrderList.add(ar1.get(i).getOrder());
         }
-        data = new Object[OrderList.size() - 1][3];
+        data = new Object[OrderList.size()][3];
 
         //get all orders from the database and add them to the data portion of the JTable
-        for(int i = 0;i < OrderList.size() - 1;i++) {
+        for(int i = 0;i < OrderList.size();i++) {
             Order order = OrderList.get(i);
             Customer customer = order.getCustomer();
             data[i][0] = customer.getCustomerCity();

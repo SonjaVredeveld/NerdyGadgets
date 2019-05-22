@@ -89,6 +89,7 @@ public class HeuristicsExtended {
         for(String a:pathArr) {
             ar2.add(ar1.get(Integer.valueOf(a)));
         }
+        ar2.remove(ar2.size() - 1);
         optimalDistanceToReturn = optimalDistance;
         // these variables are decleared at class-level so that the function procedure can reach them aswell, this works fine with a single run,
         // but to us this means that they stay saved in memory even after the calculation is done. this causes some problems within our application and
