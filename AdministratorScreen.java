@@ -7,9 +7,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.util.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
 
 public class AdministratorScreen extends JFrame implements ActionListener, TableModelListener {
 
@@ -49,7 +46,7 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         frame = new JFrame();
         frame.setTitle("Systeembeheer");
         frame.setLayout(new FlowLayout());
-        this.ActiveUser = ActiveUser;
+        this.user = ActiveUser;
 
         if (!user.getLevel().equals("Administrator")) {
             logout();
@@ -113,7 +110,7 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         //allow sorting in tables
         JTOrders.setRowSorter(new TableRowSorter<TableModel>(DTMOrders));
         JTOrders.setFillsViewportHeight(true);
-      
+
         //set default current date
         String DateMonth = date.getYear() + "-" + date.getMonthValue();
 
@@ -233,69 +230,6 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         }
     }
 
-    private void logout(){
-        ActiveUser = null;
-        this.dispose();
-        LoginScreen LS = new LoginScreen();
-        LS.setVisible(true);
-    }
-
-        JTCustomers = new JTable(dataCustomers,columnCustomers);   
-            JTCustomers.setFillsViewportHeight(true);
-
-        JScrollPane spCustomers = new JScrollPane(JTCustomers); 
-        JPanel panelCustomers = new JPanel();
-            panelCustomers.setLayout(new BorderLayout());
-            panelCustomers.add(spCustomers);
-
-    // Button for EDIT 
-        customers = new JCheckBox();
-
-        JBedit = new JButton("Edit");
-            JTCustomers.getColumn("edit").setCellRenderer(new ButtonRenderer());
-            //JCheckBox checkBox = null;
-            JTCustomers.getColumn("edit").setCellEditor(new ButtonEditor(customers, "customers"));   
-   
-    //    // data in ORDERS tab 
-
-        String dataOrders[][] = { 
-            {"1234", "443", "Klantnaam"}, 
-            {"1234", "443", "Klantnaam"},
-            {"1234", "443", "Klantnaam"},
-            {"1234", "443", "Klantnaam"},
-        }; 
-
-        String columnOrders[] = {"Ordernummer", "KlantID", "Klantnaam"};
-
-        JTOrders = new JTable(dataOrders,columnOrders);   
-            JTOrders.setFillsViewportHeight(true);
-
-        JScrollPane spOrders = new JScrollPane(JTOrders); 
-        JPanel panelOrders = new JPanel();
-            panelOrders.setLayout(new BorderLayout());
-            panelOrders.add(spOrders);
-
-        JTPAdminTabs = new JTabbedPane();
-            JTPAdminTabs.add("Producten", panelProducts);
-            JTPAdminTabs.add("Klantgegevens", panelCustomers);
-            JTPAdminTabs.add("Ordegegevens", panelOrders);
-
-        // LOGOUT button
-        JBlogout = new JButton("Logout");
-
-        frame.add(JTPAdminTabs);
-        frame.add(JBlogout);
-        frame.setSize(800,600);    
-        frame.setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-    
-    public void editStock() {
-        System.out.println("Start dialog");
-        EditStock dialoog = new EditStock(this);
-        dialoog.setVisible(true);
-    }
-    
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == JBLogout) {
