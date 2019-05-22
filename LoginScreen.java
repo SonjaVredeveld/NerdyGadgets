@@ -87,16 +87,12 @@ public class LoginScreen extends JFrame implements ActionListener {
         //based on the lvl we wil redirect the user
         if (level.equals("Driver")) {
             DriverScreen DS = new DriverScreen(user);
-            DS.setVisible(true);
             return true;
         } else if (level.equals("Planner")) {
-
             PlannerScreen PS = new PlannerScreen(user);
-            PS.setVisible(true);
             return true;
         } else if (level.equals("Administrator")) {
             AdministratorScreen AS = new AdministratorScreen(user);
-
             return true;
         } else {
             return false;
