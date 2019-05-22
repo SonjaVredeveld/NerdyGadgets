@@ -1,10 +1,9 @@
 package kbs2;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 
 class ButtonEditor extends DefaultCellEditor implements ActionListener {
     protected JButton button;
@@ -15,6 +14,13 @@ class ButtonEditor extends DefaultCellEditor implements ActionListener {
         button = new JButton();
         button.setOpaque(true);
         button.addActionListener(this);
+    }
+
+    public ButtonEditor(JCheckBox checkBox, JButton colButton) {
+        super(checkBox);
+        button = colButton;
+        button.setOpaque(true);
+        button.addActionListener(e -> fireEditingStopped());
     }
 
     // If button is selected following animation starts

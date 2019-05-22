@@ -5,29 +5,44 @@ import javax.swing.event.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.util.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.table.*;
 
 public class AdministratorScreen extends JFrame implements ActionListener, TableModelListener {
 
     private JTabbedPane JTPAdminTabs;
-    private JTable JTStock;
-    private JTable JTCustomers;
-    private JTable JTOrders;
+    private DefaultTableModel DTMOrders, DTMStock, DTMCustomers;
+    private JTable JTStock, JTCustomers, JTOrders;
     private JFrame frame;
-    private JButton JBLogout;
-    private JButton JBedit;
-    private ButtonEditor button;
-    private String buttonType;
+    private JButton JBLogout, JBFilter;
     private ArrayList<Product> products;
     private ArrayList<Customer> customers;
-    private User ActiveUser;
+    private User user;
+    private JTextField JTFDate;
+    private LocalDate date = LocalDate.now();
+    private Object[] columnCustomers, columnProducts, columnOrders;
 
-    public void setButton(String type) {
-        this.buttonType = type;
-    }
-
-    public String getButton() {
-        return buttonType;
+    //get input for filterig order list
+    //return: the date format selected
+    public LocalDate getFormatText() {
+        try {
+            String[] yearAndMonth = JTFDate.getText().split("-");
+            int year = Integer.parseInt(yearAndMonth[0]);
+            int day = 1;
+            int month = Integer.parseInt(yearAndMonth[1]);
+            //check for missing 0
+            if (yearAndMonth[1].length() > 1 && yearAndMonth[1].charAt(0) != 0 || yearAndMonth[1].charAt(0) != 1) {
+                month = Integer.parseInt("0" + yearAndMonth[1]);
+            }
+            this.date = LocalDate.of(year, month, day);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Datum incorect gespecificeerd. het gewenste format is: YYYY-MM.");
+        } finally {
+            return this.date;
+        }
     }
 
     public AdministratorScreen(User ActiveUser) {
@@ -36,12 +51,18 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         frame.setLayout(new FlowLayout());
         this.ActiveUser = ActiveUser;
 
+        if (!user.getLevel().equals("Administrator")) {
+            logout();
+        }
         // fill products tabel
+        columnProducts = new Object[]{"Product_ID", "Productnaam", "Voorraad", "Prijs p/s", "bewerken product"};
         Object[][] dataProducts = this.getStockRows();
 
-        String[] columnProducts = {"Product_ID", "Productnaam", "Voorraad", "Prijs p/s", "aanvinken product"};
-
+        DTMStock = new DefaultTableModel(dataProducts, columnProducts);
         JTStock = new JTable(dataProducts, columnProducts);
+
+        //allow sorting in tables
+        JTStock.setRowSorter(new TableRowSorter<TableModel>(DTMStock));
         JTStock.setFillsViewportHeight(true);
 
         TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(JTStock.getModel());
@@ -54,16 +75,19 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         panelProducts.add(spProducts);
 
         //Button for edititng products
-        JTStock.getColumn("aanvinken product").setCellRenderer(new ButtonRenderer());
-        JTStock.getColumn("aanvinken product").setCellEditor(new ButtonEditor(new JCheckBox()));
+        JTStock.getColumn("bewerken product").setCellRenderer(new ButtonRenderer());
+        JTStock.getColumn("bewerken product").setCellEditor(new ButtonEditor(new JCheckBox()));
         JTStock.getModel().addTableModelListener(this);
 
         //fill customers table
+        columnCustomers = new Object[]{"Klantnaam", "Adres", "Woonplaats", "Afleveradres", "bewerken klant"};
         Object[][] dataCustomers = this.getCustomerRows();
 
-        String[] columnCustomers = {"Voornaam", "Achternaam", "Adres", "Woonplaats", "Afleveradres", "aanvinken klant"};
-
+        DTMCustomers = new DefaultTableModel(dataCustomers, columnCustomers);
         JTCustomers = new JTable(dataCustomers, columnCustomers);
+
+        //allow sorting in tables
+        JTCustomers.setRowSorter(new TableRowSorter<TableModel>(DTMCustomers));
         JTCustomers.setFillsViewportHeight(true);
 
         TableRowSorter<TableModel> sorter2 = new TableRowSorter<TableModel>(JTCustomers.getModel());
@@ -75,25 +99,40 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         panelCustomers.add(spCustomers);
 
         // Button for edititng customer
-        JTCustomers.getColumn("aanvinken klant").setCellRenderer(new ButtonRenderer());
-        JTCustomers.getColumn("aanvinken klant").setCellEditor(new ButtonEditor(new JCheckBox()));
+        JTCustomers.getColumn("bewerken klant").setCellRenderer(new ButtonRenderer());
+        JTCustomers.getColumn("bewerken klant").setCellEditor(new ButtonEditor(new JCheckBox()));
         JTCustomers.getModel().addTableModelListener(this);
 
         // data in ORDERS tab
+        columnOrders = new Object[]{"Ordernummer", "KlantID", "Klantnaam"};
         Object[][] dataOrders = this.getOrderRows();
 
-        String[] columnOrders = {"Ordernummer", "KlantID", "Klantnaam"};
+        DTMOrders = new DefaultTableModel(dataOrders, columnOrders);
+        JTOrders = new JTable(DTMOrders);
 
-        JTOrders = new JTable(dataOrders, columnOrders);
+        //allow sorting in tables
+        JTOrders.setRowSorter(new TableRowSorter<TableModel>(DTMOrders));
         JTOrders.setFillsViewportHeight(true);
+      
+        //set default current date
+        String DateMonth = date.getYear() + "-" + date.getMonthValue();
 
-        TableRowSorter<TableModel> sorter3 = new TableRowSorter<TableModel>(JTOrders.getModel());
-        JTOrders.setRowSorter(sorter3);
+        //create the textfield
+        JTFDate = new JTextField(DateMonth, 20);
+
+        //submit btn for date input
+        JBFilter = new JButton("filteren");
+        JBFilter.addActionListener(this);
 
         JScrollPane spOrders = new JScrollPane(JTOrders);
-        JPanel panelOrders = new JPanel();
-        panelOrders.setLayout(new BorderLayout());
-        panelOrders.add(spOrders);
+        JPanel panelOrders = new JPanel(new BorderLayout());
+        JPanel panelOrdersFilter = new JPanel(new FlowLayout());
+
+        panelOrdersFilter.add(JTFDate);
+        panelOrdersFilter.add(JBFilter);
+
+        panelOrders.add(panelOrdersFilter, BorderLayout.NORTH);
+        panelOrders.add(spOrders, BorderLayout.CENTER);
 
         Panel p = new Panel();
         p.setLayout(new GridLayout(1, 5));
@@ -131,7 +170,7 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         Object[][] rows = new Object[products.size()][6];
         for (int i = 0; i < products.size(); i++) {
             Product p = products.get(i);
-            rows[i] = new Object[]{p.getID(), p.getName(), p.getStock(), p.getPricePerPiece(), "aanvinken product"};
+            rows[i] = new Object[]{p.getID(), p.getName(), p.getStock(), p.getPricePerPiece(), columnProducts[columnProducts.length - 1]};
         }
 
         return rows;
@@ -144,7 +183,7 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         Object[][] rows = new Object[customers.size()][6];
         for (int i = 0; i < customers.size(); i++) {
             Customer c = customers.get(i);
-            rows[i] = new Object[]{c.getCustomerName(), c.getCustomerName(), c.getDeliveryAddressLine2(), c.getDeliveryPostalCode(), c.getCustomerCity(), "aanvinken klant"};
+            rows[i] = new Object[]{c.getCustomerName(), c.getDeliveryAddressLine2(), c.getDeliveryPostalCode(), c.getCustomerCity(), columnCustomers[columnCustomers.length - 1]};
         }
 
         return rows;
@@ -152,9 +191,8 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
 
     //creates the content for the tables
     //return: returns 2dimensional object array with orders.
-    //todo: alter the wuery maybe... now we only get 50..
     private Object[][] getOrderRows() {
-        ArrayList<Order> orders = Order.getOrders();
+        ArrayList<Order> orders = Order.getOrders(this.date);
         Object[][] rows = new Object[orders.size()][6];
         for (int i = 0; i < orders.size(); i++) {
             Order o = orders.get(i);
@@ -164,25 +202,35 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         return rows;
     }
 
+    //logout for user and redirect to login
+    public void logout() {
+        this.user = null;
+        frame.setVisible(false);
+        frame.dispose();
+        new LoginScreen();
+    }
+
     @Override
     public void tableChanged(TableModelEvent tme) {
         //check if we have a click from a table
         if (this.JTCustomers.getEditingRow() >= 0) {    //customers table
+            //get customer seen in the clicked row
             Customer customer = this.customers.get(this.JTCustomers.getEditingRow());
+            //create the edit screen
             EditCustomer editCustomerDialog = new EditCustomer(this, customer);
             editCustomerDialog.setVisible(true);
-            new AdministratorScreen(this.ActiveUser);
-            dispose();  //not working
+            //update table
+            this.DTMCustomers.setDataVector(this.getCustomerRows(), this.columnCustomers);
+
         } else if (this.JTStock.getEditingRow() >= 0) { //products table
+            //get product seen in the clicked row
             Product product = this.products.get(this.JTStock.getEditingRow());
+            //create the edit screen
             EditStock editStockDialog = new EditStock(this, product);
             editStockDialog.setVisible(true);
-            new AdministratorScreen(this.ActiveUser);
-            dispose();  //not working
-        } else {    //anything else
-            System.out.println("something else is triggering");
+            //update table
+            this.DTMStock.setDataVector(this.getStockRows(), this.columnProducts);
         }
-
     }
 
     private void logout(){
@@ -195,12 +243,14 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == JBLogout) {
-            this.ActiveUser = null;
-            new LoginScreen();
-            dispose();
-        } else if (e.getSource() == products) {
-            System.out.println("Products button clicked");
+            //logout
+            logout();
+
+        } else if (e.getSource() == JBFilter) {
+            //update the date o filter on
+            this.date = this.getFormatText();
+            //update table
+            this.DTMOrders.setDataVector(this.getOrderRows(), this.columnOrders);
         }
     }
-
 }

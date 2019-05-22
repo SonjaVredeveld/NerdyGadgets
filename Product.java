@@ -27,7 +27,6 @@ public class Product {
         ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT StockItemName, si.StockItemID, QuantityOnHand, UnitPrice FROM stockitems as si JOIN stockitemholdings as sih ON si.StockItemID = sih.StockItemID WHERE si.StockItemID = ?", prepares);
 
         //save the needed data
-//        System.out.println(rows);
         if (!rows.isEmpty()) {
             if (rows.size() > 0) {
 
@@ -42,15 +41,19 @@ public class Product {
                 }
             }
         }
-        //System.out.println(DBConnection.statusMsg);
     }
 
-    public boolean setStock(String newStock) {
+    //updates the stock of this product
+    //param1: the new stock to put into the row
+    //return: true -> altered row false -> error while altering(see console)
+    public boolean setStock(int newStock) {
         ArrayList<String> prepares = new ArrayList<>();
-        prepares.add(newStock);
-        int rs = DBConnection.executeQuery("UPDATE stockitemholdings SET QuantityOnHand = ? WHERE StockItemID = "+ ID, prepares);
+        prepares.add(stock + "");
+        prepares.add(ID + "");
+        int rs = DBConnection.executeQuery("UPDATE stockitemholdings SET QuantityOnHand = ? WHERE StockItemID = ?", prepares);
         if (rs > 0) {
             System.out.println("updated!");
+            this.stock = newStock;
             return true;
         } else {
             System.out.println(DBConnection.statusMsg);

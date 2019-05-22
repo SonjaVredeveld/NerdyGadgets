@@ -113,6 +113,7 @@ public class User {
         }
     }
 
+    //generates hash
     private static String generateStrongPasswordHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
         int iterations = 1000;
         char[] chars = password.toCharArray();

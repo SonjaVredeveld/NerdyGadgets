@@ -108,16 +108,4 @@ public class Customer extends getCoordinates {
         return longitude;
     }
 
-    public boolean setStock(int newStock) {
-        ArrayList<String> prepares = new ArrayList<>();
-        prepares.add(ID + "");
-        int rs = DBConnection.executeQuery("ALTER TABLE stockitemholdings SET QuantityOnHand = ? WHERE StockItemID = ?", prepares);
-        if (rs > 0) {
-            System.out.println("updated!");
-            return true;
-        } else {
-            System.out.println(DBConnection.statusMsg);
-            return false;
-        }
-    }
 }

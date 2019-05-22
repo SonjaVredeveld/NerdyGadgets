@@ -5,6 +5,8 @@
  */
 package kbs2;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -29,7 +31,7 @@ class Order {
     }
 
     //return: ArrayList with all available Orders
-    public static ArrayList<Order> getOrders() {
+    protected static ArrayList<Order> getOrders() {
         //getting all available OrderID's
         ArrayList<Order> orderList = new ArrayList<>();
 //Get Orders from database
@@ -41,6 +43,35 @@ class Order {
                 orderList.add(new Order(Integer.parseInt(rows.get(i).get(0))));
             }
         }
+        return orderList;
+    }
+
+    //gets the needed order objects
+    //param1: the date to filter the results on
+    //return: ArrayList with all available Orders
+    protected static ArrayList<Order> getOrders(LocalDate date) {
+        //getting all available OrderID's
+        ArrayList<Order> orderList = new ArrayList<>();
+        ArrayList<Object> prepares = new ArrayList<>();
+        //get the correct dates to correctly filter
+        LocalDate startMonth = date.minusMonths(1);
+        startMonth = startMonth.withDayOfMonth(startMonth.lengthOfMonth());
+        LocalDate endMonth = date.plusMonths(1);
+        endMonth = endMonth.withDayOfMonth(1);
+
+        prepares.add(Date.valueOf(startMonth));
+        prepares.add(Date.valueOf(endMonth));
+
+        //Get Orders from database
+        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT OrderID FROM orders o JOIN Customers c ON o.CustomerID = c.CustomerID WHERE OrderDate > ? && OrderDate < ? ORDER BY OrderDate", prepares, true);
+
+        if (0 < rows.size()) {
+            //creating an order for every OrderID
+            for (int i = 0; i < rows.size(); i++) {
+                orderList.add(new Order(Integer.parseInt(rows.get(i).get(0))));
+            }
+        }
+        System.out.println(DBConnection.statusMsg);
         return orderList;
     }
 
