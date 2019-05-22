@@ -5,11 +5,12 @@
  */
 package kbs2;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 
 public class EditStock extends JDialog implements ActionListener {
+
     private JTextField JTFnewStock;
     private JLabel JLNewStock;
     private JLabel JLProductName;
@@ -74,8 +75,8 @@ public class EditStock extends JDialog implements ActionListener {
             dispose();
         } else if (e.getSource() == JBok) {
             try {
-                int aantal = Integer.parseInt(JTFnewStock.getText());
-                product.setStock(String.valueOf(aantal));
+                int newStock = Integer.parseInt(JTFnewStock.getText());
+                product.setStock(newStock);
             } catch (NumberFormatException nfe) {
                 JOptionPane.showMessageDialog(this, "Voer een getal in");
                 EditStock editStockDialog = new EditStock(admin, product);
