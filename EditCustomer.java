@@ -5,7 +5,6 @@
  */
 package kbs2;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -14,79 +13,84 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 public class EditCustomer extends JDialog implements ActionListener {
-    private JTextField JTFfirstName,JTFlastName,JTFaddressLine,JTFcity;
-    private JLabel JLfirstName,JLlastName,JLaddressLine,JLcity,JLtitle;
+
+    private JTextField JTFName, JTFaddressLine, JTFcity;
+    private JLabel JLName, JLaddressLine, JLcity, JLtitle;
     private JButton JBsave, JBcancel;
     private JPanel panelCustomer, panelButtons;
-   
-    public EditCustomer(JFrame screen) {
+    private Customer customer;
+    private AdministratorScreen admin;
+
+    public EditCustomer(JFrame screen, Customer customer) {
         super(screen, true);
+
+        this.customer = customer;
+
         setTitle("Verander Klantgegevens");
-        setSize(300,300);
+        setSize(700, 400);
         setLayout(new FlowLayout());
-        
+
         panelCustomer = new JPanel();
-        panelCustomer.setLayout(new GridLayout(4,1,10,40));
-       
-        JLfirstName = new JLabel("Voornaam: ");
-        panelCustomer.add(JLfirstName);
+        panelCustomer.setLayout(new GridLayout(5, 1, 10, 40));
 
-        JTFfirstName = new JTextField(25);
-        panelCustomer.add(JTFfirstName);
+        JLName = new JLabel("Klantnaam: ");
+        panelCustomer.add(JLName);
 
-        JLlastName = new JLabel("Achternaam:");
-        panelCustomer.add(JLlastName);
+        JTFName = new JTextField(25);
+        JTFName.setText(customer.getCustomerName());
+        panelCustomer.add(JTFName);
 
-        JTFlastName = new JTextField(25);
-        panelCustomer.add(JTFlastName);
-       
         JLaddressLine = new JLabel("Adres: ");
         panelCustomer.add(JLaddressLine);
-        
+
         JTFaddressLine = new JTextField(25);
+        JTFaddressLine.setText(customer.getDeliveryAddressLine2());
         panelCustomer.add(JTFaddressLine);
-        
+
         JLcity = new JLabel("Woonplaats: ");
         panelCustomer.add(JLcity);
-        
+
         JTFcity = new JTextField(25);
+        JTFcity.setText(customer.getPostalAddressLine2());
         panelCustomer.add(JTFcity);
 
-//        add(panelCustomer);
-        
-        
-        // CONFIRM OR CANCEL BUTTONS
-        // TODO -- USE TO UPDATE DATABASE
-//        panelButtons = new JPanel();
-//        panelButtons.setLayout(new GridLayout(1,1,10,10));
-        
         JBsave = new JButton("Opslaan");
         panelCustomer.add(JBsave);
         JBsave.addActionListener(this);
-        
+
         JBcancel = new JButton("Annuleer");
         panelCustomer.add(JBcancel);
         JBcancel.addActionListener(this);
-        
-        panelCustomer.setBorder(new EmptyBorder(50, 10, 10, 10));
-        
-        add(panelCustomer);
 
-       
-       
-;
+        panelCustomer.setBorder(new EmptyBorder(50, 10, 10, 10));
+
+        add(panelCustomer);
+        ;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        dispose();
-        
+        if (e.getSource() == JBcancel) {
+            dispose();
+        } else if (e.getSource() == JBsave) {
+            try {
+                String fullname = JTFName.getText();
+                String adress = JTFaddressLine.getText();
+                String city = JTFcity.getText();
+                customer.setCustomer(fullname, adress, city);
+                dispose();
+            } catch (Exception nfe) {
+                JOptionPane.showMessageDialog(this, "Voer de juiste gegevens in");
+                EditCustomer editCustomerDialog = new EditCustomer(admin, customer);
+                editCustomerDialog.setVisible(true);
+            }
+
+        }
     }
-    
-    
 }

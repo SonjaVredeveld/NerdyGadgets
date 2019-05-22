@@ -81,6 +81,20 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
+    public static void setJTableColumnsWidth(JTable table, int tablePreferredWidth,
+                                             double... percentages) {
+        double total = 0;
+        for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
+            total += percentages[i];
+        }
+
+        for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
+            TableColumn column = table.getColumnModel().getColumn(i);
+            column.setPreferredWidth((int)
+                    (tablePreferredWidth * (percentages[i] / total)));
+        }
+    }
     
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -106,10 +120,12 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         }
     }
   
-    //simple logout funtion
+    //simple logout function
     private void logout(){
         ActiveUser = null;
         this.dispose();
+        LoginScreen LS = new LoginScreen();
+        LS.setVisible(true);
     }
     
     //calculates the optimal route with the given Orders, saves the route with its locations in the database

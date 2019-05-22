@@ -36,4 +36,10 @@ public class RouteLocation {
     public int getNumber() {
         return this.Number;
     }
+    
+    public void deleteRows(int ID) {
+        ArrayList<String> prepares = new ArrayList<>();
+        prepares.add(ID+"");
+        DBConnection.executeQuery("delete from RouteLocation where RouteID = ?", prepares);
+    }
 }
