@@ -32,7 +32,7 @@ public class EditCustomer extends JDialog implements ActionListener {
 
         this.customer = customer;
 
-        setTitle("Verander Klantgegevens");
+        setTitle("Klantgegevens bewerken");
         setSize(700, 400);
         setLayout(new FlowLayout());
 
