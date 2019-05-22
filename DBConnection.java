@@ -57,6 +57,19 @@ public final class DBConnection {
     //param2: prepared values to add (NOTE: strings only)
     //return: list of return rows with string values (empty list is no result)
     protected static ArrayList<ArrayList<String>> selectQuery(String selectQuery, ArrayList<String> stringsToSet) {
+        ArrayList<Object> objects = new ArrayList<>();
+        for (int i = 0; i < stringsToSet.size(); i++) {
+            objects.add(stringsToSet.get(i));
+        }
+        return DBConnection.selectQuery(selectQuery, objects, true);
+    }
+
+    //executes select sql statement
+    //param1: query to run
+    //param2: prepared values to add
+    //param3: overload non used placeholder
+    //return: list of return rows with string values (empty list is no result)
+    protected static ArrayList<ArrayList<String>> selectQuery(String selectQuery, ArrayList<Object> ObjectsToSet, boolean overloaded) {
         //initialisation
         PreparedStatement statement = null; //for optional prepares
         Connection connection = null;
@@ -69,8 +82,13 @@ public final class DBConnection {
 
             statement = connection.prepareStatement(selectQuery);
             //add bind prepared values to indexes
-            for (int i = 0; i < stringsToSet.size(); i++) {
-                statement.setString(i + 1, stringsToSet.get(i));
+            for (int i = 0; i < ObjectsToSet.size(); i++) {
+                Object obj = ObjectsToSet.get(i);
+                if (obj instanceof Date) {
+                    statement.setObject(i + 1, ObjectsToSet.get(i));
+                } else {
+                    statement.setString(i + 1, (String) ObjectsToSet.get(i));
+                }
             }
 
             rs = statement.executeQuery();
@@ -129,9 +147,22 @@ public final class DBConnection {
 
     //executes execute update/insert/delete sql statement
     //param1: query to run
-    //param2: prepared values to add (NOTE: strings only)
+    //param2: prepared values to add (NOTE: only strings)
     //return: number of rows it altered (0 is none)
     protected static int executeQuery(String query, ArrayList<String> stringsToSet) {
+        ArrayList<Object> objArray = new ArrayList<>();
+        for (int i = 0; i < stringsToSet.size(); i++) {
+            objArray.add(stringsToSet);
+        }
+        return DBConnection.executeQuery(query, objArray, true);
+    }
+
+    //executes execute update/insert/delete sql statement
+    //param1: query to run
+    //param2: prepared values to add
+    //param3: overload non used placeholder
+    //return: number of rows it altered (0 is none)
+    protected static int executeQuery(String query, ArrayList<Object> ObjectsToSet, boolean verloaded) {
         //initialisation
         PreparedStatement statement = null;
         Connection connection = null;
@@ -141,8 +172,13 @@ public final class DBConnection {
             statement = connection.prepareStatement(query);
 
             //add bind prepared values to indexes
-            for (int i = 0; i < stringsToSet.size(); i++) {
-                statement.setString(i + 1, stringsToSet.get(i));
+            for (int i = 0; i < ObjectsToSet.size(); i++) {
+                Object obj = ObjectsToSet.get(i);
+                if (obj instanceof Date) {
+                    statement.setObject(i + 1, ObjectsToSet.get(i));
+                } else {
+                    statement.setString(i + 1, (String) ObjectsToSet.get(i));
+                }
             }
 
             rs = statement.executeUpdate();

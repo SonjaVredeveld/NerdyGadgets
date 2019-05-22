@@ -1,4 +1,5 @@
 package kbs2;
+
 import javax.swing.UIManager;
 
 /**
@@ -10,12 +11,12 @@ public class main {
     public static void main(String[] args) {
 
         try {
-
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         } catch (Exception e) {
             System.out.println("Look and Feel not set");
         }
         LoginScreen LS = new LoginScreen();
         LS.setVisible(true);
+
     }
 }

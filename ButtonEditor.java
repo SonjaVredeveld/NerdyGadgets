@@ -1,7 +1,7 @@
 package kbs2;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 class ButtonEditor extends DefaultCellEditor {
 
@@ -13,6 +13,13 @@ class ButtonEditor extends DefaultCellEditor {
     public ButtonEditor(JCheckBox checkBox) {
         super(checkBox);
         button = new JButton();
+        button.setOpaque(true);
+        button.addActionListener(e -> fireEditingStopped());
+    }
+
+    public ButtonEditor(JCheckBox checkBox, JButton colButton) {
+        super(checkBox);
+        button = colButton;
         button.setOpaque(true);
         button.addActionListener(e -> fireEditingStopped());
     }
