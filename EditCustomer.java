@@ -43,18 +43,21 @@ public class EditCustomer extends JDialog implements ActionListener {
         panelCustomer.add(JLName);
 
         JTFName = new JTextField(25);
+        JTFName.setText(customer.getCustomerName());
         panelCustomer.add(JTFName);
 
         JLaddressLine = new JLabel("Adres: ");
         panelCustomer.add(JLaddressLine);
 
         JTFaddressLine = new JTextField(25);
+        JTFaddressLine.setText(customer.getDeliveryAddressLine2());
         panelCustomer.add(JTFaddressLine);
 
         JLcity = new JLabel("Woonplaats: ");
         panelCustomer.add(JLcity);
 
         JTFcity = new JTextField(25);
+        JTFcity.setText(customer.getPostalAddressLine2());
         panelCustomer.add(JTFcity);
 
         JBsave = new JButton("Opslaan");
