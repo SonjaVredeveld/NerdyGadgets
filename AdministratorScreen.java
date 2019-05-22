@@ -2,7 +2,6 @@ package kbs2;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
 import javax.swing.*;
@@ -172,7 +171,7 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
     //creates the content for the tables
     //return: returns 2dimensional object array with orders.
     private Object[][] getOrderRows() {
-        ArrayList<Order> orders = this.getOrders(this.date);
+        ArrayList<Order> orders = Order.getOrders(this.date);
         Object[][] rows = new Object[orders.size()][6];
         for (int i = 0; i < orders.size(); i++) {
             Order o = orders.get(i);
@@ -180,35 +179,6 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         }
 
         return rows;
-    }
-
-    //gets the needed order objects
-    //param1: the date to filter the results on
-    //return: ArrayList with all available Orders
-    public ArrayList<Order> getOrders(LocalDate date) {
-        //getting all available OrderID's
-        ArrayList<Order> orderList = new ArrayList<>();
-        ArrayList<Object> prepares = new ArrayList<>();
-        //get the correct dates to correctly filter
-        LocalDate startMonth = date.minusMonths(1);
-        startMonth = startMonth.withDayOfMonth(startMonth.lengthOfMonth());
-        LocalDate endMonth = date.plusMonths(1);
-        endMonth = endMonth.withDayOfMonth(1);
-
-        prepares.add(Date.valueOf(startMonth));
-        prepares.add(Date.valueOf(endMonth));
-
-        //Get Orders from database
-        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT OrderID FROM orders o JOIN Customers c ON o.CustomerID = c.CustomerID WHERE OrderDate > ? && OrderDate < ? ORDER BY OrderDate", prepares, true);
-
-        if (0 < rows.size()) {
-            //creating an order for every OrderID
-            for (int i = 0; i < rows.size(); i++) {
-                orderList.add(new Order(Integer.parseInt(rows.get(i).get(0))));
-            }
-        }
-        System.out.println(DBConnection.statusMsg);
-        return orderList;
     }
 
     //logout for user and redirect to login
