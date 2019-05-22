@@ -20,7 +20,7 @@ public class ConnectBizagi {
     private ConnectBizagi() {
         }
     
-    protected static Connection getConnection() {
+    protected static Connection updateStockItemHoldings() {
         ArrayList items = new ArrayList<>();
         String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=NerdyGadgets;user=sa;password=Password123";
         
