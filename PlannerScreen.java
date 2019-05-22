@@ -5,14 +5,14 @@
  */
 package kbs2;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.TableColumn;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 
 /**
@@ -49,15 +49,10 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         JScrollPane tableSP = new JScrollPane(JTOrderList);
         JTOrderList.setFillsViewportHeight(true);
         tableSP.setPreferredSize(new Dimension(780, 440));
-        
+
         //setting the size for every column of JTOrderList
-        for (int i = 0; i < 4; i++) {
-            if(i == 0){
-                JTOrderList.getColumnModel().getColumn(i).setPreferredWidth(50);
-            }else{
-                JTOrderList.getColumnModel().getColumn(i).setPreferredWidth(100);        
-            }
-        } 
+        setJTableColumnsWidth(JTOrderList,800, 2,14,28,28,28);
+
         add(tableSP);
         
         //buttons at the bottom of the window
