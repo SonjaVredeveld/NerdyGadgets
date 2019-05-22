@@ -120,7 +120,7 @@ public class Tour{
         int yDistance = Math.abs(y1 - y2);
         double distance2 = Math.sqrt( (xDistance*xDistance) + (yDistance*yDistance) );
         
-        return 1;
+        return distance2;
     }
 
 }

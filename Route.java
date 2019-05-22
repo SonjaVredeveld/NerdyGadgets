@@ -17,7 +17,7 @@ class Route {
     private int ID;
     private int distance;
     private int driverID;
-    public int result1;
+    public int result1 = 1;
 
     //creates a new route with the given Orders using the 2 TSP algoritms, also saves the route with the routelocations to the database
     public Route(ArrayList<Order> orderArray) {
@@ -44,25 +44,27 @@ class Route {
         routePrepares.add(distance+"");
 
         result1 = DBConnection.executeQuery("INSERT INTO routes VALUES (?,NOW(),?,NULL)", routePrepares);
-
+        System.out.println(DBConnection.statusMsg);
+        result1 = 1;
         if (result1 != 0) {
             //inserting all the routelocations
             int newRouteLocationID = DBConnection.getNewId("routelocation", "RouteLocationID");
             String insertQuery = "INSERT INTO routelocation VALUES (?,?,?,?)";
-
+            ArrayList<String> routeLocationPrepares = new ArrayList<>();
             for (int i = 0; i < routeLocations.size(); i++) {
                 if (i != 0) {
-                    if (i != 1) {
-                        insertQuery = insertQuery + ", (?,?,?,?)";
-                    }
-                    ArrayList<String> routeLocationPrepares = new ArrayList<>();
-                    routeLocationPrepares.add((newRouteLocationID + i) + "");
-                    routeLocationPrepares.add(routeLocations.get(i).getOrder().getID() + "");
-                    routeLocationPrepares.add(ID + "");
-                    routeLocationPrepares.add((i + 1) + "");
-                    result1 = DBConnection.executeQuery(insertQuery, routeLocationPrepares);
+                    insertQuery = insertQuery + ", (?,?,?,?)";
                 }
+                newRouteLocationID++;
+                routeLocationPrepares.add((newRouteLocationID) + "");
+                routeLocationPrepares.add(routeLocations.get(i).getOrder().getID() + "");
+                routeLocationPrepares.add(ID + "");
+                routeLocationPrepares.add((i + 1) + "");
+
+                System.out.println(DBConnection.statusMsg);
             }
+            
+            result1 = DBConnection.executeQuery(insertQuery, routeLocationPrepares);
             
             if (result1 == 0) {
                 //deleting the just inserted route incase anything goes wrong inserting its locations
