@@ -49,7 +49,7 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         frame.setLayout(new FlowLayout());
         this.user = user;
 
-        if (user.getLevel() != "Administrator") {
+        if (!user.getLevel().equals("Administrator")) {
             logout();
         }
         // fill products tabel
