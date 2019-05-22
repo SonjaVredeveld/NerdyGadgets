@@ -5,7 +5,7 @@
  */
 package kbs2;
 
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  *
@@ -17,6 +17,7 @@ class Route {
     private int ID;
     private int distance;
     private int driverID;
+    private String creationDate;
     public int result1;
 
     //creates a new route with the given Orders using the TSP algorithm, also saves the route with the routelocations to the database
@@ -73,20 +74,28 @@ class Route {
     public Route(int ID) {
         ArrayList<String> prepares = new ArrayList<>();
         prepares.add(ID + "");
-
+        
+        //get the locations for this route and save them
         ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT RouteLocationID FROM routelocation WHERE RouteID = ? ORDER BY RouteNumber ASC", prepares);
         if (rows.size() > 0) {
             for (int i = 0; i < rows.size(); i++) {
                 routeLocations.add(new RouteLocation(Integer.parseInt(rows.get(i).get(0))));
             }
         }
+        
+        //get route data and create instnciate object
         ArrayList<String> prepares2 = new ArrayList<>();
         prepares2.add(ID + "");
-        ArrayList<ArrayList<String>> rows2 = DBConnection.selectQuery("SELECT distanceKM, DriverID FROM routes WHERE RouteID = ? ORDER BY RouteNumber ASC", prepares2);
-        if (rows2.size() == 1) {
+        ArrayList<ArrayList<String>> route = DBConnection.selectQuery("SELECT distanceKM, DriverID, CreationDate FROM routes WHERE RouteID = ? ", prepares2);
+        if (route.size() == 1) {
             this.ID = ID;
-            this.distance = Integer.parseInt(rows.get(0).get(0));
-            this.driverID = Integer.parseInt(rows.get(0).get(2));
+            this.distance = Integer.parseInt(route.get(0).get(0));
+            if(route.get(0).get(1) != null) {
+                this.driverID = Integer.parseInt(route.get(0).get(1));
+            } else{
+                this.driverID = 0;
+            }
+            this.creationDate = route.get(0).get(2);
         }
     }
 
@@ -108,6 +117,14 @@ class Route {
         return this.ID;
     }
 
+    public int getDistance() {
+        return distance;
+    }
+    
+    public String getCreationDate() {
+        return this.creationDate;
+    }
+
     //used to check in PlannerScreen if insert was succesful
     public boolean getResult() {
         if (result1 > 0) {
@@ -117,7 +134,27 @@ class Route {
         }
     }
 
-    public ArrayList<Route> getRoutes() {
-        return new ArrayList<>();
+    public static ArrayList<Route> getRoutes() {
+        //sql select for routes
+        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT RouteID FROM routes ORDER BY CreationDate");
+        ArrayList<Route> newRows = new ArrayList<>();
+        //go over all the results
+        //create a route for each row.
+        for(int i = 0; i < rows.size(); i++)
+        {
+            String id = (String) rows.get(i).get(0);
+            int nummer = Integer.parseInt(id);
+            Route route = new Route(nummer);
+            newRows.add(route);
+        }
+        //add each rout to a empty arraylist
+        //return the created list.
+        return newRows;
+    }
+    
+    public void deleteRow(int ID) {
+        ArrayList<String> prepares = new ArrayList<>();
+        prepares.add(ID+"");
+        DBConnection.executeQuery("delete from routes where RouteID = ?", prepares);
     }
 }

@@ -2,13 +2,12 @@ package kbs2;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import javax.swing.table.*;
 
 public class RouteScreen extends JDialog implements ActionListener {
     private JTable JTRouteLocationList;
-    private User ActiveUser;
     private JButton JBAssignRoute;
     private JButton JBCancel;
     private ArrayList<Order> SelectedOrders = new ArrayList<>();
@@ -16,19 +15,29 @@ public class RouteScreen extends JDialog implements ActionListener {
     
     public RouteScreen(JFrame screen, Route r1){
         super(screen, true);
-        this.ActiveUser = ActiveUser;
         setLayout(new FlowLayout());
-        setTitle("Routeplanner");
+        setTitle("Planner");
         setSize(500, 500);
         
         Panel panelTop = new Panel();
         panelTop.setLayout(new GridLayout(1,3));
-        panelTop.setPreferredSize(new Dimension(800, 50));
+        panelTop.setPreferredSize(new Dimension(500, 50));
         //buttons in the top part of the screen
         panelTop.add(new JLabel(" "));
-        panelTop.add(new JLabel("Route", SwingConstants.CENTER));
+        ArrayList<ArrayList<String>> rows1 = DBConnection.selectQuery("SELECT distanceKM, RouteID FROM routes WHERE RouteID = (SELECT MAX(RouteID) FROM routelocation)");
+        panelTop.add(new JLabel("Route: " + rows1.get(0).get(1), SwingConstants.CENTER));
         panelTop.add(new JLabel(" "));
         add(panelTop);
+        
+        
+        Panel panelTop2 = new Panel();
+        panelTop2.setLayout(new GridLayout(1,3));
+        panelTop2.setPreferredSize(new Dimension(500, 50));
+        //buttons in the top part of the screen
+        panelTop2.add(new JLabel(" "));
+        panelTop2.add(new JLabel("Totale afstand: " + rows1.get(0).get(0) + " KM", SwingConstants.CENTER));
+        panelTop2.add(new JLabel(" "));
+        add(panelTop2);
 
         String[] columnNames = {"Woonplaats","Adres","Klant"};
         JTRouteLocationList = new JTable(tableData(r1),columnNames);
@@ -37,22 +46,22 @@ public class RouteScreen extends JDialog implements ActionListener {
         //creating a ScrollPane from the JTable
         JScrollPane tableSP = new JScrollPane(JTRouteLocationList);
         
-        JTRouteLocationList.setPreferredSize(new Dimension(320, 300));
-        tableSP.setPreferredSize(new Dimension(320, 300));
+        JTRouteLocationList.setPreferredSize(new Dimension(320, 250));
+        tableSP.setPreferredSize(new Dimension(320, 250));
         
         add(tableSP);
         
         
         Panel panelBottom = new Panel();
         panelBottom.setLayout(new GridLayout(1,5));
-        panelBottom.setPreferredSize(new Dimension(800, 50));
+        panelBottom.setPreferredSize(new Dimension(650, 50));
         //buttons in the lower part of the screen
         panelBottom.add(new JLabel(" "));
         JBAssignRoute = style.button("Route toewijzen");
         JBAssignRoute.addActionListener(this);
         panelBottom.add(JBAssignRoute);
         panelBottom.add(new JLabel(" "));
-        JBCancel = style.button("Cancel");
+        JBCancel = style.button("Annuleren");
         JBCancel.addActionListener(this);
         panelBottom.add(JBCancel);
         panelBottom.add(new JLabel(" "));
@@ -93,9 +102,9 @@ public class RouteScreen extends JDialog implements ActionListener {
         }else if(e.getSource() == JBCancel) {
             boolean result1 = deleteRoute();
             if(result1) {
-                JOptionPane.showMessageDialog(this,"Route geannuleerd");
+                JOptionPane.showMessageDialog(this, "Route geannuleerd", "Melding", JOptionPane.INFORMATION_MESSAGE);
             }else{
-                JOptionPane.showMessageDialog(this,"Er ging iets mis bij het annuleren");
+                JOptionPane.showMessageDialog(this, "Er ging iets mis bij het annuleren", "foutmelding", JOptionPane.INFORMATION_MESSAGE);
             }
             this.dispose();
         }

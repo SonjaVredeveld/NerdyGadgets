@@ -1,5 +1,8 @@
 package kbs2;
 
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
@@ -42,11 +45,11 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         }
     }
 
-    public AdministratorScreen(User user) {
+    public AdministratorScreen(User ActiveUser) {
         frame = new JFrame();
         frame.setTitle("Systeembeheer");
         frame.setLayout(new FlowLayout());
-        this.user = user;
+        this.ActiveUser = ActiveUser;
 
         if (!user.getLevel().equals("Administrator")) {
             logout();
@@ -61,6 +64,9 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         //allow sorting in tables
         JTStock.setRowSorter(new TableRowSorter<TableModel>(DTMStock));
         JTStock.setFillsViewportHeight(true);
+
+        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(JTStock.getModel());
+        JTStock.setRowSorter(sorter);
 
         JScrollPane spProducts = new JScrollPane(JTStock);
         spProducts.setPreferredSize(new Dimension(775, 450));
@@ -84,6 +90,9 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         JTCustomers.setRowSorter(new TableRowSorter<TableModel>(DTMCustomers));
         JTCustomers.setFillsViewportHeight(true);
 
+        TableRowSorter<TableModel> sorter2 = new TableRowSorter<TableModel>(JTCustomers.getModel());
+        JTCustomers.setRowSorter(sorter2);
+
         JScrollPane spCustomers = new JScrollPane(JTCustomers);
         JPanel panelCustomers = new JPanel();
         panelCustomers.setLayout(new BorderLayout());
@@ -104,7 +113,7 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         //allow sorting in tables
         JTOrders.setRowSorter(new TableRowSorter<TableModel>(DTMOrders));
         JTOrders.setFillsViewportHeight(true);
-
+      
         //set default current date
         String DateMonth = date.getYear() + "-" + date.getMonthValue();
 
@@ -125,6 +134,10 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         panelOrders.add(panelOrdersFilter, BorderLayout.NORTH);
         panelOrders.add(spOrders, BorderLayout.CENTER);
 
+        Panel p = new Panel();
+        p.setLayout(new GridLayout(1, 5));
+        p.setPreferredSize(new Dimension(800, 50));
+
         //labels at top
         JTPAdminTabs = new JTabbedPane();
         JTPAdminTabs.add("Producten", panelProducts);
@@ -132,14 +145,22 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         JTPAdminTabs.add("Bestellingen", panelOrders);
 
         // LOGOUT button
-        JBLogout = new JButton("Uitloggen");
+        JBLogout = style.button("Uitloggen");
         JBLogout.addActionListener(this);
 
+        p.add(new JLabel(""));
+        p.add(new JLabel(""));
+        p.add(new JLabel(""));
+        p.add(new JLabel(""));
+        p.add(JBLogout);
+
         frame.add(JTPAdminTabs);
-        frame.add(JBLogout);
+        frame.add(p);
+
+        frame.setResizable(false);
         frame.setSize(800, 600);
         frame.setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     //creates the content for the tables
@@ -212,6 +233,13 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         }
     }
 
+    private void logout(){
+        ActiveUser = null;
+        this.dispose();
+        LoginScreen LS = new LoginScreen();
+        LS.setVisible(true);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == JBLogout) {
@@ -223,7 +251,6 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
             this.date = this.getFormatText();
             //update table
             this.DTMOrders.setDataVector(this.getOrderRows(), this.columnOrders);
-
         }
     }
 }

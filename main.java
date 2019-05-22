@@ -16,6 +16,7 @@ public class main {
             System.out.println("Look and Feel not set");
         }
         LoginScreen LS = new LoginScreen();
+        ConnectBizagi.updateStockItemHoldings();
         LS.setVisible(true);
 
     }

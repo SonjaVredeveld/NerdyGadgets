@@ -32,7 +32,7 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
     public PlannerScreen(User ActiveUser){
         this.ActiveUser = ActiveUser;
         setLayout(new FlowLayout());
-        setTitle("Routeplanner");
+        setTitle("Planner");
         setPreferredSize(new Dimension(800, 600));
 
         JTOrderList = new JTable(new PlannerScreenTableContent());
@@ -42,18 +42,12 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         //creating a ScrollPane from the JTable
         JScrollPane tableSP = new JScrollPane(JTOrderList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         
-        JTOrderList.setPreferredSize(new Dimension(780, 492));
-        tableSP.setPreferredSize(new Dimension(780, 492));
-        
+        JTOrderList.setPreferredSize(new Dimension(800, 492));
+        tableSP.setPreferredSize(new Dimension(800, 492));
+
         //setting the size for every column of JTOrderList
-        TableColumn column = null;
-        for (int i = 0; i < 4; i++) {
-            if(i == 0){
-                JTOrderList.getColumnModel().getColumn(i).setPreferredWidth(50);
-            }else{
-                JTOrderList.getColumnModel().getColumn(i).setPreferredWidth(100);        
-            }
-        } 
+        setJTableColumnsWidth(JTOrderList, 800, 2, 14, 28, 28, 28);
+
         add(tableSP);
         
         Panel p = new Panel();
@@ -78,6 +72,20 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         setVisible(true);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public static void setJTableColumnsWidth(JTable table, int tablePreferredWidth,
+                                             double... percentages) {
+        double total = 0;
+        for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
+            total += percentages[i];
+        }
+
+        for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
+            TableColumn column = table.getColumnModel().getColumn(i);
+            column.setPreferredWidth((int)
+                    (tablePreferredWidth * (percentages[i] / total)));
+        }
     }
     
     @Override
@@ -104,25 +112,27 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         }
     }
   
-    //simple logout funtion
+    //simple logout function
     private void logout(){
         ActiveUser = null;
         this.dispose();
+        LoginScreen LS = new LoginScreen();
+        LS.setVisible(true);
     }
     
     //calculates the optimal route with the given Orders, saves the route with its locations in the database
     private void routeTSP(ArrayList<Order> ar1){
         if(ar1.isEmpty()){
-            JOptionPane.showMessageDialog(this,"Selecteer minimaal 1 order");
+            JOptionPane.showMessageDialog(this, "Selecteer minimaal 1 order", "foutmelding", JOptionPane.INFORMATION_MESSAGE);
         }else if(ar1.size() <= 20){
             Route r1 = new Route(ar1); 
             if(r1.getResult()){
                 new RouteScreen(this,r1);
             }else{
-                JOptionPane.showMessageDialog(this,"Er ging iets fout bij het bereken van uw route");
+                JOptionPane.showMessageDialog(this, "Er ging iets fout bij het bereken van uw route", "foutmelding", JOptionPane.INFORMATION_MESSAGE);
             }
         }else{
-            JOptionPane.showMessageDialog(this,"Meer dan 20 orders geselecteerd");      
+            JOptionPane.showMessageDialog(this, "Er zijn meer dan 20 orders geselecteerd", "foutmelding", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }

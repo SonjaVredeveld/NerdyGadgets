@@ -17,6 +17,7 @@ public class Product {
     private int stock;
     private String name;
     private float pricePerPiece;
+    private EditStock editstock;
 
     //initialize product
     public Product(int ID) {
