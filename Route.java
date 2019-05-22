@@ -60,8 +60,6 @@ class Route {
                 routeLocationPrepares.add(routeLocations.get(i).getOrder().getID() + "");
                 routeLocationPrepares.add(ID + "");
                 routeLocationPrepares.add((i + 1) + "");
-
-                System.out.println(DBConnection.statusMsg);
             }
             
             result1 = DBConnection.executeQuery(insertQuery, routeLocationPrepares);
