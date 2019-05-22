@@ -63,7 +63,7 @@ public class EditStock extends JDialog implements ActionListener {
         panelS.add(JBok);
         JBok.addActionListener(this);
 
-        JBcancel = style.button("cancel");
+        JBcancel = style.button("Annuleren");
         panelS.add(JBcancel);
         JBcancel.addActionListener(this);
         add(panelS);
