@@ -19,6 +19,7 @@ public class Customer extends getCoordinates {
     private String deliveryPostalCode;
     private String customerName;
     private String customerCity;
+    private String postalAddressLine2;
     private int longitude;
     private int latitude;
 
@@ -26,7 +27,7 @@ public class Customer extends getCoordinates {
         //initializing customer from database
         ArrayList<String> prepares = new ArrayList<>();
         prepares.add(ID + "");
-        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT c.CustomerID, c.DeliveryAddressLine2, c.DeliveryPostalCode, c.CustomerName, ci.CityName, c.longitude, c.latitude FROM customers c JOIN cities ci ON c.DeliveryCityID = ci.CityID WHERE CustomerID = ?", prepares);
+        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT c.CustomerID, c.DeliveryAddressLine2, c.DeliveryPostalCode, c.CustomerName, ci.CityName, c.longitude, c.latitude, c.PostalAddressLine2 FROM customers c JOIN cities ci ON c.DeliveryCityID = ci.CityID WHERE CustomerID = ?", prepares);
 
         if(rows.size() > 0) {
             this.co = coords.getAddress(); //adds the longitude and latitude of items where longitude is null
@@ -37,6 +38,7 @@ public class Customer extends getCoordinates {
             this.customerCity = rows.get(0).get(4);
             this.longitude = Integer.parseInt(rows.get(0).get(5));
             this.latitude = Integer.parseInt(rows.get(0).get(6));
+            this.postalAddressLine2 = rows.get(0).get(7);
         }
     }
     
@@ -90,6 +92,10 @@ public class Customer extends getCoordinates {
         return deliveryPostalCode;
     }
 
+    public String getPostalAddressLine2() {
+        return postalAddressLine2;
+    }
+    
     public String getCustomerCity() {
         return customerCity;
     }
