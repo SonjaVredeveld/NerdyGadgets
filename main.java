@@ -3,7 +3,7 @@ import javax.swing.UIManager;
 
 /**
  *
- * @author pieter, randy
+ * @author kbs groep 3
  */
 public class main {
 
