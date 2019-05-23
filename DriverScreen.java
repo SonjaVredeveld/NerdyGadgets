@@ -6,11 +6,14 @@
 package kbs2;
 
 import javax.swing.*;
-import javax.swing.table.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class DriverScreen extends JFrame implements ActionListener, TableModelListener {
 
@@ -40,7 +43,7 @@ public class DriverScreen extends JFrame implements ActionListener, TableModelLi
         jtTitle.setPreferredSize(new Dimension(800, 25));
         jtTitle.setHorizontalAlignment(JLabel.CENTER);
         
-        JLinfo = new JLabel("De lijst moet van boven naar beneden worden afgewerkt.");
+        JLinfo = new JLabel("Kies a.u.b de bovenste route uit de lijst.");
         JLinfo.setPreferredSize(new Dimension(800, 25));
         JLinfo.setHorizontalAlignment(JLabel.CENTER);
 
