@@ -116,7 +116,7 @@ public class LoginScreen extends JFrame implements ActionListener {
 
                 //not valid user -> notify user
             } else {
-                JLinfoText.setText("Uw gebruikersnaam en/of wachtwoord is verkeerd’");
+                JLinfoText.setText("Uw gebruikersnaam en/of wachtwoord is verkeerd");
                 JLinfoText.setForeground(Color.RED);
                 JLlostPassword.setText("<html>gebruikersnaam of wachtwoord vergeten? <br> neem contact op met uw systeembeheerder.</html>");
             }
