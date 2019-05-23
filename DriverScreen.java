@@ -40,7 +40,7 @@ public class DriverScreen extends JFrame implements ActionListener, TableModelLi
         jtTitle.setPreferredSize(new Dimension(800, 25));
         jtTitle.setHorizontalAlignment(JLabel.CENTER);
         
-        JLinfo = new JLabel("De moet van boven naar beneden worden afgewerkt.");
+        JLinfo = new JLabel("De lijst moet van boven naar beneden worden afgewerkt.");
         JLinfo.setPreferredSize(new Dimension(800, 25));
         JLinfo.setHorizontalAlignment(JLabel.CENTER);
 
