@@ -212,6 +212,62 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         }
     }
 
+        JTCustomers = new JTable(dataCustomers,columnCustomers);   
+            JTCustomers.setFillsViewportHeight(true);
+
+        JScrollPane spCustomers = new JScrollPane(JTCustomers); 
+        JPanel panelCustomers = new JPanel();
+            panelCustomers.setLayout(new BorderLayout());
+            panelCustomers.add(spCustomers);
+
+    // Button for EDIT 
+        customers = new JCheckBox();
+
+        JBedit = new JButton("Edit");
+            JTCustomers.getColumn("edit").setCellRenderer(new ButtonRenderer());
+            //JCheckBox checkBox = null;
+            JTCustomers.getColumn("edit").setCellEditor(new ButtonEditor(customers, "customers"));   
+   
+    //    // data in ORDERS tab 
+
+        String dataOrders[][] = { 
+            {"1234", "443", "Klantnaam"}, 
+            {"1234", "443", "Klantnaam"},
+            {"1234", "443", "Klantnaam"},
+            {"1234", "443", "Klantnaam"},
+        }; 
+
+        String columnOrders[] = {"Ordernummer", "KlantID", "Klantnaam"};
+
+        JTOrders = new JTable(dataOrders,columnOrders);   
+            JTOrders.setFillsViewportHeight(true);
+
+        JScrollPane spOrders = new JScrollPane(JTOrders); 
+        JPanel panelOrders = new JPanel();
+            panelOrders.setLayout(new BorderLayout());
+            panelOrders.add(spOrders);
+
+        JTPAdminTabs = new JTabbedPane();
+            JTPAdminTabs.add("Producten", panelProducts);
+            JTPAdminTabs.add("Klantgegevens", panelCustomers);
+            JTPAdminTabs.add("Ordegegevens", panelOrders);
+
+        // LOGOUT button
+        JBlogout = new JButton("Logout");
+
+        frame.add(JTPAdminTabs);
+        frame.add(JBlogout);
+        frame.setSize(800,600);    
+        frame.setVisible(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    
+    public void editStock() {
+        System.out.println("Start dialog");
+        EditStock dialoog = new EditStock(this);
+        dialoog.setVisible(true);
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == JBLogout) {

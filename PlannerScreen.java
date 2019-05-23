@@ -6,19 +6,17 @@
 package kbs2;
 
 import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
+import java.awt.event.*;
+import java.util.*;
+import javax.swing.event.*;
+import javax.swing.table.*;
 
 /**
  *
  * @author Niek J Nijland
  */
+
 public class PlannerScreen extends JFrame implements ActionListener, TableModelListener{
     private JTable JTOrderList;
     private User ActiveUser;
@@ -63,18 +61,21 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         JBStartRoute.addActionListener(this);
         JBLogout = style.button("Uitloggen");
         JBLogout.addActionListener(this);
-        PanelBottom.add(new JLabel(" "));
-        PanelBottom.add(new JLabel(" "));
-        PanelBottom.add(JBStartRoute);
-        PanelBottom.add(new JLabel(" "));
-        PanelBottom.add(JBLogout);
-        add(PanelBottom);
+        
+        //elements in the lower part of the screen
+        panelBottom.add(new JLabel(" "));
+        panelBottom.add(new JLabel(" "));
+        panelBottom.add(JBStartRoute);
+        panelBottom.add(new JLabel(" "));
+        panelBottom.add(JBLogout);
+        
+        this.add(panelBottom);
         
         //disables window resizing by the user
-        setResizable(false);
-        setVisible(true);
-        pack();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(false);
+        this.setVisible(true);
+        this.pack();
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public static void setJTableColumnsWidth(JTable table, int tablePreferredWidth,
@@ -124,13 +125,14 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
     }
     
     //calculates the optimal route with the given Orders, saves the route with its locations in the database
+    //parm 1: ArrayList with orders to be included in the route
     private void routeTSP(ArrayList<Order> ar1){
         if(ar1.isEmpty()){
             JOptionPane.showMessageDialog(this, "Selecteer minimaal 1 order", "foutmelding", JOptionPane.INFORMATION_MESSAGE);
         }else{
             Route r1 = new Route(ar1); 
             if(r1.getResult()){
-                new RouteScreen(this,r1);
+                new RouteScreen(this,r1);           
             }else{
                 JOptionPane.showMessageDialog(this, "Er ging iets fout bij het bereken van uw route", "foutmelding", JOptionPane.INFORMATION_MESSAGE);
             }

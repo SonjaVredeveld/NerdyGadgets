@@ -10,7 +10,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class EditStock extends JDialog implements ActionListener {
-
+  
     private JTextField JTFnewStock;
     private JLabel JLNewStock;
     private JLabel JLProductName;

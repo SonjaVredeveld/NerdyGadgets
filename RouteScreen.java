@@ -6,25 +6,35 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ *
+ * @author Niek J Nijland
+ *
+ */
+
 public class RouteScreen extends JDialog implements ActionListener {
     private JTable JTRouteLocationList;
     private JButton JBAssignRoute;
     private JButton JBCancel;
     private ArrayList<Order> SelectedOrders = new ArrayList<>();
     private JLabel JLTitle;
+    private Route route;
     
+    
+    //parm 1: JFrame to display this popup on
+    //parm 2: Route to view data of in this popup
     public RouteScreen(JFrame screen, Route r1){
         super(screen, true);
         setLayout(new FlowLayout());
         setTitle("Planner");
         setSize(500, 500);
-        
         Panel panelTop = new Panel();
         panelTop.setLayout(new FlowLayout());
         panelTop.setPreferredSize(new Dimension(500, 50));
         //buttons in the top part of the screen
         ArrayList<ArrayList<String>> rows1 = DBConnection.selectQuery("SELECT distanceKM, RouteID FROM routes WHERE RouteID = (SELECT MAX(RouteID) FROM routelocation)");
         panelTop.add(new JLabel("Route: " + rows1.get(0).get(1), SwingConstants.CENTER));
+        panelTop.add(new JLabel(" "));
         this.add(panelTop);
         
         
@@ -35,10 +45,10 @@ public class RouteScreen extends JDialog implements ActionListener {
         panelTop2.add(new JLabel(" "));
         panelTop2.add(new JLabel("Totale afstand: " + rows1.get(0).get(0) + " KM", SwingConstants.CENTER));
         panelTop2.add(new JLabel(" "));
-        add(panelTop2);
+        this.add(panelTop2);
 
         String[] columnNames = {"Woonplaats","Adres","Klant"};
-        JTRouteLocationList = new JTable(tableData(r1),columnNames);
+        JTRouteLocationList = new JTable(tableData(),columnNames);
         JTRouteLocationList.getTableHeader().setReorderingAllowed(false);
 
         //creating a ScrollPane from the JTable
@@ -47,7 +57,7 @@ public class RouteScreen extends JDialog implements ActionListener {
         JTRouteLocationList.setFillsViewportHeight(true);
         tableSP.setPreferredSize(new Dimension(320, 250));
         
-        add(tableSP);
+        this.add(tableSP);
         
         
         Panel panelBottom = new Panel();
@@ -63,19 +73,20 @@ public class RouteScreen extends JDialog implements ActionListener {
         JBCancel.addActionListener(this);
         panelBottom.add(JBCancel);
         panelBottom.add(new JLabel(" "));
-        add(panelBottom);
+        this.add(panelBottom);
         
         //disables window resizing by the user
-        setResizable(false);
-        setVisible(true);
-        pack();
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setResizable(false);
+        this.setVisible(true);
+        this.pack();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
     
-    private Object[][] tableData(Route r1) {
+    //return: double array with the data for the JTabel
+    private Object[][] tableData() {
         Object[][] data;
         ArrayList<Order> OrderList = new ArrayList<>();
-        ArrayList<RouteLocation> ar1 = r1.getLocations();
+        ArrayList<RouteLocation> ar1 = this.route.getLocations();
         for (int i = 0; i < ar1.size(); i++) {
             OrderList.add(ar1.get(i).getOrder());
         }
@@ -96,38 +107,20 @@ public class RouteScreen extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == JBAssignRoute) {
-            //link to assign route screen
+            //if Assign button is pressed, open popup. if the popup was closed and a driver has been assigned close this window
+            AssignRouteScreen as1 = new AssignRouteScreen(new JFrame(), route);
+            if(as1.getStatus()) {
+                this.dispose();
+            }
         }else if(e.getSource() == JBCancel) {
-            boolean result1 = deleteRoute();
+            //if cancel button was pressed, attempt to delete the newly created route and its routelocations, then prompt the corresponding popup
+            boolean result1 = this.route.deleteRoute();
             if(result1) {
                 JOptionPane.showMessageDialog(this, "Route geannuleerd", "Melding", JOptionPane.INFORMATION_MESSAGE);
             }else{
                 JOptionPane.showMessageDialog(this, "Er ging iets mis bij het annuleren", "foutmelding", JOptionPane.INFORMATION_MESSAGE);
             }
             this.dispose();
-        }
-    }
-    
-    //deleting the last inserted route and its locations
-    //return: if it succeeded at doing so or not
-    private boolean deleteRoute() {
-        ArrayList<String> prepares = new ArrayList<>();
-        ArrayList<ArrayList<String>> rows1 = DBConnection.selectQuery("SELECT MAX(RouteID) FROM routes");
-        if(!rows1.isEmpty()) {
-            ArrayList<String> prepares1 = new ArrayList<>();
-            prepares1.add(rows1.get(0).get(0));
-            int result1 = DBConnection.executeQuery("DELETE FROM routelocation WHERE RouteID = ?", prepares1);
-            int result2 = DBConnection.executeQuery("DELETE FROM routes WHERE RouteID = ?", prepares1);
-            if(result1 != 0 && result2 != 0) {
-                return true;
-            }else{
-                                System.out.println("test1");
-                return false;
-
-            }
-        }else{
-            System.out.println("test2");
-            return false;
         }
     }
 }

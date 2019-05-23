@@ -39,14 +39,14 @@ class Route {
         ArrayList<String> routePrepares = new ArrayList<>();
 
 
-        //getting the last ID + 1 from the databasetable
-        ID = DBConnection.getNewId("routes", "RouteID");
+        //getting the last ID + 1 from the databasetable & the first driver to add
+        this.ID = DBConnection.getNewId("routes", "RouteID");
+        String firstDriver = DBConnection.selectQuery("SELECT PersonID FROM people WHERE userRights = 'Driver' ORDER BY PersonID LIMIT 1").get(0).get(0);
         routePrepares.add(ID+"");
         routePrepares.add(distance+"");
-
-        result1 = DBConnection.executeQuery("INSERT INTO routes VALUES (?,NOW(),?,NULL)", routePrepares);
-        System.out.println(DBConnection.statusMsg);
-        result1 = 1;
+        routePrepares.add(firstDriver);
+        
+        result1 = DBConnection.executeQuery("INSERT INTO routes VALUES (?,NOW(),?,?)", routePrepares);
         if (result1 != 0) {
             //inserting all the routelocations
             int newRouteLocationID = DBConnection.getNewId("routelocation", "RouteLocationID");
@@ -104,14 +104,17 @@ class Route {
         }
     }
 
-    //return:  1 = successfull, 0 = unsuccesfull
-    public boolean addDriver(int driverID) {
+    public boolean addDriver(Driver driver) {
         ArrayList<String> prepares = new ArrayList<>();
-        prepares.add(driverID + "");
+        prepares.add(driver.getID() + "");
         prepares.add(this.ID + "");
 
         int result = DBConnection.executeQuery("UPDATE routes SET DriverID = ? WHERE RouteID = ?", prepares);
-        return result == 1;
+        if(result == 1 ){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public ArrayList<RouteLocation> getLocations() {
@@ -161,5 +164,14 @@ class Route {
         ArrayList<String> prepares = new ArrayList<>();
         prepares.add(ID+"");
         DBConnection.executeQuery("delete from routes where RouteID = ?", prepares);
+    }
+    
+    //return: if it succeeded at doing so or not
+    public boolean deleteRoute() {
+        ArrayList<String> prepares1 = new ArrayList<>();
+        prepares1.add(this.ID+"");
+        int result1 = DBConnection.executeQuery("DELETE FROM routelocation WHERE RouteID = ?", prepares1);
+        int result2 = DBConnection.executeQuery("DELETE FROM routes WHERE RouteID = ?", prepares1);
+        return result1 != 0 && result2 != 0;
     }
 }
