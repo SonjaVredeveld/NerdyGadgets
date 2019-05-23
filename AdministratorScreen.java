@@ -1,12 +1,14 @@
 package kbs2;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.time.LocalDate;
-import java.util.*;
 import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class AdministratorScreen extends JFrame implements ActionListener, TableModelListener {
 
@@ -200,8 +202,11 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
             EditCustomer editCustomerDialog = new EditCustomer(this, customer);
             editCustomerDialog.setVisible(true);
             //update table
-            frame.dispose();
+            frame.invalidate();
+            frame.validate();
+            frame.repaint();
             new AdministratorScreen(user);
+            frame.dispose();
 
         } else if (this.JTStock.getEditingRow() >= 0) { //products table
 
@@ -211,8 +216,11 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
             EditStock editStockDialog = new EditStock(this, product);
             editStockDialog.setVisible(true);
             //update table
-            frame.dispose();
+            frame.invalidate();
+            frame.validate();
+            frame.repaint();
             new AdministratorScreen(user);
+            frame.dispose();
         }
     }
 
