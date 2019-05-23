@@ -49,7 +49,7 @@ public final class DBConnection {
     //param1: query to run
     //return: list of return rows with string values (empty list is no result)
     protected static ArrayList<ArrayList<String>> selectQuery(String selectQuery) {
-        return DBConnection.selectQuery(selectQuery, new ArrayList<String>());
+        return DBConnection.selectQuery(selectQuery, new ArrayList<>());
     }
 
     //executes select sql statement
@@ -70,7 +70,81 @@ public final class DBConnection {
             statement = connection.prepareStatement(selectQuery);
             //add bind prepared values to indexes
             for (int i = 0; i < stringsToSet.size(); i++) {
-                statement.setString(i + 1, stringsToSet.get(i));
+                statement.setString(i + 1, (String) stringsToSet.get(i));
+            }
+
+            rs = statement.executeQuery();
+
+            //get the amount of columns returned
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            //get each column of each row and save it(all strings)
+            while (rs.next()) {
+                ArrayList<String> row = new ArrayList<>();  //new row
+
+                for (int colInt = 1; colInt <= rsmd.getColumnCount(); colInt++) {
+                    row.add(rs.getString(rsmd.getColumnName(colInt)));  //add each value to new row
+                }
+                resultSet.add(row); //add row to list
+            }
+
+            //close all used objects
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            DBConnection.statusMsg = se.getMessage();
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            DBConnection.statusMsg = e.getMessage();
+        } finally {
+            //try to close statement
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException se2) {
+                // nothing todo
+            }
+            //try to close connection
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException se) {
+                DBConnection.statusMsg = se.getMessage();
+            }//end finally try
+        }//end try
+
+        return resultSet;
+    }
+
+    //executes select sql statement
+    //param1: query to run
+    //param2: prepared values to add
+    //param3: overload non used placeholder
+    //return: list of return rows with string values (empty list is no result)
+    protected static ArrayList<ArrayList<String>> selectQuery(String selectQuery, ArrayList<Object> ObjectsToSet, boolean overloaded) {
+        //initialisation
+        PreparedStatement statement = null; //for optional prepares
+        Connection connection = null;
+        ResultSet rs;
+        //1 dmension for rows and second for colum values
+        ArrayList<ArrayList<String>> resultSet = new ArrayList<>(new ArrayList<>());
+
+        try {
+            connection = DBConnection.getConnection();
+
+            statement = connection.prepareStatement(selectQuery);
+            //add bind prepared values to indexes
+            for (int i = 0; i < ObjectsToSet.size(); i++) {
+                Object obj = ObjectsToSet.get(i);
+                if (obj instanceof Date) {
+                    statement.setObject(i + 1, obj);
+                } else {
+                    statement.setString(i + 1, (String) ObjectsToSet.get(i));
+                }
             }
 
             rs = statement.executeQuery();
@@ -129,7 +203,7 @@ public final class DBConnection {
 
     //executes execute update/insert/delete sql statement
     //param1: query to run
-    //param2: prepared values to add (NOTE: strings only)
+    //param2: prepared values to add (NOTE: only strings)
     //return: number of rows it altered (0 is none)
     protected static int executeQuery(String query, ArrayList<String> stringsToSet) {
         //initialisation
@@ -142,7 +216,8 @@ public final class DBConnection {
 
             //add bind prepared values to indexes
             for (int i = 0; i < stringsToSet.size(); i++) {
-                statement.setString(i + 1, stringsToSet.get(i));
+                String str = stringsToSet.get(i);
+                statement.setString(i + 1, str);
             }
 
             rs = statement.executeUpdate();
@@ -152,9 +227,11 @@ public final class DBConnection {
         } catch (SQLException se) {
             //Handle errors for JDBC
             DBConnection.statusMsg = se.getMessage();
+
         } catch (Exception e) {
             //Handle errors for Class.forName
             DBConnection.statusMsg = e.getMessage();
+
         } finally {
             //try to close statement
             try {
@@ -171,6 +248,7 @@ public final class DBConnection {
                 }
             } catch (SQLException se) {
                 DBConnection.statusMsg = se.getMessage();
+
             }//end finally try
         }//end try
 
@@ -209,34 +287,34 @@ public final class DBConnection {
     }
 
     //test cases
-//    public static void main(String[] args) {
-//        update test
-//        ArrayList<String> prepares = new ArrayList<String>();
-//        prepares.add("10");
-//        int update = DBConnection.executeQuery("UPDATE customers SET latitude = ? WHERE CustomerID = 3", prepares);
-//        if (update > 0) {
-//            System.out.println("we updated the item.");
-//        } else {
-//            System.out.println(DBConnection.statusMsg); //check status(also error info)
-//        }
-//        prepare for id example
-//        ArrayList<String> prepares2 = new ArrayList<String>();
-//        int id = DBConnection.getNewId("routes", "RouteID");
-//        prepares2.add("" + id); //be careful there is a possibility for sql injection
-//        prepares2.add("20");
-//        System.out.println(id);
-//        //insert example
-//        int insert = DBConnection.executeQuery("INSERT INTO routes (routeID, creationDate, distanceKM, driverID) VALUES(?, NOW(), ?, null)", prepares2);
-//
-//        if (insert > 0) {
-//            System.out.println("we inserted the item.");
-//        } else {
-//            System.out.println(DBConnection.statusMsg); //check status(also error info)
-//        }
-//        //select example
-//        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT CustomerID, CustomerName FROM customers");
-//        for (int i = 0; i < rows.size(); i++) {
-//            System.out.println(rows.get(i));
-//        }
-//  }
+    public static void main(String[] args) {
+        //update test
+        ArrayList<String> prepares = new ArrayList<String>();
+        prepares.add("10");
+        int update = DBConnection.executeQuery("UPDATE customers SET CustomerName = ? WHERE CustomerID = 3", prepares);
+        if (update > 0) {
+            System.out.println("we updated the item.");
+        } else {
+            System.out.println(DBConnection.statusMsg); //check status(also error info)
+        }
+        //prepare for id example
+        ArrayList<String> prepares2 = new ArrayList<String>();
+        int id = DBConnection.getNewId("routes", "RouteID");
+        prepares2.add("" + id); //be careful there is a possibility for sql injection
+        prepares2.add("20");
+        System.out.println(id);
+        //insert example
+        int insert = DBConnection.executeQuery("INSERT INTO routes (routeID, creationDate, distanceKM, driverID) VALUES(?, NOW(), ?, null)", prepares2);
+
+        if (insert > 0) {
+            System.out.println("we inserted the item.");
+        } else {
+            System.out.println(DBConnection.statusMsg); //check status(also error info)
+        }
+        //select example
+        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT CustomerID, CustomerName FROM customers");
+        for (int i = 0; i < rows.size(); i++) {
+            System.out.println(rows.get(i));
+        }
+    }
 }

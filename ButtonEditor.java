@@ -1,9 +1,9 @@
 package kbs2;
 
-import javax.swing.*;
 import java.awt.*;
-
-import java.awt.event.*;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 class ButtonEditor extends DefaultCellEditor implements ActionListener {
     protected JButton button;
@@ -16,10 +16,17 @@ class ButtonEditor extends DefaultCellEditor implements ActionListener {
         button.addActionListener(this);
     }
 
+    public ButtonEditor(JCheckBox checkBox, JButton colButton) {
+        super(checkBox);
+        button = colButton;
+        button.setOpaque(true);
+        button.addActionListener(e -> fireEditingStopped());
+    }
+
     // If button is selected following animation starts
     // Source: http://alvinalexander.com/java/swing/tame/table/ButtonEditor.java.shtml
     public Component getTableCellEditorComponent(JTable jtRouteTable, Object value,
-                                                 boolean isSelected, int row, int column) {
+            boolean isSelected, int row, int column) {
         // Button Animation
         if (isSelected) {
             button.setForeground(jtRouteTable.getSelectionForeground());
@@ -29,7 +36,7 @@ class ButtonEditor extends DefaultCellEditor implements ActionListener {
             button.setBackground(jtRouteTable.getBackground());
         }
 
-        if(value == null){
+        if (value == null) {
             label = "";
         } else {
             label = value.toString();

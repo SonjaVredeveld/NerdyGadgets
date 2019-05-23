@@ -42,7 +42,7 @@ public class DriverRouteScreen extends JDialog implements ActionListener {
         TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(jtDeliveryRouteTable.getModel());
         jtDeliveryRouteTable.setRowSorter(sorter);
         JScrollPane tableSP = new JScrollPane(jtDeliveryRouteTable);
-        tableSP.setPreferredSize(new Dimension(800, 500));
+        tableSP.setPreferredSize(new Dimension(770, 500));
         tableSP.setAlignmentX(LEFT_ALIGNMENT);
 
         //Buttons + ButtonLayour
@@ -68,7 +68,6 @@ public class DriverRouteScreen extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == jbSubmit) {
-            dispose();
             // MOET AANGEVEN DAT DE ROUTE IS GEREDEN
             int id = route.getID();
             for (int i = 0; i < route.getLocations().size(); i++) {
@@ -78,6 +77,7 @@ public class DriverRouteScreen extends JDialog implements ActionListener {
                 routelocation.deleteRows(id);
             }
             route.deleteRow(id);
+            dispose();
         }
         if (e.getSource() == jbCancel) {
             dispose();

@@ -3,11 +3,12 @@ package kbs2;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class getCoordinates {
 
-    // Sources
-    // http://julien.gunnm.org/geek/programming/2015/09/13/how-to-get-geocoding-information-in-java-without-google-maps-api/
-    // https://dzone.com/articles/google-maps-java-swing
+// Sources
+// http://julien.gunnm.org/geek/programming/2015/09/13/how-to-get-geocoding-information-in-java-without-google-maps-api/
+// https://dzone.com/articles/google-maps-java-swing
+
+public class getCoordinates {
 
     private String[] address;
     int x = 1;
