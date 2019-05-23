@@ -38,7 +38,7 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
             }
             this.date = LocalDate.of(year, month, day);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Datum incorect gespecificeerd. het gewenste format is: YYYY-MM.");
+            JOptionPane.showMessageDialog(this, "Datum incorect gespecificeerd. het gewenste format is: YYYY-MM.", "Foutmelding", 1);
         } finally {
             return this.date;
         }
