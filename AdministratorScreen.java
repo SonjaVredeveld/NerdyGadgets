@@ -1,12 +1,12 @@
 package kbs2;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.util.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.table.*;
 
 public class AdministratorScreen extends JFrame implements ActionListener, TableModelListener {
 
@@ -58,13 +58,6 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         DTMStock = new DefaultTableModel(dataProducts, columnProducts);
         JTStock = new JTable(dataProducts, columnProducts);
 
-        //allow sorting in tables
-        JTStock.setRowSorter(new TableRowSorter<TableModel>(DTMStock));
-        JTStock.setFillsViewportHeight(true);
-
-        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(JTStock.getModel());
-        JTStock.setRowSorter(sorter);
-
         JScrollPane spProducts = new JScrollPane(JTStock);
         spProducts.setPreferredSize(new Dimension(775, 450));
         JPanel panelProducts = new JPanel();
@@ -83,13 +76,6 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         DTMCustomers = new DefaultTableModel(dataCustomers, columnCustomers);
         JTCustomers = new JTable(dataCustomers, columnCustomers);
 
-        //allow sorting in tables
-        JTCustomers.setRowSorter(new TableRowSorter<TableModel>(DTMCustomers));
-        JTCustomers.setFillsViewportHeight(true);
-
-        TableRowSorter<TableModel> sorter2 = new TableRowSorter<TableModel>(JTCustomers.getModel());
-        JTCustomers.setRowSorter(sorter2);
-
         JScrollPane spCustomers = new JScrollPane(JTCustomers);
         JPanel panelCustomers = new JPanel();
         panelCustomers.setLayout(new BorderLayout());
@@ -106,10 +92,6 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
 
         DTMOrders = new DefaultTableModel(dataOrders, columnOrders);
         JTOrders = new JTable(DTMOrders);
-
-        //allow sorting in tables
-        JTOrders.setRowSorter(new TableRowSorter<TableModel>(DTMOrders));
-        JTOrders.setFillsViewportHeight(true);
 
         //set default current date
         String DateMonth = date.getYear() + "-" + date.getMonthValue();
