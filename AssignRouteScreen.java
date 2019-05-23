@@ -57,7 +57,7 @@ public class AssignRouteScreen extends JDialog implements ActionListener, ListSe
         Panel panelBottom = new Panel();
         panelBottom.setLayout(new FlowLayout());
         panelBottom.setPreferredSize(new Dimension(500, 50));
-        JBAssign = style.button("Route toewijzen");
+        JBAssign = style.button("Toewijzen");
         JBAssign.addActionListener(this);
         panelBottom.add(JBAssign);
         add(panelBottom);
