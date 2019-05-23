@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * @author Niek J Nijland
  */
 public class Customer extends getCoordinates {
+
     private getCoordinates coords = new getCoordinates();
     private String[] co;
     private int ID;
@@ -20,6 +21,7 @@ public class Customer extends getCoordinates {
     private String customerName;
     private String customerCity;
     private String postalAddressLine2;
+    private String postalAddressLine1;
     private int longitude;
     private int latitude;
 
@@ -27,9 +29,9 @@ public class Customer extends getCoordinates {
         //initializing customer from database
         ArrayList<String> prepares = new ArrayList<>();
         prepares.add(ID + "");
-        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT c.CustomerID, c.DeliveryAddressLine2, c.DeliveryPostalCode, c.CustomerName, ci.CityName, c.longitude, c.latitude, c.PostalAddressLine2 FROM customers c JOIN cities ci ON c.DeliveryCityID = ci.CityID WHERE CustomerID = ?", prepares);
+        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT c.CustomerID, c.DeliveryAddressLine2, c.DeliveryPostalCode, c.CustomerName, ci.CityName, c.longitude, c.latitude, c.PostalAddressLine2, c.PostalAddressLine1 FROM customers c JOIN cities ci ON c.DeliveryCityID = ci.CityID WHERE CustomerID = ?", prepares);
 
-        if(rows.size() > 0) {
+        if (rows.size() > 0) {
             this.co = coords.getAddress(); //adds the longitude and latitude of items where longitude is null
             this.ID = Integer.parseInt(rows.get(0).get(0));
             this.deliveryAddressLine2 = rows.get(0).get(1);
@@ -39,15 +41,16 @@ public class Customer extends getCoordinates {
             this.longitude = Integer.parseInt(rows.get(0).get(5));
             this.latitude = Integer.parseInt(rows.get(0).get(6));
             this.postalAddressLine2 = rows.get(0).get(7);
+            this.postalAddressLine1 = rows.get(0).get(8);
         }
     }
-    
-    public boolean setCustomer(String fullname, String adress, String city){
+
+    public boolean setCustomer(String fullname, String adress, String city) {
         ArrayList<String> prepares = new ArrayList<>();
         prepares.add(fullname);
         prepares.add(adress);
         prepares.add(city);
-        prepares.add(ID+"");
+        prepares.add(ID + "");
         int rs = DBConnection.executeQuery("UPDATE Customers SET CustomerName = ?, DeliveryAddressLine2 = ?, PostalAddressLine2 = ? WHERE CustomerID = ?;", prepares);
         if (rs > 0) {
             System.out.println("updated!");
@@ -95,7 +98,11 @@ public class Customer extends getCoordinates {
     public String getPostalAddressLine2() {
         return postalAddressLine2;
     }
-    
+
+    public String getPostalAddressLine1() {
+        return postalAddressLine1;
+    }
+
     public String getCustomerCity() {
         return customerCity;
     }

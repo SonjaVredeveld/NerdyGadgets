@@ -1,14 +1,14 @@
 package kbs2;
 
-import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
 
 public class AdministratorScreen extends JFrame implements ActionListener, TableModelListener {
 
@@ -72,7 +72,7 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         JTStock.getModel().addTableModelListener(this);
 
         //fill customers table
-        columnCustomers = new Object[]{"Klantnaam", "Adres", "Woonplaats", "Afleveradres", "bewerken klant"};
+        columnCustomers = new Object[]{"Klantnaam", "Adres", "Woonplaats", "Postcode", "bewerken klant"};
         Object[][] dataCustomers = this.getCustomerRows();
 
         DTMCustomers = new DefaultTableModel(dataCustomers, columnCustomers);
@@ -164,7 +164,7 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         Object[][] rows = new Object[customers.size()][6];
         for (int i = 0; i < customers.size(); i++) {
             Customer c = customers.get(i);
-            rows[i] = new Object[]{c.getCustomerName(), c.getDeliveryAddressLine2(), c.getDeliveryPostalCode(), c.getCustomerCity(), columnCustomers[columnCustomers.length - 1]};
+            rows[i] = new Object[]{c.getCustomerName(), c.getDeliveryAddressLine2(), c.getPostalAddressLine2(), c.getPostalAddressLine1(), columnCustomers[columnCustomers.length - 1]};
         }
 
         return rows;
@@ -175,12 +175,15 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
     private Object[][] getOrderRows() {
         ArrayList<Order> orders = Order.getOrders(this.date);
         Object[][] rows = new Object[orders.size()][6];
+
         for (int i = 0; i < orders.size(); i++) {
             Order o = orders.get(i);
             rows[i] = new Object[]{o.getID(), o.getCustomer().getID(), o.getCustomer().getCustomerName()};
+
         }
 
         return rows;
+
     }
 
     //logout for user and redirect to login
@@ -188,7 +191,9 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         this.user = null;
         frame.setVisible(false);
         frame.dispose();
+
         new LoginScreen();
+
     }
 
     @Override
@@ -219,8 +224,10 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
             frame.invalidate();
             frame.validate();
             frame.repaint();
+
             new AdministratorScreen(user);
             frame.dispose();
+
         }
     }
 
@@ -229,12 +236,12 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         if (e.getSource() == JBLogout) {
             //logout
             logout();
-
         } else if (e.getSource() == JBFilter) {
             //update the date o filter on
             this.date = this.getFormatText();
             //update table
             this.DTMOrders.setDataVector(this.getOrderRows(), this.columnOrders);
         }
+
     }
 }
