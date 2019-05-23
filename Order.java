@@ -36,7 +36,7 @@ class Order {
         ArrayList<Order> orderList = new ArrayList<>();
         //Get Orders from database
         ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT o.OrderID FROM orders o JOIN Customers c ON o.CustomerID = c.CustomerID WHERE OrderID NOT IN (SELECT OrderID FROM routelocation) ORDER BY  o.OrderDate ASC , c.DeliveryPostalCode DESC LIMIT 50");
-        if(0 < rows.size()) {
+        if (0 < rows.size()) {
 
             //creating an order for every OrderID
             for (int i = 0; i < rows.size(); i++) {
@@ -71,7 +71,8 @@ class Order {
                 orderList.add(new Order(Integer.parseInt(rows.get(i).get(0))));
             }
         }
-        System.out.println(DBConnection.statusMsg);
+        System.out.println("test0");
+        System.out.println(DBConnection.statusMsg + "-");
         return orderList;
     }
 
@@ -82,10 +83,10 @@ class Order {
     public Customer getCustomer() {
         return this.customer;
     }
-    
+
     public void ordersDelivered(int ID) {
         ArrayList<String> prepares = new ArrayList<>();
-        prepares.add(ID+"");
+        prepares.add(ID + "");
         DBConnection.executeQuery("update orders set isDelivered = 1 where OrderID = ?", prepares);
     }
 
