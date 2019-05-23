@@ -116,12 +116,12 @@ public class DriverScreen extends JFrame implements ActionListener, TableModelLi
         int row = jtRouteTable.getSelectedRow();
         int id = (int) jtRouteTable.getModel().getValueAt(row, 0);
         for (int i = 0; i < routes.size(); i++) {
-            if (i == id) {
+            if (routes.get(i).getID() == id) {
                 Route route = routes.get(i);
                 this.route = route;
             }
         }
-        DriverRouteScreen dialoog = new DriverRouteScreen(this, route);
+        DriverRouteScreen dialoog = new DriverRouteScreen(this, this.route);
         dialoog.setVisible(true);
         new DriverScreen(this.user);
         this.dispose();
