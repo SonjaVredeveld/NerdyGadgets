@@ -12,9 +12,6 @@ import java.util.Map;
 // install .jar file (FILES - mssql-jdbc-7.2.2.jre11.jar) in classpath
 
 public class ConnectBizagi {
-    private static String host = "jdbc:sqlserver://localhost:1433;databseName=NerdyGadgets";
-    private static String username = "sa";
-    private static String password = "Password123";
     private static String sql = "SELECT Productnummer FROM NerdyGadgets.dbo.Retourproces;";
     
     private ConnectBizagi() {
