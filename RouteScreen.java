@@ -25,6 +25,7 @@ public class RouteScreen extends JDialog implements ActionListener {
     //parm 2: Route to view data of in this popup
     public RouteScreen(JFrame screen, Route r1){
         super(screen, true);
+        this.route = r1;
         setLayout(new FlowLayout());
         setTitle("Planner");
         setSize(500, 500);
@@ -36,6 +37,7 @@ public class RouteScreen extends JDialog implements ActionListener {
         panelTop.add(new JLabel("Route: " + rows1.get(0).get(1), SwingConstants.CENTER));
         panelTop.add(new JLabel(" "));
         this.add(panelTop);
+
         
         
         Panel panelTop2 = new Panel();

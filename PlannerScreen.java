@@ -63,13 +63,13 @@ public class PlannerScreen extends JFrame implements ActionListener, TableModelL
         JBLogout.addActionListener(this);
         
         //elements in the lower part of the screen
-        panelBottom.add(new JLabel(" "));
-        panelBottom.add(new JLabel(" "));
-        panelBottom.add(JBStartRoute);
-        panelBottom.add(new JLabel(" "));
-        panelBottom.add(JBLogout);
+        PanelBottom.add(new JLabel(" "));
+        PanelBottom.add(new JLabel(" "));
+        PanelBottom.add(JBStartRoute);
+        PanelBottom.add(new JLabel(" "));
+        PanelBottom.add(JBLogout);
         
-        this.add(panelBottom);
+        this.add(PanelBottom);
         
         //disables window resizing by the user
         this.setResizable(false);
