@@ -56,7 +56,7 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         Object[][] dataProducts = this.getStockRows();
 
         DTMStock = new DefaultTableModel(dataProducts, columnProducts);
-        JTStock = new JTable(dataProducts, columnProducts);
+        JTStock = new JTable(DTMStock);
 
         JScrollPane spProducts = new JScrollPane(JTStock);
         spProducts.setPreferredSize(new Dimension(775, 450));
@@ -74,7 +74,7 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
         Object[][] dataCustomers = this.getCustomerRows();
 
         DTMCustomers = new DefaultTableModel(dataCustomers, columnCustomers);
-        JTCustomers = new JTable(dataCustomers, columnCustomers);
+        JTCustomers = new JTable(DTMCustomers);
 
         JScrollPane spCustomers = new JScrollPane(JTCustomers);
         JPanel panelCustomers = new JPanel();
@@ -193,22 +193,26 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
     public void tableChanged(TableModelEvent tme) {
         //check if we have a click from a table
         if (this.JTCustomers.getEditingRow() >= 0) {    //customers table
+
             //get customer seen in the clicked row
             Customer customer = this.customers.get(this.JTCustomers.getEditingRow());
             //create the edit screen
             EditCustomer editCustomerDialog = new EditCustomer(this, customer);
             editCustomerDialog.setVisible(true);
             //update table
-            this.DTMCustomers.setDataVector(this.getCustomerRows(), this.columnCustomers);
+            frame.dispose();
+            new AdministratorScreen(user);
 
         } else if (this.JTStock.getEditingRow() >= 0) { //products table
+
             //get product seen in the clicked row
             Product product = this.products.get(this.JTStock.getEditingRow());
             //create the edit screen
             EditStock editStockDialog = new EditStock(this, product);
             editStockDialog.setVisible(true);
             //update table
-            this.DTMStock.setDataVector(this.getStockRows(), this.columnProducts);
+            frame.dispose();
+            new AdministratorScreen(user);
         }
     }
 

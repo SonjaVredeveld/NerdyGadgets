@@ -10,7 +10,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class EditStock extends JDialog implements ActionListener {
-  
+
     private JTextField JTFnewStock;
     private JLabel JLNewStock;
     private JLabel JLProductName;
@@ -29,7 +29,7 @@ public class EditStock extends JDialog implements ActionListener {
         this.product = product;
 
         setTitle("Verander voorraad");
-        setSize(300, 200);
+        setSize(350, 250);
         setLayout(new FlowLayout());
 
         // Panel for PRODUCTNAME
@@ -77,12 +77,10 @@ public class EditStock extends JDialog implements ActionListener {
             try {
                 int newStock = Integer.parseInt(JTFnewStock.getText());
                 product.setStock(newStock);
+                dispose();
             } catch (NumberFormatException nfe) {
                 JOptionPane.showMessageDialog(this, "Voer een getal in");
-                EditStock editStockDialog = new EditStock(admin, product);
-                editStockDialog.setVisible(true);
             }
-            dispose();
         }
     }
 }

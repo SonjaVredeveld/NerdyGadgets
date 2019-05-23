@@ -17,7 +17,6 @@ public class Product {
     private int stock;
     private String name;
     private float pricePerPiece;
-    private EditStock editstock;
 
     //initialize product
     public Product(int ID) {
@@ -48,7 +47,7 @@ public class Product {
     //return: true -> altered row false -> error while altering(see console)
     public boolean setStock(int newStock) {
         ArrayList<String> prepares = new ArrayList<>();
-        prepares.add(stock + "");
+        prepares.add(newStock + "");
         prepares.add(ID + "");
         int rs = DBConnection.executeQuery("UPDATE stockitemholdings SET QuantityOnHand = ? WHERE StockItemID = ?", prepares);
         if (rs > 0) {
