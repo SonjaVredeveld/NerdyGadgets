@@ -71,16 +71,14 @@ public class EditCustomer extends JDialog implements ActionListener {
         if (e.getSource() == JBcancel) {
             dispose();
         } else if (e.getSource() == JBsave) {
-            try {
-                String fullname = JTFName.getText();
-                String adress = JTFaddressLine.getText();
-                String city = JTFcity.getText();
+            String fullname = JTFName.getText();
+            String adress = JTFaddressLine.getText();
+            String city = JTFcity.getText();
+            if (!fullname.equals("") && !adress.equals("") && !city.equals("")) {
                 customer.setCustomer(fullname, adress, city);
                 dispose();
-            } catch (Exception nfe) {
-                JOptionPane.showMessageDialog(this, "Voer de juiste gegevens in");
-                EditCustomer editCustomerDialog = new EditCustomer(admin, customer);
-                editCustomerDialog.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Voer juiste gegevens in");
             }
 
         }
