@@ -33,7 +33,7 @@ public class DriverScreen extends JFrame implements ActionListener, TableModelLi
         }
         //Layout
         setLayout(new FlowLayout());
-        setTitle("Beschikbare Routes");
+        setTitle("Beschikbare routes");
         setPreferredSize(new Dimension(800, 600));
 
         jtTitle = new JLabel("Te rijden routes");
@@ -45,7 +45,7 @@ public class DriverScreen extends JFrame implements ActionListener, TableModelLi
         JLinfo.setHorizontalAlignment(JLabel.CENTER);
 
         //Test Column names
-        String[] columnNames = {"Route nummer", "Aantal locaties", "Afstand", "Bekijk route", "Datum aangemaakt"};
+        String[] columnNames = {"Routenummer", "Aantal locaties", "Afstand", "Bekijk route", "Datum aangemaakt"};
 
         //Get rows for the table from database
         ArrayList<Route> routes = Route.getRoutes();
