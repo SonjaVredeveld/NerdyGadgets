@@ -206,6 +206,7 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
             frame.validate();
             frame.repaint();
             new AdministratorScreen(user);
+            frame.dispose();
 
         } else if (this.JTStock.getEditingRow() >= 0) { //products table
 
@@ -219,6 +220,7 @@ public class AdministratorScreen extends JFrame implements ActionListener, Table
             frame.validate();
             frame.repaint();
             new AdministratorScreen(user);
+            frame.dispose();
         }
     }
 
