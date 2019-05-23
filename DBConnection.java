@@ -287,34 +287,34 @@ public final class DBConnection {
     }
 
     //test cases
-    public static void main(String[] args) {
-        //update test
-        ArrayList<String> prepares = new ArrayList<String>();
-        prepares.add("10");
-        int update = DBConnection.executeQuery("UPDATE customers SET CustomerName = ? WHERE CustomerID = 3", prepares);
-        if (update > 0) {
-            System.out.println("we updated the item.");
-        } else {
-            System.out.println(DBConnection.statusMsg); //check status(also error info)
-        }
-        //prepare for id example
-        ArrayList<String> prepares2 = new ArrayList<String>();
-        int id = DBConnection.getNewId("routes", "RouteID");
-        prepares2.add("" + id); //be careful there is a possibility for sql injection
-        prepares2.add("20");
-        System.out.println(id);
-        //insert example
-        int insert = DBConnection.executeQuery("INSERT INTO routes (routeID, creationDate, distanceKM, driverID) VALUES(?, NOW(), ?, null)", prepares2);
-
-        if (insert > 0) {
-            System.out.println("we inserted the item.");
-        } else {
-            System.out.println(DBConnection.statusMsg); //check status(also error info)
-        }
-        //select example
-        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT CustomerID, CustomerName FROM customers");
-        for (int i = 0; i < rows.size(); i++) {
-            System.out.println(rows.get(i));
-        }
-    }
+//    public static void main(String[] args) {
+//        //update test
+//        ArrayList<String> prepares = new ArrayList<String>();
+//        prepares.add("10");
+//        int update = DBConnection.executeQuery("UPDATE customers SET CustomerName = ? WHERE CustomerID = 3", prepares);
+//        if (update > 0) {
+//            System.out.println("we updated the item.");
+//        } else {
+//            System.out.println(DBConnection.statusMsg); //check status(also error info)
+//        }
+//        //prepare for id example
+//        ArrayList<String> prepares2 = new ArrayList<String>();
+//        int id = DBConnection.getNewId("routes", "RouteID");
+//        prepares2.add("" + id); //be careful there is a possibility for sql injection
+//        prepares2.add("20");
+//        System.out.println(id);
+//        //insert example
+//        int insert = DBConnection.executeQuery("INSERT INTO routes (routeID, creationDate, distanceKM, driverID) VALUES(?, NOW(), ?, null)", prepares2);
+//
+//        if (insert > 0) {
+//            System.out.println("we inserted the item.");
+//        } else {
+//            System.out.println(DBConnection.statusMsg); //check status(also error info)
+//        }
+//        //select example
+//        ArrayList<ArrayList<String>> rows = DBConnection.selectQuery("SELECT CustomerID, CustomerName FROM customers");
+//        for (int i = 0; i < rows.size(); i++) {
+//            System.out.println(rows.get(i));
+//        }
+//    }
 }
