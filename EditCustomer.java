@@ -5,10 +5,11 @@
  */
 package kbs2;
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class EditCustomer extends JDialog implements ActionListener {
 
@@ -63,7 +64,6 @@ public class EditCustomer extends JDialog implements ActionListener {
         panelCustomer.setBorder(new EmptyBorder(50, 10, 10, 10));
 
         add(panelCustomer);
-        ;
     }
 
     @Override
